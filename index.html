@@ -1,14 +1,1468 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chooser | Laptop · Phone · Robot · Headphones · Keyboard</title>
+  <meta name="description" content="Local-only product chooser: laptops, phones, robot vacuums, headphones, keyboards." />
+  <meta name="theme-color" content="#0b1220" />
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1a2e;
+      --text:#eaf0ff;
+      --muted:#a7b6d9;
+      --line:rgba(255,255,255,.10);
+      --acc:#7aa2ff;
+      --acc2:#b08cff;
+      --good:#6ee7b7;
+      --warn:#fde68a;
+      --bad:#fb7185;
+      --shadow: 0 18px 60px rgba(0,0,0,.40);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 600px at 20% 10%, rgba(122,162,255,.22), transparent 60%),
+        radial-gradient(900px 600px at 80% 20%, rgba(176,140,255,.18), transparent 60%),
+        radial-gradient(800px 500px at 60% 90%, rgba(110,231,183,.10), transparent 60%),
+        linear-gradient(180deg, #070b14, var(--bg));
+      min-height:100vh;
+    }
+    .wrap{max-width:1240px;margin:0 auto;padding:28px 18px 104px}
+    header{
+      display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+      padding:16px 18px;border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:44px;height:44px;border-radius:14px;
+      background:
+        radial-gradient(18px 18px at 30% 30%, rgba(255,255,255,.55), transparent 60%),
+        linear-gradient(135deg, rgba(122,162,255,.95), rgba(176,140,255,.95));
+      box-shadow: 0 12px 40px rgba(122,162,255,.20);
+      position:relative;overflow:hidden;flex:0 0 auto;
+    }
+    .logo:after{
+      content:"";position:absolute;inset:-40%;
+      background: conic-gradient(from 180deg, rgba(255,255,255,.0), rgba(255,255,255,.18), rgba(255,255,255,.0));
+      animation: spin 7s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .title h1{margin:0;font-size:16px;letter-spacing:.2px}
+    .title p{margin:2px 0 0;color:var(--muted);font-size:12.5px;line-height:1.45}
+
+    .pillrow{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+    .pill{
+      padding:8px 10px;border:1px solid var(--line);
+      border-radius:999px;background: rgba(255,255,255,.04);
+      color:var(--muted);font-size:12px;display:flex;gap:7px;align-items:center;
+    }
+    .dot{width:7px;height:7px;border-radius:99px;background: var(--good);box-shadow: 0 0 0 4px rgba(110,231,183,.12)}
+    .lang{
+      display:flex;gap:6px;align-items:center;
+      padding:6px;border:1px solid var(--line);
+      border-radius:999px;background:rgba(255,255,255,.03);
+    }
+    .lang button{
+      cursor:pointer;border:1px solid transparent;
+      padding:8px 10px;border-radius:999px;
+      background:transparent;color:var(--muted);
+      font-weight:900;font-size:12px;
+      transition:.12s background,.12s border-color,.12s transform;
+      user-select:none;
+    }
+    .lang button:hover{transform:translateY(-1px);background:rgba(255,255,255,.04)}
+    .lang button.active{
+      color:var(--text);
+      border-color: rgba(122,162,255,.45);
+      background: linear-gradient(135deg, rgba(122,162,255,.18), rgba(176,140,255,.10));
+    }
+
+    .grid{display:grid;grid-template-columns: 1.05fr .95fr;gap:16px;margin-top:16px}
+    @media (max-width: 980px){.grid{grid-template-columns:1fr}}
+    .card{
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:16px 18px;border-bottom:1px solid var(--line);
+      display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      background: linear-gradient(180deg, rgba(122,162,255,.10), transparent);
+    }
+    .card .hd h2{margin:0;font-size:14.5px}
+    .card .hd .sub{color:var(--muted);font-size:12px;line-height:1.55;margin-top:6px}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab{
+      cursor:pointer;
+      padding:10px 12px;border-radius:999px;border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color:var(--muted);
+      font-size:13px;
+      display:flex;gap:8px;align-items:center;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;white-space:nowrap;
+    }
+    .tab:hover{transform: translateY(-1px);border-color: rgba(255,255,255,.18)}
+    .tab.active{
+      color: var(--text);
+      border-color: rgba(122,162,255,.45);
+      background: linear-gradient(135deg, rgba(122,162,255,.18), rgba(176,140,255,.10));
+      box-shadow: 0 12px 40px rgba(122,162,255,.12);
+    }
+    .body{padding:18px}
+
+    .controls{
+      display:grid;grid-template-columns: 1fr 1fr; gap:10px;
+      margin-bottom:12px;
+    }
+    @media (max-width: 560px){.controls{grid-template-columns:1fr}}
+    .control{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding:10px 10px;
+      display:flex;flex-direction:column;gap:6px;
+    }
+    .control .lab{font-size:12px;color:var(--muted);font-weight:900}
+    .control input, .control select{
+      width:100%;
+      padding:10px 10px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(10,17,33,.55);
+      color: var(--text);
+      outline:none;
+      font-weight:850;
+    }
+
+    .toggles{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .toggle{
+      cursor:pointer;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: 999px;
+      padding:9px 10px;
+      font-size:12px;
+      font-weight:950;
+      color: var(--muted);
+      user-select:none;
+      transition: .12s transform, .12s border-color, .12s background;
+    }
+    .toggle:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.20)}
+    .toggle.active{
+      color: var(--text);
+      border-color: rgba(122,162,255,.45);
+      background: linear-gradient(135deg, rgba(122,162,255,.18), rgba(176,140,255,.10));
+    }
+
+    .ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+    .btn{
+      cursor:pointer;border:1px solid var(--line);
+      padding:11px 12px;border-radius: 14px;
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      font-weight:950;letter-spacing:.2px;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      user-select:none;white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px);border-color: rgba(255,255,255,.22)}
+    .btn.primary{
+      border-color: rgba(122,162,255,.50);
+      background: linear-gradient(135deg, rgba(122,162,255,.28), rgba(176,140,255,.20));
+      box-shadow: 0 14px 50px rgba(122,162,255,.12);
+    }
+    .btn.ghost{color:var(--muted)}
+    .btn.danger{
+      border-color: rgba(251,113,133,.35);
+      background: rgba(251,113,133,.08);
+      color: rgba(255,232,236,.96);
+    }
+
+    .note{
+      margin-top:12px;color: var(--muted);
+      font-size:12.3px;line-height:1.65;
+    }
+
+    .q{
+      padding:14px;border:1px solid var(--line);
+      background: rgba(10,17,33,.45);
+      border-radius: 18px;
+      margin-top:12px;
+    }
+    .q label{display:block;font-size:13.5px;margin-bottom:8px;font-weight:950}
+    .q .qsub{color:var(--muted);font-size:12px;line-height:1.55;margin-top:-2px;margin-bottom:10px}
+    .opts{display:flex;flex-wrap:wrap;gap:8px}
+    .opt{
+      flex: 1 1 auto;min-width: 160px;cursor:pointer;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      padding:10px 10px;border-radius: 14px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      user-select:none;
+    }
+    .opt:hover{transform: translateY(-1px);border-color: rgba(255,255,255,.20)}
+    .opt.active{
+      color: var(--text);
+      border-color: rgba(110,231,183,.45);
+      background: linear-gradient(180deg, rgba(110,231,183,.10), rgba(255,255,255,.02));
+    }
+    .opt small{color:var(--muted)}
+
+    .kpis{
+      display:grid;grid-template-columns: repeat(3, 1fr);
+      gap:10px;padding:14px 18px;
+      border-top: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+    }
+    @media (max-width: 520px){.kpis{grid-template-columns:1fr}}
+    .kpi{
+      border:1px solid var(--line);
+      border-radius: 18px;padding:12px 12px;
+      background: rgba(255,255,255,.03);
+    }
+    .kpi .k{color:var(--muted);font-size:12px}
+    .kpi .v{font-size:14px;font-weight:1000;margin-top:4px;letter-spacing:-.01em}
+
+    .results{display:flex;flex-direction:column;gap:10px}
+    .item{
+      border:1px solid var(--line);
+      border-radius: 18px;
+      padding:14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      display:flex;gap:12px;
+      position:relative;overflow:hidden;
+    }
+    .item:before{
+      content:"";position:absolute;inset:-1px;
+      background: radial-gradient(700px 120px at 20% 0%, rgba(122,162,255,.14), transparent 60%);
+      pointer-events:none;
+    }
+    .ico{
+      width:44px;height:44px;border-radius: 16px;
+      background: rgba(122,162,255,.16);
+      border: 1px solid rgba(122,162,255,.25);
+      display:grid;place-items:center;
+      flex:0 0 auto;
+      box-shadow: 0 14px 50px rgba(122,162,255,.10);
+      user-select:none;
+    }
+    .meta{min-width:0;flex:1}
+    .meta .name{font-weight:1100;font-size:14px;margin:0 0 6px;letter-spacing:-.01em}
+    .meta .line{color:var(--muted);font-size:12.2px;line-height:1.45;margin:0}
+    .badgerow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{
+      padding:7px 9px;border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size:11.5px;font-weight:950;
+      white-space:nowrap;
+    }
+    .chip.good{border-color: rgba(110,231,183,.25); background: rgba(110,231,183,.08); color: rgba(234,255,246,.92);}
+    .chip.warn{border-color: rgba(253,230,138,.25); background: rgba(253,230,138,.08); color: rgba(255,248,222,.92);}
+    .chip.bad{border-color: rgba(251,113,133,.25); background: rgba(251,113,133,.08); color: rgba(255,232,236,.92);}
+    .badge{
+      flex:0 0 auto;align-self:flex-start;
+      padding:8px 10px;border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size:12px;display:flex;gap:8px;align-items:center;white-space:nowrap;
+    }
+    .scorebar{
+      height:10px;border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      overflow:hidden;margin-top:10px;
+    }
+    .scorebar > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(110,231,183,.75), rgba(122,162,255,.75), rgba(176,140,255,.75));
+      border-radius: 999px;
+      transition: width .35s ease;
+    }
+    .itemActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .miniBtn{
+      cursor:pointer;border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 12px;
+      padding:8px 9px;
+      font-size:12px;
+      font-weight:950;
+      user-select:none;
+      transition:.12s transform,.12s border-color;
+      text-decoration:none;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .miniBtn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.20)}
+    .miniBtn.star.active{
+      border-color: rgba(253,230,138,.35);
+      background: rgba(253,230,138,.10);
+      color: rgba(255,248,222,.96);
+    }
+    .miniBtn.cmp.active{
+      border-color: rgba(122,162,255,.45);
+      background: rgba(122,162,255,.12);
+    }
+    .sep{height:1px;background: var(--line);margin:12px 0}
+    .mini{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      border-radius: 16px;
+      padding:12px;margin-top:10px;
+    }
+    .split{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .right{display:flex;gap:8px;flex-wrap:wrap}
+    footer{
+      margin-top:16px;color: var(--muted);
+      font-size:12px;line-height:1.7;
+      padding:14px 2px 0;
+    }
+
+    /* Compare drawer */
+    .drawer{
+      position:fixed;left:0; right:0;bottom:0;
+      transform: translateY(110%);
+      transition: transform .22s ease;
+      z-index: 50;
+      padding: 14px;
+    }
+    .drawer.open{transform: translateY(0)}
+    .drawerCard{
+      max-width: 1240px;margin:0 auto;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(8,12,22,.88);
+      border-radius: 20px;
+      box-shadow: 0 24px 90px rgba(0,0,0,.55);
+      backdrop-filter: blur(12px);
+      overflow:hidden;
+    }
+    .drawerHd{
+      padding:12px 14px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .drawerHd .t{font-weight:1050}
+    .drawerBody{padding: 12px 14px 14px}
+    .cmpTop{
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .cmpPills{display:flex;gap:8px;flex-wrap:wrap}
+    .cmpPill{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:12px;
+      color:var(--muted);
+      display:flex;gap:8px;align-items:center;
+    }
+    .cmpTableWrap{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      overflow:auto;
+    }
+    table.cmp{
+      width:100%;
+      border-collapse:collapse;
+      min-width: 740px;
+    }
+    table.cmp th, table.cmp td{
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      padding:10px 12px;
+      text-align:left;
+      vertical-align:top;
+      font-size:12.5px;
+      line-height:1.55;
+    }
+    table.cmp th{
+      position:sticky;top:0;
+      background: rgba(8,12,22,.92);
+      backdrop-filter: blur(10px);
+      z-index: 2;
+      font-weight:1050;
+      color: var(--text);
+    }
+    table.cmp td:first-child{
+      color: var(--muted);
+      font-weight:950;
+      width: 170px;
+      background: rgba(8,12,22,.55);
+      position:sticky;left:0;
+      z-index: 1;
+    }
+    table.cmp th:first-child{
+      left:0;z-index:3;
+    }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      background: rgba(8,12,22,.78);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: var(--text);
+      font-size: 12.5px;
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      display:none;
+      max-width: min(980px, calc(100vw - 24px));
+      z-index: 60;
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="title">
+          <h1 id="uiTitle">선택도우미: 노트북 · 핸드폰 · 로봇청소기 · 헤드폰 · 키보드</h1>
+          <p id="uiSubtitle">질문 몇 개 → 점수 기반 추천 + 검색/정렬/즐겨찾기/비교(표) · 로컬 전용</p>
+        </div>
+      </div>
+
+      <div class="pillrow">
+        <div class="lang" aria-label="Language">
+          <button id="lang_ko" class="active">한국어</button>
+          <button id="lang_en">English</button>
+        </div>
+        <div class="pill"><span class="dot"></span> <span id="pillLocal">로컬 계산 · 서버 업로드 없음</span></div>
+        <div class="pill"><span id="pillPrice">가격은 참고가(대략) · 최종은 판매처 확인</span></div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Left -->
+      <section class="card">
+        <div class="hd">
+          <div>
+            <h2 id="leftTitle">🧠 질문</h2>
+            <div class="sub" id="leftSub">탭을 바꾸면 질문/필터/데이터가 함께 바뀝니다.</div>
+          </div>
+          <div class="tabs" id="tabs"></div>
+        </div>
+
+        <div class="body">
+          <div class="controls">
+            <div class="control">
+              <div class="lab" id="labSearch">검색</div>
+              <input id="searchBox" type="text" placeholder="예: 배터리, ANC, 풀배열, 핫스왑…" />
+            </div>
+            <div class="control">
+              <div class="lab" id="labSort">정렬</div>
+              <select id="sortSel">
+                <option value="score_desc">점수 높은 순</option>
+                <option value="price_asc">가격 낮은 순</option>
+                <option value="price_desc">가격 높은 순</option>
+                <option value="name_asc">이름 A→Z</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="toggles" id="featureToggles"></div>
+
+          <div class="ctaRow">
+            <button class="btn primary" id="btnRun">추천 만들기</button>
+            <button class="btn" id="btnSample">샘플 답안</button>
+            <button class="btn" id="btnShare">이 상태 공유</button>
+            <button class="btn ghost" id="btnReset">초기화</button>
+          </div>
+
+          <div class="note" id="noteText">
+            ✅ 추천/검색/정렬/비교는 전부 브라우저에서만 처리됩니다.<br/>
+            ⚠️ 가격은 “참고가(대략)”이며 판매처에서 최종 확인이 필요합니다.
+          </div>
+
+          <div id="qArea"></div>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi">
+            <div class="k" id="kCatLabel">카테고리</div>
+            <div class="v" id="kCat">-</div>
+          </div>
+          <div class="kpi">
+            <div class="k" id="kUpdatedLabel">업데이트</div>
+            <div class="v" id="kUpdated">-</div>
+          </div>
+          <div class="kpi">
+            <div class="k" id="kFavLabel">즐겨찾기</div>
+            <div class="v" id="kFav">0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right -->
+      <aside class="card">
+        <div class="hd">
+          <div>
+            <h2 id="rightTitle">✨ 결과</h2>
+            <div class="sub" id="rightSub">상위 추천 + 요약 + 비교/즐겨찾기</div>
+          </div>
+          <div class="right">
+            <button class="btn ghost" id="btnFavOnly">즐겨찾기만</button>
+            <button class="btn" id="btnClearCompare">비교 비우기</button>
+          </div>
+        </div>
+
+        <div class="body">
+          <div class="results" id="resultArea"></div>
+
+          <div class="mini" id="sources">
+            <div class="split">
+              <div>
+                <div style="font-weight:1100" id="legalTitle">면책/고지</div>
+                <div class="muted" id="legalText" style="font-size:12px;line-height:1.6">
+                  가격/재고/혜택은 변동될 수 있는 참고 정보입니다. 최종 판단은 판매처/제조사 정보를 기준으로 하세요.
+                </div>
+              </div>
+            </div>
+            <div class="sep"></div>
+            <div class="muted" style="font-size:12px" id="refFoot">
+              ✔️ 설명 문구는 직접 요약이며, 표/이미지 스크래핑은 하지 않습니다.<br/>
+              ✔️ 제품명은 설명 목적의 표기이며 상표는 각 소유자에게 있습니다.
+            </div>
+          </div>
+
+          <footer id="footerNote">
+            <b id="footerB">팁</b><br/>
+            <span id="footerT">비교(표)를 열고 싶으면 카드에서 ‘비교’를 2~3개 담아주세요.</span>
+          </footer>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Compare drawer -->
+  <div class="drawer" id="drawer">
+    <div class="drawerCard">
+      <div class="drawerHd">
+        <div class="t" id="cmpTitle">비교(최대 3개) · 표 형태</div>
+        <div class="right">
+          <button class="btn ghost" id="btnCloseDrawer">닫기</button>
+        </div>
+      </div>
+      <div class="drawerBody">
+        <div class="cmpTop">
+          <div class="cmpPills" id="cmpPills"></div>
+          <div class="right">
+            <button class="btn" id="btnOpenLinks">선택 항목 열기</button>
+            <button class="btn danger" id="btnRemoveAll">전부 제거</button>
+          </div>
+        </div>
+        <div class="cmpTableWrap" id="cmpTableWrap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---------------------------
+    // i18n
+    // ---------------------------
+    const I18N = {
+      ko:{
+        uiTitle:"선택도우미: 노트북 · 핸드폰 · 로봇청소기 · 헤드폰 · 키보드",
+        uiSubtitle:"질문 몇 개 → 점수 기반 추천 + 검색/정렬/즐겨찾기/비교(표) · 로컬 전용",
+        pillLocal:"로컬 계산 · 서버 업로드 없음",
+        pillPrice:"가격은 참고가(대략) · 최종은 판매처 확인",
+        leftTitle:"🧠 질문",
+        leftSub:"탭을 바꾸면 질문/필터/데이터가 함께 바뀝니다.",
+        labSearch:"검색",
+        labSort:"정렬",
+        sort:{score_desc:"점수 높은 순",price_asc:"가격 낮은 순",price_desc:"가격 높은 순",name_asc:"이름 A→Z"},
+        placeholderSearch:"예: 배터리, ANC, 풀배열, 핫스왑…",
+        btnRun:"추천 만들기",
+        btnSample:"샘플 답안",
+        btnShare:"이 상태 공유",
+        btnReset:"초기화",
+        note:"✅ 추천/검색/정렬/비교는 전부 브라우저에서만 처리됩니다.<br/>⚠️ 가격은 “참고가(대략)”이며 판매처에서 최종 확인이 필요합니다.",
+        kCatLabel:"카테고리",
+        kUpdatedLabel:"업데이트",
+        kFavLabel:"즐겨찾기",
+        rightTitle:"✨ 결과",
+        rightSub:"상위 추천 + 요약 + 비교/즐겨찾기",
+        btnFavOnly:"즐겨찾기만",
+        btnClearCompare:"비교 비우기",
+        legalTitle:"면책/고지",
+        legalText:"가격/재고/혜택은 변동될 수 있는 참고 정보입니다. 최종 판단은 판매처/제조사 정보를 기준으로 하세요.",
+        refFoot:"✔️ 설명 문구는 직접 요약이며, 표/이미지 스크래핑은 하지 않습니다.<br/>✔️ 제품명은 설명 목적의 표기이며 상표는 각 소유자에게 있습니다.",
+        footerB:"팁",
+        footerT:"비교(표)를 열고 싶으면 카드에서 ‘비교’를 2~3개 담아주세요.",
+        cmpTitle:"비교(최대 3개) · 표 형태",
+        close:"닫기",
+        openLinks:"선택 항목 열기",
+        removeAll:"전부 제거",
+        emptyCompare:"비교할 제품이 없어요. 카드에서 ‘비교’ 버튼을 눌러 담아보세요.",
+        emptyResult:"조건에 맞는 결과가 없어요. 검색/필터를 완화해보세요.",
+        toast:{
+          moved:(x)=>`${x} 탭`,
+          ran:"추천을 만들었어요!",
+          sample:"샘플 답안을 채웠어요",
+          reset:"초기화 완료",
+          shared:"공유 링크를 클립보드에 복사했어요",
+          shareFail:"복사 실패 — 주소창 URL을 그대로 공유해도 돼요",
+          favOnlyOn:"즐겨찾기만 보기 ON",
+          favOnlyOff:"즐겨찾기만 보기 OFF",
+          compareAdd:"비교에 추가",
+          compareRemove:"비교에서 제거",
+          compareFull:"비교는 최대 3개까지!",
+          compareCleared:"비교 목록을 비웠어요",
+          opened:"선택 링크를 열었어요"
+        },
+        labels:{ref:"참고가", fit:"적합도", open:"열기", favorite:"즐겨찾기", compare:"비교", price:"가격"}
+      },
+      en:{
+        uiTitle:"Chooser: Laptop · Phone · Robot Vacuum · Headphones · Keyboard",
+        uiSubtitle:"A few questions → scored picks + search/sort/favorites/compare(table) · local-only",
+        pillLocal:"Local-only · No server upload",
+        pillPrice:"Prices are rough references · verify at retailer",
+        leftTitle:"🧠 Questions",
+        leftSub:"Switch tabs to change questions, filters and data.",
+        labSearch:"Search",
+        labSort:"Sort",
+        sort:{score_desc:"Highest score",price_asc:"Lowest price",price_desc:"Highest price",name_asc:"Name A→Z"},
+        placeholderSearch:"e.g., battery, ANC, full-size, hot-swap…",
+        btnRun:"Generate",
+        btnSample:"Fill sample",
+        btnShare:"Share this state",
+        btnReset:"Reset",
+        note:"✅ Everything runs in your browser.<br/>⚠️ Prices are rough references; verify on the source site.",
+        kCatLabel:"Category",
+        kUpdatedLabel:"Updated",
+        kFavLabel:"Favorites",
+        rightTitle:"✨ Results",
+        rightSub:"Top picks + summary + compare/favorites",
+        btnFavOnly:"Favorites only",
+        btnClearCompare:"Clear compare",
+        legalTitle:"Disclaimer",
+        legalText:"Prices/availability can change and are provided as reference information. Make final decisions based on retailer/manufacturer info.",
+        refFoot:"✔️ Copy-free summaries (no spec-table/image scraping).<br/>✔️ Product names are descriptive; trademarks belong to owners.",
+        footerB:"Tip",
+        footerT:"To open the compare table, add 2–3 items via “Compare”.",
+        cmpTitle:"Compare (up to 3) · Table view",
+        close:"Close",
+        openLinks:"Open selected links",
+        removeAll:"Remove all",
+        emptyCompare:"Nothing to compare yet. Use “Compare” on cards.",
+        emptyResult:"No matches. Try loosening filters or search.",
+        toast:{
+          moved:(x)=>`Tab: ${x}`,
+          ran:"Generated!",
+          sample:"Sample answers filled",
+          reset:"Reset done",
+          shared:"Share link copied",
+          shareFail:"Copy failed — share the URL in the address bar",
+          favOnlyOn:"Favorites-only ON",
+          favOnlyOff:"Favorites-only OFF",
+          compareAdd:"Added to compare",
+          compareRemove:"Removed from compare",
+          compareFull:"Compare supports up to 3 items",
+          compareCleared:"Compare cleared",
+          opened:"Opened selected links"
+        },
+        labels:{ref:"Reference", fit:"Fit", open:"Open", favorite:"Favorite", compare:"Compare", price:"Price"}
+      }
+    };
+
+    // ---------------------------
+    // helpers / state
+    // ---------------------------
+    const $ = (id)=>document.getElementById(id);
+    const LS_STATE="chooser_state_v1";
+    const LS_LANG="chooser_lang_v1";
+    const LS_FAV="chooser_fav_v1";
+
+    const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+    function showToast(msg){
+      const t=$("toast");
+      t.textContent=msg;
+      t.style.display="block";
+      clearTimeout(showToast._t);
+      showToast._t=setTimeout(()=>t.style.display="none",2200);
+    }
+    function saveJSON(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
+    function loadJSON(k,fb){ try{ const r=localStorage.getItem(k); return r?JSON.parse(r):fb; }catch{ return fb; } }
+    function money(lang, n){
+      if(!Number.isFinite(n)) return "-";
+      if(lang==="ko") return new Intl.NumberFormat("ko-KR").format(n)+"원";
+      return "$"+new Intl.NumberFormat("en-US").format(Math.round(n/1300)); // rough KRW->USD display
+    }
+
+    function icon(cat){
+      const m={
+        laptop:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M7 7.5h10a2 2 0 0 1 2 2v5.5H5V9.5a2 2 0 0 1 2-2Z" stroke="currentColor" opacity=".85" stroke-width="1.7"/><path d="M4 17h16" stroke="currentColor" opacity=".7" stroke-width="1.7" stroke-linecap="round"/></svg>`,
+        phone:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="7" y="3.5" width="10" height="17" rx="2.2" stroke="currentColor" opacity=".85" stroke-width="1.7"/><path d="M10 18.2h4" stroke="currentColor" opacity=".7" stroke-width="1.7" stroke-linecap="round"/></svg>`,
+        robot:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M7 13.5a5 5 0 0 1 10 0v1.2a2.8 2.8 0 0 1-2.8 2.8H9.8A2.8 2.8 0 0 1 7 14.7v-1.2Z" stroke="currentColor" opacity=".85" stroke-width="1.7"/><path d="M9 10.2V8.5m6 1.7V8.5" stroke="currentColor" opacity=".7" stroke-width="1.7" stroke-linecap="round"/><path d="M6.3 18.2h11.4" stroke="currentColor" opacity=".7" stroke-width="1.7" stroke-linecap="round"/></svg>`,
+        headphones:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 13v5a2 2 0 0 0 2 2h1v-7H8a2 2 0 0 0-2 2Z" stroke="currentColor" stroke-width="1.7" opacity=".8"/><path d="M18 13v5a2 2 0 0 1-2 2h-1v-7h1a2 2 0 0 1 2 2Z" stroke="currentColor" stroke-width="1.7" opacity=".8"/><path d="M6.5 13V11a5.5 5.5 0 0 1 11 0v2" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/></svg>`,
+        keyboard:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3.8" y="7" width="16.4" height="10" rx="2.2" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M6.2 10h.01M8.4 10h.01M10.6 10h.01M12.8 10h.01M15 10h.01M17.2 10h.01" stroke="currentColor" stroke-width="2.4" opacity=".55" stroke-linecap="round"/><path d="M6.2 12.7h.01M8.4 12.7h.01M10.6 12.7h.01M12.8 12.7h.01M15 12.7h.01M17.2 12.7h.01" stroke="currentColor" stroke-width="2.4" opacity=".55" stroke-linecap="round"/><path d="M8 15h8" stroke="currentColor" stroke-width="1.8" opacity=".6" stroke-linecap="round"/></svg>`
+      };
+      return m[cat]||"";
+    }
+
+    // ---------------------------
+    // DATA: 5 categories + keyboard included
+    // - features: filter chips
+    // - questions: weighted preferences
+    // - items: include attrs for compare table
+    // ---------------------------
+    function item(cat,id,name,price,features,vec,desc,attrs,link){
+      return {cat,id,name,price,features,vec,desc,attrs,link};
+    }
+
+    const DATA = {
+      laptop:{
+        label:{ko:"노트북",en:"Laptop"}, updated:"2026-02-18",
+        features:[
+          {id:"value",ko:"가성비",en:"Value"},
+          {id:"battery",ko:"배터리",en:"Battery"},
+          {id:"screen",ko:"화면",en:"Display"},
+          {id:"portable",ko:"휴대성",en:"Portability"},
+          {id:"gaming",ko:"게임/그래픽",en:"Gaming/Graphics"}
+        ],
+        questions:[
+          {id:"use", label:{ko:"주요 사용",en:"Use"}, sub:{ko:"용도에 따라 정답이 갈려요.",en:"Use case changes the best pick."},
+            options:[
+              {v:"office",t:{ko:"문서/웹",en:"Office/Web"},w:{battery:3,portable:2,screen:1}},
+              {v:"dev",t:{ko:"개발/멀티",en:"Dev/Multitask"},w:{perf:3,screen:2}},
+              {v:"creator",t:{ko:"영상/디자인",en:"Creator"},w:{screen:3,perf:3}},
+              {v:"game",t:{ko:"게임/3D",en:"Gaming/3D"},w:{gpu:3,perf:2,screen:2}}
+            ]},
+          {id:"mobility", label:{ko:"휴대성",en:"Portability"}, sub:{ko:"매일 들면 무게 체감이 커요.",en:"Daily carry makes weight matter."},
+            options:[
+              {v:"ultra",t:{ko:"최대한 가볍게",en:"Ultra-light"},w:{portable:3,battery:1}},
+              {v:"balanced",t:{ko:"균형",en:"Balanced"},w:{portable:2,screen:1}},
+              {v:"desk",t:{ko:"거치 위주",en:"Mostly desk"},w:{screen:2,perf:2}}
+            ]},
+          {id:"os", label:{ko:"OS 선호",en:"OS"}, sub:{ko:"워크플로우/앱 호환이 갈립니다.",en:"Workflow compatibility differs."},
+            options:[
+              {v:"mac",t:{ko:"macOS",en:"macOS"},w:{mac:3}},
+              {v:"win",t:{ko:"Windows",en:"Windows"},w:{win:3}},
+              {v:"any",t:{ko:"상관없음",en:"Either"},w:{mac:1,win:1}}
+            ]}
+        ],
+        items:[
+          item("laptop","mba13","MacBook Air 13 (M-series)",1590000,["battery","portable"],{mac:3,battery:3,portable:3,screen:2,perf:2},{ko:"휴대+배터리 밸런스가 강한 라인.",en:"Strong balance of portability and battery."},{"Display":"13\"","Weight":"~1.2kg","OS":"macOS","Battery":"Long","Best":"Daily/Dev"},"https://www.apple.com/kr/macbook-air/"),
+          item("laptop","mba15","MacBook Air 15 (M-series)",1890000,["battery","screen"],{mac:3,battery:3,portable:2,screen:3,perf:2},{ko:"대화면+배터리로 멀티태스킹 만족.",en:"Large display + long battery for multitasking."},{"Display":"15\"","Weight":"~1.5kg","OS":"macOS","Battery":"Long","Best":"Multitask"},"https://www.apple.com/kr/macbook-air/"),
+          item("laptop","gram","LG gram (lightweight)",1650000,["portable","battery"],{win:3,portable:3,battery:2,screen:2,perf:2,value:2},{ko:"초경량 컨셉의 이동형.",en:"Ultra-light travel friendly."},{"Display":"14~16\"","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Travel/School"},"https://www.lge.co.kr/"),
+          item("laptop","ideapad","Lenovo IdeaPad (value)",990000,["value"],{win:3,value:3,battery:2,portable:2,screen:1,perf:1},{ko:"예산 제한에 강한 실속형.",en:"Budget-friendly value pick."},{"Display":"Varies","Weight":"Mid","OS":"Windows","Battery":"OK","Best":"Budget"},"https://www.lenovo.com/kr/ko/"),
+          item("laptop","zenbook","ASUS Zenbook OLED",1850000,["screen","portable"],{win:3,screen:3,portable:2,battery:2,perf:2},{ko:"OLED 화면 만족도 체감.",en:"OLED display feels great."},{"Display":"OLED","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Display"},"https://www.asus.com/kr/"),
+          item("laptop","xps","Dell XPS (premium)",2600000,["screen"],{win:3,screen:3,perf:3,battery:2,portable:2},{ko:"프리미엄 빌드/화면 지향.",en:"Premium build and display focus."},{"Display":"High-end","Weight":"Mid","OS":"Windows","Battery":"Good","Best":"Premium Work"},"https://www.dell.com/ko-kr"),
+          item("laptop","thinkpad","ThinkPad (business)",2300000,["screen"],{win:3,perf:2,screen:2,battery:2},{ko:"업무/타이핑 안정성.",en:"Work/typing reliability."},{"Display":"14\"","Weight":"Mid","OS":"Windows","Battery":"Good","Best":"Typing"},"https://www.lenovo.com/kr/ko/"),
+          item("laptop","surface","Surface Laptop class",2100000,["portable","screen"],{win:3,portable:3,screen:2,battery:2,perf:2},{ko:"휴대형 프리미엄 감성.",en:"Portable premium vibe."},{"Display":"13~15\"","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Portable Work"},"https://www.microsoft.com/"),
+          item("laptop","gaming","Gaming Laptop (RTX class)",1790000,["gaming","screen"],{win:3,gpu:3,perf:3,screen:3,battery:1,portable:1},{ko:"게임/3D 성능 우선.",en:"Performance-first for gaming/3D."},{"Display":"High refresh","Weight":"Heavy","OS":"Windows","Battery":"Shorter","Best":"Gaming"},"https://search.danawa.com/"),
+          item("laptop","ultraBudget","Ultra value 14\"",790000,["value","portable"],{win:3,value:3,portable:2,battery:2,perf:1},{ko:"서브/학업용 가성비.",en:"Great for students / secondary device."},{"Display":"14\"","Weight":"Light","OS":"Windows","Battery":"OK","Best":"Student"},"https://search.danawa.com/")
+        ]
+      },
+
+      phone:{
+        label:{ko:"핸드폰",en:"Phone"}, updated:"2026-02-18",
+        features:[
+          {id:"value",ko:"가성비",en:"Value"},
+          {id:"battery",ko:"배터리",en:"Battery"},
+          {id:"camera",ko:"카메라",en:"Camera"},
+          {id:"eco",ko:"생태계",en:"Ecosystem"},
+          {id:"compact",ko:"콤팩트",en:"Compact"}
+        ],
+        questions:[
+          {id:"priority", label:{ko:"1순위",en:"Top priority"}, sub:{ko:"하나만 골라도 정확도↑",en:"Pick one to boost accuracy."},
+            options:[
+              {v:"camera",t:{ko:"카메라",en:"Camera"},w:{camera:3}},
+              {v:"battery",t:{ko:"배터리",en:"Battery"},w:{battery:3}},
+              {v:"perf",t:{ko:"속도/게임",en:"Performance"},w:{perf:3}},
+              {v:"eco",t:{ko:"생태계",en:"Ecosystem"},w:{eco:3}}
+            ]},
+          {id:"os", label:{ko:"OS",en:"OS"}, sub:{ko:"선호 생태계 중심",en:"Choose ecosystem."},
+            options:[
+              {v:"ios",t:{ko:"iOS",en:"iOS"},w:{ios:3,eco:2}},
+              {v:"android",t:{ko:"Android",en:"Android"},w:{and:3,eco:2}},
+              {v:"any",t:{ko:"상관없음",en:"Either"},w:{ios:1,and:1}}
+            ]},
+          {id:"size", label:{ko:"크기",en:"Size"}, sub:{ko:"작으면 휴대↑, 크면 시청↑",en:"Compact vs big media."},
+            options:[
+              {v:"small",t:{ko:"작게",en:"Compact"},w:{compact:3}},
+              {v:"big",t:{ko:"크게",en:"Large"},w:{screen:3,battery:1}},
+              {v:"any",t:{ko:"상관없음",en:"Any"},w:{screen:1}}
+            ]}
+        ],
+        items:[
+          item("phone","ip_base","iPhone (base class)",1290000,["camera","eco"],{ios:3,eco:3,camera:2,battery:2,perf:2},{ko:"일상 밸런스+생태계.",en:"Balanced daily + ecosystem."},{"OS":"iOS","Camera":"Strong daily","Battery":"Good","Size":"Balanced","Best":"Ecosystem"},"https://www.apple.com/kr/iphone/"),
+          item("phone","ip_pro","iPhone (Pro class)",1550000,["camera","eco"],{ios:3,eco:3,camera:3,perf:3,battery:2},{ko:"카메라/성능 상급.",en:"Top camera/performance class."},{"OS":"iOS","Camera":"Flagship","Battery":"Good","Size":"Mid","Best":"Camera"},"https://www.apple.com/kr/iphone/"),
+          item("phone","galaxyS","Galaxy S (flagship)",1150000,["eco","camera"],{and:3,eco:3,camera:2,battery:2,perf:2},{ko:"안드로이드 편의/연동.",en:"Android flexibility + integration."},{"OS":"Android","Camera":"Balanced","Battery":"Good","Size":"Balanced","Best":"Android"},"https://www.samsung.com/sec/"),
+          item("phone","ultra","Galaxy Ultra (camera)",1690000,["camera","battery"],{and:3,camera:3,battery:3,perf:2,eco:3},{ko:"카메라+배터리 강력(대화면).",en:"Strong camera + battery (big)."},{"OS":"Android","Camera":"Top-tier","Battery":"Strong","Size":"Large","Best":"Camera+Battery"},"https://www.samsung.com/sec/"),
+          item("phone","pixel","Pixel class",990000,["camera"],{and:3,camera:3,battery:2,perf:2},{ko:"연산사진 스타일 강점.",en:"Computational photo strength."},{"OS":"Android","Camera":"Computational","Battery":"OK","Size":"Balanced","Best":"Photos"},"https://store.google.com/"),
+          item("phone","value_mid","Value midrange Android",690000,["value","battery"],{and:3,value:3,battery:3,camera:2},{ko:"가성비+배터리 체감.",en:"Strong value + battery."},{"OS":"Android","Camera":"Good enough","Battery":"Strong","Size":"Balanced","Best":"Value"},"https://search.danawa.com/"),
+          item("phone","compactA","Compact phone class",980000,["compact","camera"],{compact:3,camera:2,perf:2,battery:1},{ko:"한 손/휴대성 지향.",en:"One-hand portability focus."},{"OS":"Either","Camera":"Good","Battery":"OK","Size":"Compact","Best":"One-hand"},"https://search.danawa.com/"),
+          item("phone","fold","Foldable class",1850000,["eco"],{and:3,eco:3,screen:3,camera:2},{ko:"대화면 멀티태스킹.",en:"Big-screen multitasking."},{"OS":"Android","Camera":"Good","Battery":"OK","Size":"Foldable","Best":"Big screen"},"https://www.samsung.com/sec/"),
+          item("phone","gaming","Gaming phone class",1190000,["battery"],{and:3,perf:3,battery:2},{ko:"게임/쿨링/터치 지향.",en:"Gaming/cooling/touch focus."},{"OS":"Android","Camera":"OK","Battery":"Good","Size":"Large","Best":"Gaming"},"https://search.danawa.com/"),
+          item("phone","work","Work/calls balanced",880000,["battery"],{battery:2,perf:2,value:2},{ko:"업무/통화 밸런스.",en:"Balanced for work/calls."},{"OS":"Either","Camera":"Balanced","Battery":"Good","Size":"Balanced","Best":"Work"},"https://search.danawa.com/")
+        ]
+      },
+
+      robot:{
+        label:{ko:"로봇청소기",en:"Robot vacuum"}, updated:"2026-02-18",
+        features:[
+          {id:"value",ko:"가성비",en:"Value"},
+          {id:"dock",ko:"도크",en:"Dock"},
+          {id:"mop",ko:"물걸레",en:"Mopping"},
+          {id:"avoid",ko:"회피",en:"Avoidance"},
+          {id:"pet",ko:"털/엉킴",en:"Pets/Hair"}
+        ],
+        questions:[
+          {id:"priority", label:{ko:"우선순위",en:"Priority"}, sub:{ko:"체감은 관리 편의에서 크게 옵니다.",en:"Hassle reduction matters most."},
+            options:[
+              {v:"dock",t:{ko:"도크(자동관리)",en:"Dock"},w:{dock:3}},
+              {v:"mop",t:{ko:"물걸레",en:"Mopping"},w:{mop:3}},
+              {v:"avoid",t:{ko:"회피",en:"Avoidance"},w:{avoid:3}},
+              {v:"value",t:{ko:"가성비",en:"Value"},w:{value:3}}
+            ]},
+          {id:"pets", label:{ko:"털/머리카락",en:"Pets/Hair"}, sub:{ko:"털이 많으면 엉킴 체감이 커요.",en:"Hair makes tangles important."},
+            options:[
+              {v:"yes",t:{ko:"많음",en:"Yes"},w:{pet:3,avoid:1}},
+              {v:"no",t:{ko:"적음",en:"No"},w:{pet:1}}
+            ]}
+        ],
+        items:[
+          item("robot","premiumDock","Premium dock+mop class",1550000,["dock","mop","avoid","pet"],{dock:3,mop:3,avoid:3,pet:2},{ko:"비움+물걸레 자동화 체감.",en:"Hands-free dock + mop feel."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"Good","Best":"Hands-free"},"https://search.danawa.com/"),
+          item("robot","midDock","Mid dock class",1090000,["dock","avoid"],{dock:3,avoid:2,pet:1},{ko:"도크로 비움 자동화.",en:"Auto-empty convenience."},{"Dock":"Yes","Mop":"Optional","Avoidance":"Mid","Pets":"Good","Best":"Dock"},"https://search.danawa.com/"),
+          item("robot","mopStrong","Mop-focused class",990000,["mop","dock"],{mop:3,dock:2,avoid:2},{ko:"물걸레 우선.",en:"Mopping-first."},{"Dock":"Often","Mop":"Strong","Avoidance":"Mid","Pets":"OK","Best":"Mop"},"https://search.danawa.com/"),
+          item("robot","avoidStrong","Avoidance-focused class",880000,["avoid"],{avoid:3,dock:1,mop:2,pet:2},{ko:"장애물 많은 집에 유리.",en:"Great for cluttered homes."},{"Dock":"Optional","Mop":"Mid","Avoidance":"High","Pets":"Good","Best":"Clutter"},"https://search.danawa.com/"),
+          item("robot","petTangle","Anti-tangle class",790000,["pet","value"],{pet:3,value:3,avoid:2},{ko:"털/엉킴 스트레스 감소.",en:"Less hair tangles."},{"Dock":"Optional","Mop":"Optional","Avoidance":"Mid","Pets":"Excellent","Best":"Pets"},"https://search.danawa.com/"),
+          item("robot","valueBasic","Value suction class",590000,["value"],{value:3,mop:1,avoid:1},{ko:"입문/실속 흡입 중심.",en:"Entry value suction."},{"Dock":"No","Mop":"Light","Avoidance":"Basic","Pets":"OK","Best":"Budget"},"https://search.danawa.com/"),
+          item("robot","compact","Compact robot class",490000,["value"],{value:3},{ko:"작은 집/간단 구조.",en:"Small/simple homes."},{"Dock":"No","Mop":"No","Avoidance":"Basic","Pets":"OK","Best":"Small home"},"https://search.danawa.com/"),
+          item("robot","mopValue","Value mop class",690000,["mop","value"],{mop:2,value:3},{ko:"가성비 물걸레.",en:"Value mopping."},{"Dock":"No","Mop":"Yes","Avoidance":"Basic","Pets":"OK","Best":"Mop value"},"https://search.danawa.com/"),
+          item("robot","dockOnly","Dock-only class",870000,["dock"],{dock:3,value:2},{ko:"비움 자동화에 올인.",en:"Auto-empty focus."},{"Dock":"Yes","Mop":"No","Avoidance":"Mid","Pets":"Good","Best":"Dock"},"https://search.danawa.com/"),
+          item("robot","avoidPlus","Avoid+Map class",980000,["avoid"],{avoid:3},{ko:"회피/맵핑 체감 계열.",en:"Avoidance/mapping feel."},{"Dock":"Optional","Mop":"Optional","Avoidance":"High","Pets":"Good","Best":"Avoid"},"https://search.danawa.com/")
+        ]
+      },
+
+      headphones:{
+        label:{ko:"헤드폰",en:"Headphones"}, updated:"2026-02-18",
+        features:[
+          {id:"value",ko:"가성비",en:"Value"},
+          {id:"anc",ko:"ANC",en:"ANC"},
+          {id:"mic",ko:"마이크",en:"Mic"},
+          {id:"stage",ko:"공간감",en:"Soundstage"},
+          {id:"wired",ko:"유선",en:"Wired"}
+        ],
+        questions:[
+          {id:"use", label:{ko:"주 사용",en:"Primary use"}, sub:{ko:"이동/통화/집 감상",en:"Commute/calls/home."},
+            options:[
+              {v:"commute",t:{ko:"이동(ANC)",en:"Commute (ANC)"},w:{anc:3}},
+              {v:"work",t:{ko:"업무/통화",en:"Work/Calls"},w:{mic:3}},
+              {v:"home",t:{ko:"집 감상",en:"Home listening"},w:{stage:3,wired:2}},
+              {v:"mixed",t:{ko:"올라운드",en:"All-round"},w:{anc:2,mic:2}}
+            ]},
+          {id:"wire", label:{ko:"유선/무선",en:"Wired/Wireless"}, sub:{ko:"편의 vs 지연",en:"Convenience vs latency."},
+            options:[
+              {v:"wireless",t:{ko:"무선",en:"Wireless"},w:{wireless:3}},
+              {v:"wired",t:{ko:"유선",en:"Wired"},w:{wired:3,stage:1}},
+              {v:"either",t:{ko:"상관없음",en:"Either"},w:{wired:1,wireless:1}}
+            ]}
+        ],
+        items:[
+          item("headphones","sonyWH","Sony WH-1000X class",499000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"출퇴근 ANC 체감 강함.",en:"Strong commute ANC feel."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Commute"},"https://www.sony.co.kr/"),
+          item("headphones","boseQC","Bose QuietComfort class",459000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"착용감/ANC 안정.",en:"Comfort + stable ANC."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Comfort"},"https://www.bose.co.kr/"),
+          item("headphones","valueANC","Value ANC class",199000,["value","anc"],{value:3,anc:2,wireless:3},{ko:"가성비 ANC 입문.",en:"Entry value ANC."},{"Type":"Over-ear","ANC":"Mid","Mic":"OK","Wired":"No","Best":"Value"},"https://search.danawa.com/"),
+          item("headphones","openBack","Open-back class",219000,["stage","wired"],{stage:3,wired:3},{ko:"집 감상 공간감.",en:"Soundstage for home."},{"Type":"Open-back","ANC":"No","Mic":"No","Wired":"Yes","Best":"Home"},"https://search.danawa.com/"),
+          item("headphones","studio","Studio wired monitoring",149000,["wired","value"],{wired:3,value:3},{ko:"작업/모니터링 유선.",en:"Wired monitoring/work."},{"Type":"Closed-back","ANC":"No","Mic":"Optional","Wired":"Yes","Best":"Studio"},"https://search.danawa.com/"),
+          item("headphones","gamingHS","Gaming headset class",129000,["mic","value"],{mic:3,value:3},{ko:"통화/팀플 마이크 우선.",en:"Mic-first for calls/gaming."},{"Type":"Headset","ANC":"Optional","Mic":"Strong","Wired":"Either","Best":"Calls"},"https://search.danawa.com/"),
+          item("headphones","hiFi","Hi-fi wireless class",599000,["stage","anc"],{stage:2,anc:2,wireless:3},{ko:"프리미엄 음감 지향.",en:"Premium listening vibe."},{"Type":"Over-ear","ANC":"Good","Mic":"OK","Wired":"No","Best":"Sound"},"https://search.danawa.com/"),
+          item("headphones","portableOn","On-ear portable class",99000,["value"],{value:3,wireless:2},{ko:"가볍게 들고 다니기.",en:"Light portable."},{"Type":"On-ear","ANC":"No","Mic":"OK","Wired":"Either","Best":"Portable"},"https://search.danawa.com/"),
+          item("headphones","wiredFun","Fun wired class",89000,["wired","value"],{wired:3,value:3},{ko:"저렴한 유선 취향용.",en:"Affordable wired."},{"Type":"Closed-back","ANC":"No","Mic":"No","Wired":"Yes","Best":"Budget wired"},"https://search.danawa.com/"),
+          item("headphones","workBT","Work BT ANC class",329000,["mic","anc"],{mic:3,anc:2,wireless:3},{ko:"회의/통화 중심.",en:"Calls-first for work."},{"Type":"Over-ear","ANC":"Good","Mic":"Strong","Wired":"No","Best":"Work"},"https://search.danawa.com/")
+        ]
+      },
+
+      // ✅ Keyboard category
+      keyboard:{
+        label:{ko:"키보드",en:"Keyboard"}, updated:"2026-02-18",
+        features:[
+          {id:"value",ko:"가성비",en:"Value"},
+          {id:"hotswap",ko:"핫스왑",en:"Hot-swap"},
+          {id:"wireless",ko:"무선",en:"Wireless"},
+          {id:"silent",ko:"저소음",en:"Silent"},
+          {id:"mech",ko:"기계식",en:"Mechanical"}
+        ],
+        questions:[
+          {id:"place", label:{ko:"사용 환경",en:"Where"}, sub:{ko:"사무실/집/게임에 따라 소음/반응이 달라요.",en:"Noise/response differs by place."},
+            options:[
+              {v:"office",t:{ko:"사무실(조용)",en:"Office (quiet)"},w:{silent:3,wireless:2}},
+              {v:"home",t:{ko:"집",en:"Home"},w:{mech:2,hotswap:1}},
+              {v:"game",t:{ko:"게임",en:"Gaming"},w:{mech:3,latency:2}}
+            ]},
+          {id:"feel", label:{ko:"타건 취향",en:"Feel"}, sub:{ko:"조용함/쫀득/쨍함 중 가까운 쪽.",en:"Closest preference."},
+            options:[
+              {v:"silent",t:{ko:"저소음",en:"Silent"},w:{silent:3}},
+              {v:"balanced",t:{ko:"밸런스",en:"Balanced"},w:{mech:2}},
+              {v:"custom",t:{ko:"커스텀/핫스왑",en:"Custom/Hot-swap"},w:{hotswap:3,mech:2}}
+            ]},
+          {id:"connect", label:{ko:"연결",en:"Connection"}, sub:{ko:"무선은 편의, 유선은 지연/안정.",en:"Wireless convenience vs wired stability."},
+            options:[
+              {v:"wireless",t:{ko:"무선",en:"Wireless"},w:{wireless:3}},
+              {v:"wired",t:{ko:"유선",en:"Wired"},w:{latency:2}},
+              {v:"either",t:{ko:"상관없음",en:"Either"},w:{wireless:1}}
+            ]},
+          {id:"budget", label:{ko:"예산",en:"Budget"}, sub:{ko:"예산이 오를수록 완성도/스테빌 체감↑",en:"Higher budget often improves build/stabs."},
+            options:[
+              {v:"low",t:{ko:"~10만원",en:"≤ ₩100k"},w:{value:3}},
+              {v:"mid",t:{ko:"10~20만원",en:"₩100–200k"},w:{value:2,mech:1}},
+              {v:"high",t:{ko:"20만원~",en:"≥ ₩200k"},w:{mech:2,hotswap:2}}
+            ]}
+        ],
+        items:[
+          item("keyboard","mxkeys","Logitech MX Keys (low-profile)",149000,["wireless","silent"],{wireless:3,silent:3,mech:0,value:1},{ko:"사무실용 ‘조용한 무선’ 대표.",en:"Quiet wireless office staple."},{"Type":"Scissor","Noise":"Low","Wireless":"Yes","Hot-swap":"No","Best":"Office"},"https://www.logitech.com/ko-kr"),
+          item("keyboard","k8pro","Keychron K8 Pro (hotswap)",149000,["mech","hotswap","wireless"],{mech:3,hotswap:3,wireless:2,value:2},{ko:"커스텀 입문용으로 인기.",en:"Popular custom entry."},{"Type":"Mechanical","Layout":"TKL","Wireless":"Yes","Hot-swap":"Yes","Best":"Custom"},"https://www.keychron.com/"),
+          item("keyboard","k2","Keychron K2 (compact)",129000,["mech","wireless"],{mech:3,wireless:2,value:2},{ko:"컴팩트 무선 기계식.",en:"Compact wireless mechanical."},{"Type":"Mechanical","Layout":"75%","Wireless":"Yes","Hot-swap":"Some","Best":"Compact"},"https://www.keychron.com/"),
+          item("keyboard","officeSilentMech","Silent mechanical class",119000,["mech","silent","value"],{mech:2,silent:3,value:3},{ko:"저소음 스위치 기반의 실속형.",en:"Value silent-switch mechanical."},{"Type":"Mechanical","Noise":"Low","Wireless":"Optional","Hot-swap":"Optional","Best":"Quiet"},"https://search.danawa.com/"),
+          item("keyboard","gPro","Gaming keyboard class",179000,["mech"],{mech:3,latency:2,value:1},{ko:"게임용 응답/구조 지향.",en:"Gaming response focus."},{"Type":"Mechanical","Noise":"Mid","Wireless":"Optional","Hot-swap":"No","Best":"Gaming"},"https://search.danawa.com/"),
+          item("keyboard","hSwapBudget","Budget hot-swap class",89000,["hotswap","value","mech"],{hotswap:3,value:3,mech:2},{ko:"핫스왑을 싸게 맛보기.",en:"Affordable hot-swap taste."},{"Type":"Mechanical","Noise":"Mid","Wireless":"Optional","Hot-swap":"Yes","Best":"Value custom"},"https://search.danawa.com/"),
+          item("keyboard","topreLike","Premium silent-feel class",299000,["silent"],{silent:3,mech:1},{ko:"조용하고 고급스러운 타건감 계열.",en:"Premium quiet feel."},{"Type":"Electro-cap","Noise":"Low","Wireless":"Optional","Hot-swap":"No","Best":"Premium quiet"},"https://search.danawa.com/"),
+          item("keyboard","alice","Ergo Alice class",239000,["mech","hotswap"],{mech:3,hotswap:2,wireless:1},{ko:"손목 부담 줄이는 인체공학 배열.",en:"Ergo layout for wrists."},{"Type":"Mechanical","Layout":"Ergo","Wireless":"Optional","Hot-swap":"Yes","Best":"Ergo"},"https://search.danawa.com/"),
+          item("keyboard","fullsizeWork","Full-size work class",99000,["value","silent"],{value:3,silent:2,wireless:1},{ko:"넘패드 포함 업무용.",en:"Full-size with numpad."},{"Type":"Scissor/Mech","Layout":"Full","Wireless":"Optional","Hot-swap":"No","Best":"Work"},"https://search.danawa.com/"),
+          item("keyboard","ultraPortable","Ultra portable slim",59000,["wireless","silent","value"],{wireless:3,silent:2,value:3},{ko:"가볍게 들고 다니는 슬림.",en:"Slim portable carry."},{"Type":"Scissor","Noise":"Low","Wireless":"Yes","Hot-swap":"No","Best":"Portable"},"https://search.danawa.com/")
+        ]
+      }
+    };
+
+    const CAT_ORDER=["laptop","phone","robot","headphones","keyboard"];
+
+    // ---------------------------
+    // state
+    // ---------------------------
+    const defaultState = {
+      cat:"laptop",
+      answers:{}, // per cat: {qId: optionValue}
+      featureFilters:{}, // per cat: Set of feature ids
+      sort:"score_desc",
+      search:"",
+      favOnly:false,
+      compare:[] // item keys
+    };
+
+    let lang = loadJSON(LS_LANG, "ko");
+    let state = loadJSON(LS_STATE, defaultState);
+    let favs = new Set(loadJSON(LS_FAV, []));
+
+    // ---------------------------
+    // url share restore
+    // ---------------------------
+    function encodeState(){
+      const clean = {
+        ...state,
+        compare: state.compare.slice(0,3),
+      };
+      return btoa(unescape(encodeURIComponent(JSON.stringify(clean))));
+    }
+    function decodeState(s){
+      try{
+        const obj = JSON.parse(decodeURIComponent(escape(atob(s))));
+        if(obj && typeof obj==="object") return obj;
+      }catch{}
+      return null;
+    }
+    (function restoreFromURL(){
+      const url = new URL(location.href);
+      const s = url.searchParams.get("s");
+      if(!s) return;
+      const obj = decodeState(s);
+      if(obj){
+        state = {...defaultState, ...obj};
+        saveJSON(LS_STATE, state);
+      }
+    })();
+
+    // ---------------------------
+    // i18n apply
+    // ---------------------------
+    function t(){ return I18N[lang]; }
+    function applyI18N(){
+      const T=t();
+      $("uiTitle").textContent=T.uiTitle;
+      $("uiSubtitle").textContent=T.uiSubtitle;
+      $("pillLocal").textContent=T.pillLocal;
+      $("pillPrice").textContent=T.pillPrice;
+      $("leftTitle").textContent=T.leftTitle;
+      $("leftSub").textContent=T.leftSub;
+      $("labSearch").textContent=T.labSearch;
+      $("labSort").textContent=T.labSort;
+      $("searchBox").placeholder=T.placeholderSearch;
+      $("btnRun").textContent=T.btnRun;
+      $("btnSample").textContent=T.btnSample;
+      $("btnShare").textContent=T.btnShare;
+      $("btnReset").textContent=T.btnReset;
+      $("noteText").innerHTML=T.note;
+      $("kCatLabel").textContent=T.kCatLabel;
+      $("kUpdatedLabel").textContent=T.kUpdatedLabel;
+      $("kFavLabel").textContent=T.kFavLabel;
+      $("rightTitle").textContent=T.rightTitle;
+      $("rightSub").textContent=T.rightSub;
+      $("btnFavOnly").textContent=T.btnFavOnly;
+      $("btnClearCompare").textContent=T.btnClearCompare;
+      $("legalTitle").textContent=T.legalTitle;
+      $("legalText").textContent=T.legalText;
+      $("refFoot").innerHTML=T.refFoot;
+      $("footerB").textContent=T.footerB;
+      $("footerT").textContent=T.footerT;
+      $("cmpTitle").textContent=T.cmpTitle;
+      $("btnCloseDrawer").textContent=T.close;
+      $("btnOpenLinks").textContent=T.openLinks;
+      $("btnRemoveAll").textContent=T.removeAll;
+
+      // sort options
+      const sel=$("sortSel");
+      sel.querySelector('option[value="score_desc"]').textContent=T.sort.score_desc;
+      sel.querySelector('option[value="price_asc"]').textContent=T.sort.price_asc;
+      sel.querySelector('option[value="price_desc"]').textContent=T.sort.price_desc;
+      sel.querySelector('option[value="name_asc"]').textContent=T.sort.name_asc;
+
+      $("lang_ko").classList.toggle("active", lang==="ko");
+      $("lang_en").classList.toggle("active", lang==="en");
+    }
+
+    // ---------------------------
+    // UI builders
+    // ---------------------------
+    function buildTabs(){
+      const el=$("tabs");
+      el.innerHTML="";
+      for(const cat of CAT_ORDER){
+        const btn=document.createElement("div");
+        btn.className="tab"+(state.cat===cat?" active":"");
+        btn.innerHTML = icon(cat) + `<span>${DATA[cat].label[lang]}</span>`;
+        btn.onclick=()=>{
+          state.cat=cat;
+          saveJSON(LS_STATE,state);
+          showToast(t().toast.moved(DATA[cat].label[lang]));
+          renderAll();
+        };
+        el.appendChild(btn);
+      }
+    }
+
+    function buildFeatureToggles(){
+      const el=$("featureToggles");
+      el.innerHTML="";
+      const feats=DATA[state.cat].features;
+
+      const selected = new Set(state.featureFilters[state.cat]||[]);
+      function addToggle(id,label){
+        const b=document.createElement("div");
+        b.className="toggle"+(selected.has(id)?" active":"");
+        b.textContent=label;
+        b.onclick=()=>{
+          if(id==="__all"){
+            selected.clear();
+          }else{
+            if(selected.has(id)) selected.delete(id);
+            else selected.add(id);
+          }
+          state.featureFilters[state.cat]=Array.from(selected);
+          saveJSON(LS_STATE,state);
+          buildFeatureToggles();
+          renderResults();
+        };
+        el.appendChild(b);
+      }
+      addToggle("__all", lang==="ko"?"전체":"All");
+      for(const f of feats) addToggle(f.id, f[lang]);
+    }
+
+    function buildQuestions(){
+      const area=$("qArea");
+      area.innerHTML="";
+      const qList=DATA[state.cat].questions;
+      const answers = state.answers[state.cat]||{};
+      for(const q of qList){
+        const wrap=document.createElement("div");
+        wrap.className="q";
+        wrap.innerHTML = `
+          <label>${q.label[lang]}</label>
+          <div class="qsub">${q.sub[lang]}</div>
+          <div class="opts"></div>
+        `;
+        const opts=wrap.querySelector(".opts");
+        for(const o of q.options){
+          const div=document.createElement("div");
+          div.className="opt"+(answers[q.id]===o.v?" active":"");
+          div.innerHTML = `<span>${o.t[lang]}</span><small>+</small>`;
+          div.onclick=()=>{
+            answers[q.id]=o.v;
+            state.answers[state.cat]=answers;
+            saveJSON(LS_STATE,state);
+            buildQuestions();
+            renderResults();
+          };
+          opts.appendChild(div);
+        }
+        area.appendChild(wrap);
+      }
+    }
+
+    // ---------------------------
+    // scoring
+    // ---------------------------
+    function getWeightsForCat(cat){
+      const answers = state.answers[cat] || {};
+      const qList = DATA[cat].questions;
+      const w = {};
+      for(const q of qList){
+        const chosen = answers[q.id];
+        const opt = q.options.find(x=>x.v===chosen);
+        if(!opt) continue;
+        for(const [k,v] of Object.entries(opt.w||{})){
+          w[k]=(w[k]||0)+v;
+        }
+      }
+      // baseline to avoid all-zero
+      if(Object.keys(w).length===0){
+        w.value=1; w.battery=1; w.screen=1; w.portable=1; w.camera=1; w.anc=1; w.mic=1; w.mop=1; w.dock=1; w.hotswap=1; w.wireless=1; w.silent=1;
+      }
+      return w;
+    }
+
+    function scoreItem(cat, it){
+      const w=getWeightsForCat(cat);
+      let s=0;
+      for(const [k,v] of Object.entries(w)){
+        const iv = (it.vec && it.vec[k]) ? it.vec[k] : 0;
+        s += iv * v;
+      }
+      // features bonus (selected features)
+      const selected = new Set(state.featureFilters[cat]||[]);
+      if(selected.size){
+        let hit=0;
+        for(const f of selected) if(it.features.includes(f)) hit++;
+        s += hit * 3;
+      }
+      // search bonus
+      const q = (state.search||"").trim().toLowerCase();
+      if(q){
+        const hay = (it.name+" "+(it.desc[lang]||"")+" "+Object.values(it.attrs||{}).join(" ")).toLowerCase();
+        if(hay.includes(q)) s += 6;
+        else s -= 2;
+      }
+      return s;
+    }
+
+    function itemKey(it){ return `${it.cat}:${it.id}`; }
+
+    // ---------------------------
+    // results
+    // ---------------------------
+    function renderResults(){
+      $("kCat").textContent = DATA[state.cat].label[lang];
+      $("kUpdated").textContent = DATA[state.cat].updated;
+      $("kFav").textContent = String(favs.size);
+
+      const list = DATA[state.cat].items.slice();
+      const q = (state.search||"").trim().toLowerCase();
+      const selected = new Set(state.featureFilters[state.cat]||[]);
+
+      let scored = list.map(it=>{
+        const s = scoreItem(state.cat, it);
+        return {...it, _score:s};
+      });
+
+      // filter by feature selection
+      if(selected.size){
+        scored = scored.filter(it => {
+          for(const f of selected){ if(it.features.includes(f)) return true; }
+          return false;
+        });
+      }
+
+      // filter by search (soft)
+      if(q){
+        scored = scored.filter(it=>{
+          const hay = (it.name+" "+(it.desc[lang]||"")+" "+Object.values(it.attrs||{}).join(" ")).toLowerCase();
+          return hay.includes(q);
+        });
+      }
+
+      // fav only
+      if(state.favOnly){
+        scored = scored.filter(it=>favs.has(itemKey(it)));
+      }
+
+      // sort
+      const sort = state.sort;
+      if(sort==="score_desc") scored.sort((a,b)=>b._score-a._score);
+      if(sort==="price_asc") scored.sort((a,b)=>(a.price||1e18)-(b.price||1e18));
+      if(sort==="price_desc") scored.sort((a,b)=>(b.price||0)-(a.price||0));
+      if(sort==="name_asc") scored.sort((a,b)=>a.name.localeCompare(b.name));
+
+      const area=$("resultArea");
+      area.innerHTML="";
+
+      if(scored.length===0){
+        const empty=document.createElement("div");
+        empty.className="mini";
+        empty.textContent = t().emptyResult;
+        area.appendChild(empty);
+        return;
+      }
+
+      const top = scored.slice(0, 10);
+      for(const it of top){
+        const key=itemKey(it);
+        const isFav=favs.has(key);
+        const isCmp=state.compare.includes(key);
+
+        // normalize to 0..100 for bar
+        const max = Math.max(...top.map(x=>x._score));
+        const min = Math.min(...top.map(x=>x._score));
+        const pct = (max===min) ? 80 : clamp(((it._score-min)/(max-min))*100, 4, 100);
+
+        const div=document.createElement("div");
+        div.className="item";
+        div.innerHTML = `
+          <div class="ico">${icon(it.cat)}</div>
+          <div class="meta">
+            <p class="name">${it.name}</p>
+            <p class="line">${it.desc[lang] || ""}</p>
+
+            <div class="badgerow">
+              <span class="chip good">${t().labels.fit} ${Math.round(pct)}/100</span>
+              <span class="chip">${t().labels.price}: ${money(lang, it.price)}</span>
+              ${(it.features||[]).slice(0,3).map(f=>{
+                const def = DATA[it.cat].features.find(x=>x.id===f);
+                return `<span class="chip">${def?def[lang]:f}</span>`;
+              }).join("")}
+            </div>
+
+            <div class="scorebar"><div style="width:${pct}%;"></div></div>
+
+            <div class="itemActions">
+              <a class="miniBtn" href="${it.link}" target="_blank" rel="noopener">${t().labels.open}</a>
+              <button class="miniBtn star ${isFav?"active":""}" data-action="fav">${t().labels.favorite}</button>
+              <button class="miniBtn cmp ${isCmp?"active":""}" data-action="cmp">${t().labels.compare}</button>
+            </div>
+          </div>
+          <div class="badge">${t().labels.ref}</div>
+        `;
+
+        // actions
+        div.querySelector('[data-action="fav"]').onclick=(e)=>{
+          e.stopPropagation();
+          if(isFav) favs.delete(key); else favs.add(key);
+          saveJSON(LS_FAV, Array.from(favs));
+          renderResults();
+          $("kFav").textContent = String(favs.size);
+        };
+
+        div.querySelector('[data-action="cmp"]').onclick=(e)=>{
+          e.stopPropagation();
+          toggleCompare(key);
+        };
+
+        area.appendChild(div);
+      }
+    }
+
+    function toggleCompare(key){
+      const T=t();
+      const idx = state.compare.indexOf(key);
+      if(idx>=0){
+        state.compare.splice(idx,1);
+        showToast(T.toast.compareRemove);
+      }else{
+        if(state.compare.length>=3){
+          showToast(T.toast.compareFull);
+          return;
+        }
+        state.compare.push(key);
+        showToast(T.toast.compareAdd);
+      }
+      saveJSON(LS_STATE,state);
+      renderCompareDrawer();
+      renderResults();
+    }
+
+    // ---------------------------
+    // compare drawer
+    // ---------------------------
+    function renderCompareDrawer(){
+      const drawer=$("drawer");
+      const pills=$("cmpPills");
+      const wrap=$("cmpTableWrap");
+
+      pills.innerHTML="";
+      wrap.innerHTML="";
+
+      if(state.compare.length===0){
+        drawer.classList.remove("open");
+        return;
+      }
+
+      drawer.classList.add("open");
+
+      const items = state.compare.map(k=>{
+        const [cat,id]=k.split(":");
+        return DATA[cat]?.items.find(x=>x.id===id);
+      }).filter(Boolean);
+
+      for(const it of items){
+        const p=document.createElement("div");
+        p.className="cmpPill";
+        p.innerHTML = `${icon(it.cat)} <span>${it.name}</span>`;
+        pills.appendChild(p);
+      }
+
+      // collect compare rows
+      const rows = new Set(["Price"]);
+      for(const it of items){
+        Object.keys(it.attrs||{}).forEach(k=>rows.add(k));
+      }
+      const rowList = Array.from(rows);
+
+      const table=document.createElement("table");
+      table.className="cmp";
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>${lang==="ko"?"항목":"Row"}</th>
+            ${items.map(it=>`<th>${it.name}</th>`).join("")}
+          </tr>
+        </thead>
+        <tbody>
+          ${rowList.map(r=>{
+            return `<tr>
+              <td>${r==="Price"?(lang==="ko"?"가격":"Price"):r}</td>
+              ${items.map(it=>{
+                const v = (r==="Price") ? money(lang, it.price) : (it.attrs?.[r] ?? "-");
+                return `<td>${String(v)}</td>`;
+              }).join("")}
+            </tr>`;
+          }).join("")}
+        </tbody>
+      `;
+      wrap.appendChild(table);
+    }
+
+    // ---------------------------
+    // render
+    // ---------------------------
+    function renderAll(){
+      applyI18N();
+      buildTabs();
+      buildFeatureToggles();
+      buildQuestions();
+      $("sortSel").value = state.sort || "score_desc";
+      $("searchBox").value = state.search || "";
+      renderCompareDrawer();
+      renderResults();
+    }
+
+    // ---------------------------
+    // events
+    // ---------------------------
+    $("lang_ko").onclick=()=>{ lang="ko"; saveJSON(LS_LANG,lang); applyI18N(); buildTabs(); buildFeatureToggles(); buildQuestions(); renderCompareDrawer(); renderResults(); };
+    $("lang_en").onclick=()=>{ lang="en"; saveJSON(LS_LANG,lang); applyI18N(); buildTabs(); buildFeatureToggles(); buildQuestions(); renderCompareDrawer(); renderResults(); };
+
+    $("btnRun").onclick=()=>{ showToast(t().toast.ran); renderResults(); };
+    $("btnSample").onclick=()=>{
+      // fill first option for each question
+      const qs=DATA[state.cat].questions;
+      const a={};
+      for(const q of qs) a[q.id]=q.options[0].v;
+      state.answers[state.cat]=a;
+      saveJSON(LS_STATE,state);
+      buildQuestions();
+      renderResults();
+      showToast(t().toast.sample);
+    };
+    $("btnShare").onclick=async()=>{
+      const url = new URL(location.href);
+      url.searchParams.set("s", encodeState());
+      const share = url.toString();
+      try{
+        await navigator.clipboard.writeText(share);
+        showToast(t().toast.shared);
+      }catch{
+        showToast(t().toast.shareFail);
+      }
+      history.replaceState({}, "", share);
+    };
+    $("btnReset").onclick=()=>{
+      state = JSON.parse(JSON.stringify(defaultState));
+      saveJSON(LS_STATE,state);
+      renderAll();
+      showToast(t().toast.reset);
+    };
+
+    $("sortSel").onchange=(e)=>{
+      state.sort=e.target.value;
+      saveJSON(LS_STATE,state);
+      renderResults();
+    };
+    $("searchBox").oninput=(e)=>{
+      state.search=e.target.value;
+      saveJSON(LS_STATE,state);
+      renderResults();
+    };
+
+    $("btnFavOnly").onclick=()=>{
+      state.favOnly=!state.favOnly;
+      saveJSON(LS_STATE,state);
+      showToast(state.favOnly ? t().toast.favOnlyOn : t().toast.favOnlyOff);
+      renderResults();
+    };
+
+    $("btnClearCompare").onclick=()=>{
+      state.compare=[];
+      saveJSON(LS_STATE,state);
+      renderCompareDrawer();
+      renderResults();
+      showToast(t().toast.compareCleared);
+    };
+
+    $("btnCloseDrawer").onclick=()=>{ $("drawer").classList.remove("open"); };
+    $("btnRemoveAll").onclick=()=>{
+      state.compare=[];
+      saveJSON(LS_STATE,state);
+      renderCompareDrawer();
+      renderResults();
+      showToast(t().toast.compareCleared);
+    };
+    $("btnOpenLinks").onclick=()=>{
+      const items = state.compare.map(k=>{
+        const [cat,id]=k.split(":");
+        return DATA[cat]?.items.find(x=>x.id===id);
+      }).filter(Boolean);
+      for(const it of items){
+        window.open(it.link, "_blank", "noopener");
+      }
+      showToast(t().toast.opened);
+    };
+
+    // first paint
+    if(!CAT_ORDER.includes(state.cat)) state.cat="laptop";
+    applyI18N();
+    renderAll();
+  </script>
 </body>
 </html>
