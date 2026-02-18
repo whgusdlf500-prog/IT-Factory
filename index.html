@@ -795,7 +795,7 @@
         btnSample:"샘플 답안",
         btnShare:"이 상태 공유",
         btnReset:"초기화",
-        note:"✅ 추천/검색/정렬/비교는 전부 브라우저에서만 처리됩니다.<br/>✨ 제품 이미지는 “AI 렌더 느낌”으로 브라우저에서 즉석 생성됩니다(외부 파일/서버 없음).<br/>⚠️ 가격은 “참고가(대략)”이며 판매처에서 최종 확인이 필요합니다.",
+        note:"✅ 추천/검색/정렬/비교는 전부 브라우저에서만 처리됩니다.<br/>✨ 제품 이미지는 “AI 렌더 느낌”으로 브라우저에서 즉석 생성됩니다(외부 파일/서버 없음).<br/>🧭 사용법: 1) 탭 선택 → 2) 질문 답변 → 3) ‘추천 만들기’ 클릭 (필터/검색은 선택).<br/>⚠️ 가격은 “참고가(대략)”이며 판매처에서 최종 확인이 필요합니다.",
         kCatLabel:"카테고리",
         kUpdatedLabel:"업데이트",
         kFavLabel:"즐겨찾기",
@@ -813,6 +813,7 @@
         openLinks:"선택 항목 열기",
         removeAll:"전부 제거",
         emptyResult:"조건에 맞는 결과가 없어요. 검색/필터를 완화해보세요.",
+        emptyReset:"필터 초기화",
         toast:{
           moved:(x)=>`${x} 탭`,
           ran:"추천을 만들었어요!",
@@ -846,7 +847,7 @@
         btnSample:"Fill sample",
         btnShare:"Share this state",
         btnReset:"Reset",
-        note:"✅ Everything runs in your browser.<br/>✨ Product visuals are AI-style renders generated locally (no external files/servers).<br/>⚠️ Prices are rough references; verify at the source site.",
+        note:"✅ Everything runs in your browser.<br/>✨ Product visuals are AI-style renders generated locally (no external files/servers).<br/>🧭 How to use: 1) Choose a tab → 2) Answer questions → 3) Click “Generate” (filters/search optional).<br/>⚠️ Prices are rough references; verify at the source site.",
         kCatLabel:"Category",
         kUpdatedLabel:"Updated",
         kFavLabel:"Favorites",
@@ -864,6 +865,7 @@
         openLinks:"Open selected links",
         removeAll:"Remove all",
         emptyResult:"No matches. Try loosening filters or search.",
+        emptyReset:"Reset filters",
         toast:{
           moved:(x)=>`Tab: ${x}`,
           ran:"Generated!",
@@ -1652,10 +1654,18 @@
         if(ma.order!==mb.order) return ma.order-mb.order;
         return a.localeCompare(b);
       });
-      const selected = new Set(state.brandFilters[state.cat]||[]);
+      const prev = state.brandFilters[state.cat]||[];
+      const available = new Set(brands);
+      const filtered = prev.filter(b=>available.has(b));
+      if(filtered.length !== prev.length){
+        state.brandFilters[state.cat]=filtered;
+        saveJSON(LS_STATE,state);
+      }
+      const selected = new Set(filtered);
       function addToggle(id,label){
         const b=document.createElement("div");
-        b.className="toggle"+(selected.has(id)?" active":"");
+        const isActive = (id==="__all") ? (selected.size===0) : selected.has(id);
+        b.className="toggle"+(isActive?" active":"");
         const meta=getBrandMeta(id);
         const linkHtml = meta.url ? ` <a class="brandLink" href="${meta.url}" target="_blank" rel="noopener">공식</a>` : "";
         const logoHtml = meta.svg ? meta.svg : "";
@@ -1677,6 +1687,7 @@
         }
         el.appendChild(b);
       }
+      addToggle("__all", lang==="ko"?"전체":"All");
       for(const b of brands) addToggle(b, b);
     }
 
@@ -1975,8 +1986,24 @@
       if(scored.length===0){
         const empty=document.createElement("div");
         empty.className="mini";
-        empty.textContent = t().emptyResult;
+        empty.innerHTML = `
+          <div style="margin-bottom:8px">${t().emptyResult}</div>
+          <button class="btn ghost" type="button">${t().emptyReset}</button>
+        `;
         area.appendChild(empty);
+        const btn = empty.querySelector("button");
+        btn.onclick=()=>{
+          state.search="";
+          state.featureFilters[state.cat]=[];
+          state.brandFilters[state.cat]=[];
+          state.favOnly=false;
+          saveJSON(LS_STATE,state);
+          $("searchBox").value="";
+          $("btnFavOnly").classList.remove("active");
+          buildFeatureToggles();
+          buildBrandToggles();
+          renderResults();
+        };
         return;
       }
 
