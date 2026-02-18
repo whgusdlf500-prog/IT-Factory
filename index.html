@@ -1234,14 +1234,10 @@
       return `https://www.google.com/search?q=${encodeURIComponent(`${it.name} 중고 시세`)}`;
     }
     function brandLogoHtml(brand){
-      const meta = getBrandMeta(brand);
-      const label = String(brand || "OT").slice(0,2).toUpperCase();
-      let host = "";
-      try{ host = new URL(meta.url || "").hostname.replace(/^www\./,""); }catch{}
-      if(!host){
-        return `<span class="brandLogoWrap"><span class="brandLogoFallback" style="display:inline-flex">${label}</span></span>`;
-      }
-      return `<span class="brandLogoWrap"><img class="brandLogoImg" src="https://logo.clearbit.com/${host}" alt="${brand||"brand"} logo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"/><span class="brandLogoFallback">${label}</span></span>`;
+      const key = String(brand || "Other");
+      const label = key.slice(0,3).toUpperCase();
+      const src = `images/brands/${encodeURIComponent(key)}.svg`;
+      return `<span class="brandLogoWrap"><img class="brandLogoImg" src="${src}" alt="${key} logo" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"/><span class="brandLogoFallback">${label}</span></span>`;
     }
     function getBrandMeta(brand){
       const key = brand || "Other";
