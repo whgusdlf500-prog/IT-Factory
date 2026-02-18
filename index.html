@@ -311,25 +311,7 @@
       box-shadow: 0 28px 100px rgba(0,0,0,.56);
     }
 
-    .heroImg{
-      width:100%;
-      aspect-ratio:5/4;
-      border-radius:16px;
-      overflow:hidden;
-      margin-bottom:8px;
-      background:#111;
-      max-height:140px;
-      transform: translateZ(18px);
-    }
-    .heroImg img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transition:transform .25s ease;
-    }
-    .item:hover .heroImg img{
-      transform:scale(1.06);
-    }
+    .heroImg{display:none;}
     .heroTitle{
       margin:0 0 6px;
       font-size:17px;
@@ -340,6 +322,19 @@
       color: rgba(255,255,255,.9);
       margin:0 0 6px;
       font-weight:800;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+    .priceTag{
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      font-size:11px;
+      font-weight:900;
+      color: var(--muted);
     }
     .heroDesc{
       color:var(--muted);
@@ -802,7 +797,7 @@
         btnSample:"샘플 답안",
         btnShare:"이 상태 공유",
         btnReset:"초기화",
-        note:"✅ 추천/검색/정렬/비교는 전부 브라우저에서만 처리됩니다.<br/>✨ 제품 이미지는 “AI 렌더 느낌”으로 브라우저에서 즉석 생성됩니다(외부 파일/서버 없음).<br/>🧭 사용법: 1) 탭 선택 → 2) 질문 답변 → 3) ‘추천 만들기’ 클릭 (필터/검색은 선택).<br/>⚠️ 가격은 “참고가(대략)”이며 판매처에서 최종 확인이 필요합니다.",
+        note:"✅ 추천/검색/정렬/비교는 전부 브라우저에서만 처리됩니다.<br/>🧭 사용법: 1) 탭 선택 → 2) 질문 답변 → 3) ‘추천 만들기’ 클릭 (필터/검색은 선택).<br/>⚠️ 중고가에 <span style='font-weight:900'>추정</span> 표시가 붙은 제품은 새 가격의 65%로 계산한 값입니다.<br/>⚠️ 가격은 “참고가(대략)”이며 판매처에서 최종 확인이 필요합니다.",
         kCatLabel:"카테고리",
         kUpdatedLabel:"업데이트",
         kFavLabel:"즐겨찾기",
@@ -854,7 +849,7 @@
         btnSample:"Fill sample",
         btnShare:"Share this state",
         btnReset:"Reset",
-        note:"✅ Everything runs in your browser.<br/>✨ Product visuals are AI-style renders generated locally (no external files/servers).<br/>🧭 How to use: 1) Choose a tab → 2) Answer questions → 3) Click “Generate” (filters/search optional).<br/>⚠️ Prices are rough references; verify at the source site.",
+        note:"✅ Everything runs in your browser.<br/>🧭 How to use: 1) Choose a tab → 2) Answer questions → 3) Click “Generate” (filters/search optional).<br/>⚠️ Used prices marked <span style='font-weight:900'>Estimated</span> are calculated as 65% of the new price.<br/>⚠️ Prices are rough references; verify at the source site.",
         kCatLabel:"Category",
         kUpdatedLabel:"Updated",
         kFavLabel:"Favorites",
@@ -967,8 +962,8 @@
     // - goal: "diffusion-ish render" vibe without real AI
     // - consistent, premium, logo-free, local-only
     // ===========================
-    const imgVar = loadJSON(LS_IMGVAR, {}); // per itemKey => integer variation
-    const imgCache = new Map(); // key => dataURL (memory cache)
+    const imgVar = loadJSON(LS_IMGVAR, {}); // per itemKey => integer variation (unused)
+    const imgCache = new Map(); // key => dataURL (memory cache) (unused)
     const BRAND_META = {
       Apple:{order:1,color:"#c6d0ff",url:"https://www.apple.com",svg:`<svg class="brandLogo" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 13.5c0 2.6 2.2 3.5 2.2 3.6-.5 1.5-1.7 3.3-3.4 3.3-1.3 0-1.8-.8-3.4-.8-1.5 0-2 .8-3.3.8-1.6 0-3-1.6-3.7-3.2-1.9-4.1.5-6.2 1.3-7 .8-.8 2-1.2 3.1-1.2 1.2 0 2.2.8 3.4.8 1.2 0 1.9-.8 3.4-.8.6 0 2.3.1 3.4 1.7-.1.1-2 1.2-2 3.8Z"/><path fill="currentColor" d="M14.8 6.1c.6-.7 1-1.7.9-2.7-1 .1-2 .7-2.6 1.4-.6.7-1 1.7-.9 2.6 1 .1 2-.5 2.6-1.3Z"/></svg>`},
       Samsung:{order:2,color:"#9bd0ff",url:"https://www.samsung.com",svg:`<svg class="brandLogo" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="10" ry="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 12h10" stroke="currentColor" stroke-width="2"/></svg>`},
@@ -1265,26 +1260,14 @@
     }
 
     function bumpVariation(itemKeyStr){
-      imgVar[itemKeyStr] = (imgVar[itemKeyStr]||0) + 1;
-      saveJSON(LS_IMGVAR, imgVar);
-      // clear memory cache for that item variations range isn't necessary; just allow new key
+      // image feature removed
     }
 
     // ===========================
-    // Lightbox
+    // Lightbox (unused - images removed)
     // ===========================
-    function openLightbox(title, src, cap){
-      $("lbTitle").textContent = title;
-      $("lbImg").src = src;
-      $("lbCap").textContent = cap || "";
-      $("lightbox").classList.add("open");
-      $("lightbox").setAttribute("aria-hidden","false");
-    }
-    function closeLightbox(){
-      $("lightbox").classList.remove("open");
-      $("lightbox").setAttribute("aria-hidden","true");
-      $("lbImg").src = "";
-    }
+    function openLightbox(title, src, cap){}
+    function closeLightbox(){}
 
     // ===========================
     // Data model
@@ -2068,9 +2051,6 @@
 
         const pct = (max===min) ? 80 : clamp(((it._score-min)/(max-min))*100, 4, 100);
 
-        const v = imgVar[key] || 0;
-        const imgSrc = genAppleStyleDataURL(it.cat, it.id, it.name, v);
-
         const reasons = topReasons(state.cat, it);
 
         const brandMeta = getBrandMeta(it.brand);
@@ -2078,15 +2058,16 @@
         div.className="item floaty";
         div.style.setProperty("--mx","30%");
         div.style.setProperty("--my","15%");
-        const used = Number.isFinite(it.used) ? it.used : (Number.isFinite(it.price) ? Math.round(it.price*0.65) : NaN);
+        const usedEstimated = !Number.isFinite(it.used);
+        const used = usedEstimated ? (Number.isFinite(it.price) ? Math.round(it.price*0.65) : NaN) : it.used;
         div.innerHTML = `
-          <div class="heroImg">
-            <img loading="lazy" src="${imgSrc}" alt="${it.name}">
-          </div>
-
           <div class="heroBody">
             <h3 class="heroTitle">${it.name}</h3>
-            <div class="heroPrice">${t().labels.priceNew}: <b>${money(lang, it.price)}</b> · ${t().labels.priceUsed}: <b>${money(lang, used)}</b></div>
+            <div class="heroPrice">
+              <span>${t().labels.priceNew}: <b>${money(lang, it.price)}</b></span>
+              <span>${t().labels.priceUsed}: <b>${money(lang, used)}</b></span>
+              ${usedEstimated ? `<span class="priceTag">${lang==="ko"?"추정(65%)":"Estimated (65%)"}</span>` : ""}
+            </div>
             <p class="heroDesc">${it.desc[lang]}</p>
             <div class="brandPill" style="--brand:${brandMeta.color}">
               ${brandMeta.svg || ""}
@@ -2106,16 +2087,7 @@
 
         attachTilt(div);
 
-        const imgEl = div.querySelector(".heroImg img");
-        imgEl.addEventListener("error", ()=>{
-          bumpVariation(key);
-          imgEl.src = genAppleStyleDataURL(it.cat, it.id, it.name, (imgVar[key]||0));
-        }, {once:true});
-
-        div.querySelector(".heroImg").onclick = ()=>{
-          const cap = (it.desc && it.desc[lang]) ? it.desc[lang] : "";
-          openLightbox(it.name, imgEl.src, cap);
-        };
+        // 이미지 제거 (텍스트 중심)
 
         // actions
         div.querySelector('[data-action="fav"]').onclick=(e)=>{
