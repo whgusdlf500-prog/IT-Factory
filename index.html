@@ -313,12 +313,12 @@
 
     .heroImg{
       width:100%;
-      aspect-ratio:4/3;
-      border-radius:18px;
+      aspect-ratio:5/4;
+      border-radius:16px;
       overflow:hidden;
-      margin-bottom:10px;
+      margin-bottom:8px;
       background:#111;
-      max-height:180px;
+      max-height:140px;
       transform: translateZ(18px);
     }
     .heroImg img{
@@ -837,7 +837,7 @@
           opened:"선택 링크를 열었어요",
           regen:"AI 느낌 변형 생성!"
         },
-        labels:{ref:"참고가", fit:"적합도", open:"열기", favorite:"즐겨찾기", compare:"비교", price:"가격", why:"추천 이유:", ai:"AI 변형", brand:"제조사"}
+        labels:{ref:"참고가", fit:"적합도", open:"열기", favorite:"즐겨찾기", compare:"비교", price:"가격", priceNew:"새", priceUsed:"중고", why:"추천 이유:", ai:"AI 변형", brand:"제조사"}
       },
       en:{
         uiTitle:"Chooser: Laptop · Phone · Robot Vacuum · Headphones · Keyboard",
@@ -889,7 +889,7 @@
           opened:"Opened selected links",
           regen:"AI-style variation generated!"
         },
-        labels:{ref:"Reference", fit:"Fit", open:"Open", favorite:"Favorite", compare:"Compare", price:"Price", why:"Why:", ai:"AI Var", brand:"Manufacturer"}
+        labels:{ref:"Reference", fit:"Fit", open:"Open", favorite:"Favorite", compare:"Compare", price:"Price", priceNew:"New", priceUsed:"Used", why:"Why:", ai:"AI Var", brand:"Manufacturer"}
       }
     };
 
@@ -1289,8 +1289,18 @@
     // ===========================
     // Data model
     // ===========================
-    function item(cat,id,name,price,features,vec,desc,attrs,link,brand){
-      return {cat,id,name,price,features,vec,desc,attrs,link,brand};
+    function item(cat,id,name,price,used,features,vec,desc,attrs,link,brand){
+      // backward-compatible signature (without used price)
+      if(Array.isArray(used)){
+        brand = link;
+        link = attrs;
+        attrs = desc;
+        desc = vec;
+        vec = features;
+        features = used;
+        used = NaN;
+      }
+      return {cat,id,name,price,used,features,vec,desc,attrs,link,brand};
     }
 
     // NOTE: Prices are "rough references" (no live scraping).
@@ -1374,7 +1384,11 @@
           item("phone","galaxyS","Galaxy S (flagship)",1150000,["eco","camera"],{and:3,eco:3,camera:2,battery:2,perf:2},{ko:"안드로이드 편의/연동. 전체 밸런스 좋음.",en:"Android flexibility + integration."},{"OS":"Android","Camera":"Balanced","Battery":"Good","Size":"Balanced","Best":"Android"},"https://www.samsung.com/sec/","Samsung"),
           item("phone","ultra","Galaxy Ultra (camera)",1690000,["camera","battery"],{and:3,camera:3,battery:3,perf:2,eco:3},{ko:"카메라+배터리 강력(대화면).",en:"Strong camera + battery (big)."},{"OS":"Android","Camera":"Top-tier","Battery":"Strong","Size":"Large","Best":"Camera+Battery"},"https://www.samsung.com/sec/","Samsung"),
           item("phone","pixel","Pixel class",990000,["camera"],{and:3,camera:3,battery:2,perf:2},{ko:"연산사진 스타일 강점. 사진톤 선호하면.",en:"Computational photo strength."},{"OS":"Android","Camera":"Computational","Battery":"OK","Size":"Balanced","Best":"Photos"},"https://store.google.com/","Google"),
-          item("phone","value_mid","Value midrange Android",690000,["value","battery"],{and:3,value:3,battery:3,camera:2},{ko:"가성비+배터리 체감. 실속형.",en:"Strong value + battery."},{"OS":"Android","Camera":"Good enough","Battery":"Strong","Size":"Balanced","Best":"Value"},"https://www.mi.com/","Xiaomi")
+          item("phone","value_mid","Value midrange Android",690000,["value","battery"],{and:3,value:3,battery:3,camera:2},{ko:"가성비+배터리 체감. 실속형.",en:"Strong value + battery."},{"OS":"Android","Camera":"Good enough","Battery":"Strong","Size":"Balanced","Best":"Value"},"https://www.mi.com/","Xiaomi"),
+          item("phone","oneplus","OnePlus (performance)",1090000,["battery"],{and:3,perf:3,battery:2,camera:2},{ko:"속도/체감 성능 지향. 반응성에 강점.",en:"Snappy performance focus."},{"OS":"Android","Camera":"Good","Battery":"Good","Size":"Large","Best":"Performance"},"https://www.oneplus.com/","OnePlus"),
+          item("phone","fold","Galaxy Foldable (big screen)",1850000,["eco"],{and:3,eco:3,screen:3,camera:2},{ko:"대화면 멀티태스킹. 화면이 곧 생산성.",en:"Big-screen multitasking."},{"OS":"Android","Camera":"Good","Battery":"OK","Size":"Foldable","Best":"Big screen"},"https://www.samsung.com/sec/","Samsung"),
+          item("phone","compact","Xperia (compact-ish)",980000,["compact","camera"],{compact:3,camera:2,perf:2,battery:1},{ko:"한 손/휴대성 지향. 작게 쓰고 싶을 때.",en:"One-hand portability focus."},{"OS":"Android","Camera":"Good","Battery":"OK","Size":"Compact","Best":"One-hand"},"https://www.sony.co.kr/","Sony"),
+          item("phone","gaming","Gaming phone (cooling)",1190000,["battery"],{and:3,perf:3,battery:2},{ko:"게임/쿨링/터치 지향. 카메라는 무난.",en:"Gaming/cooling/touch focus."},{"OS":"Android","Camera":"OK","Battery":"Good","Size":"Large","Best":"Gaming"},"https://rog.asus.com/","ASUS")
         ]
       },
 
@@ -1402,10 +1416,17 @@
             ]}
         ],
         items:[
-          item("robot","premiumDock","Premium dock+mop class",1550000,["dock","mop","avoid","pet"],{dock:3,mop:3,avoid:3,pet:2},{ko:"비움+물걸레 자동화 체감이 큼.",en:"Hands-free dock + mop feel."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"Good","Best":"Hands-free"},"https://global.roborock.com/","Roborock"),
-          item("robot","midDock","Mid dock class",1090000,["dock","avoid"],{dock:3,avoid:2,pet:1},{ko:"도크로 비움 자동화. 유지관리 스트레스↓",en:"Auto-empty convenience."},{"Dock":"Yes","Mop":"Optional","Avoidance":"Mid","Pets":"Good","Best":"Dock"},"https://www.ecovacs.com/","Ecovacs"),
-          item("robot","mopStrong","Mop-focused class",990000,["mop","dock"],{mop:3,dock:2,avoid:2},{ko:"물걸레 우선. 바닥 체감이 목표라면.",en:"Mopping-first."},{"Dock":"Often","Mop":"Strong","Avoidance":"Mid","Pets":"OK","Best":"Mop"},"https://www.dreametech.com/","Dreame"),
-          item("robot","valueBasic","Value suction class",590000,["value"],{value:3,mop:1,avoid:1},{ko:"입문/실속 흡입 중심.",en:"Entry value suction."},{"Dock":"No","Mop":"Light","Avoidance":"Basic","Pets":"OK","Best":"Budget"},"https://www.mi.com/","Xiaomi")
+          item("robot","roborock_s8","Roborock S-series (flagship)",1590000,["dock","mop","avoid","pet"],{dock:3,mop:3,avoid:3,pet:2},{ko:"상급 회피+도크+물걸레. 풀옵션 체감.",en:"Flagship dock+mop+avoidance."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"Good","Best":"Flagship"},"https://global.roborock.com/","Roborock"),
+          item("robot","roborock_qrevo","Roborock Q Revo (value dock+mop)",1290000,["dock","mop","value"],{dock:3,mop:3,value:2,avoid:2},{ko:"도크+물걸레 가성비 라인.",en:"Value dock+mop line."},{"Dock":"Yes","Mop":"Yes","Avoidance":"Mid","Pets":"Good","Best":"Value dock+mop"},"https://global.roborock.com/","Roborock"),
+          item("robot","roborock_q5","Roborock Q5 (suction)",790000,["value","avoid"],{value:3,avoid:2},{ko:"흡입 중심 입문. 맵핑/회피 기본.",en:"Entry suction with mapping."},{"Dock":"Optional","Mop":"No","Avoidance":"Mid","Pets":"OK","Best":"Suction value"},"https://global.roborock.com/","Roborock"),
+          item("robot","ecovacs_x1","Ecovacs X1 (premium)",1490000,["dock","mop","avoid"],{dock:3,mop:3,avoid:3},{ko:"프리미엄 도크+회피 체감.",en:"Premium dock + avoidance."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"Good","Best":"Premium"},"https://www.ecovacs.com/","Ecovacs"),
+          item("robot","ecovacs_t20","Ecovacs T-series (mop)",1190000,["mop","dock"],{mop:3,dock:2,avoid:2},{ko:"물걸레 체감 중상급.",en:"Strong mopping feel."},{"Dock":"Often","Mop":"Yes","Avoidance":"Mid","Pets":"OK","Best":"Mop"},"https://www.ecovacs.com/","Ecovacs"),
+          item("robot","dreame_l20","Dreame L-series (mop+avoid)",1390000,["mop","dock","avoid"],{mop:3,dock:2,avoid:3},{ko:"물걸레+회피 밸런스형.",en:"Balanced mop+avoidance."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"OK","Best":"Balanced"},"https://www.dreametech.com/","Dreame"),
+          item("robot","dreame_l10","Dreame L10 (value mop)",890000,["mop","value"],{mop:2,value:3,avoid:1},{ko:"가성비 물걸레 라인.",en:"Value mopping line."},{"Dock":"No","Mop":"Yes","Avoidance":"Basic","Pets":"OK","Best":"Mop value"},"https://www.dreametech.com/","Dreame"),
+          item("robot","irobot_j7","iRobot j7 class",1090000,["avoid","dock"],{avoid:3,dock:2,pet:2},{ko:"회피/안정성 강점. 관리 편의.",en:"Great avoidance + stability."},{"Dock":"Yes","Mop":"Optional","Avoidance":"High","Pets":"Good","Best":"Avoidance"},"https://www.irobot.com/","iRobot"),
+          item("robot","samsung_jetbot","Samsung Jet Bot class",790000,["avoid","value"],{avoid:2,value:2,pet:2},{ko:"국내 AS/편의 중시 라인.",en:"Balanced local support."},{"Dock":"Optional","Mop":"Optional","Avoidance":"Mid","Pets":"Good","Best":"Balanced"},"https://www.samsung.com/sec/","Samsung"),
+          item("robot","xiaomi_s10","Xiaomi S-series (value)",590000,["value"],{value:3,avoid:1},{ko:"입문/실속 흡입 중심.",en:"Entry value suction."},{"Dock":"No","Mop":"Optional","Avoidance":"Basic","Pets":"OK","Best":"Budget"},"https://www.mi.com/","Xiaomi"),
+          item("robot","eufy_l60","Eufy L-series (compact)",490000,["value"],{value:3,avoid:1},{ko:"작은 집/간단 구조에 적합.",en:"Small/simple homes."},{"Dock":"No","Mop":"No","Avoidance":"Basic","Pets":"OK","Best":"Small home"},"https://www.eufy.com/","Eufy")
         ]
       },
 
@@ -1437,7 +1458,11 @@
           item("headphones","sonyWH","Sony WH-1000X class",499000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"출퇴근 ANC 체감 강함. 무난한 올인원.",en:"Strong commute ANC feel."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Commute"},"https://www.sony.co.kr/","Sony"),
           item("headphones","boseQC","Bose QuietComfort class",459000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"착용감/ANC 안정. 오래 써도 편안함.",en:"Comfort + stable ANC."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Comfort"},"https://www.bose.co.kr/","Bose"),
           item("headphones","valueANC","Value ANC class",199000,["value","anc"],{value:3,anc:2,wireless:3},{ko:"가성비 ANC 입문. ‘가격 대비 만족’",en:"Entry value ANC."},{"Type":"Over-ear","ANC":"Mid","Mic":"OK","Wired":"No","Best":"Value"},"https://www.anker.com/","Anker"),
-          item("headphones","openBack","Open-back class",219000,["stage","wired"],{stage:3,wired:3},{ko:"집 감상 공간감. 개방형 취향이면.",en:"Soundstage for home."},{"Type":"Open-back","ANC":"No","Mic":"No","Wired":"Yes","Best":"Home"},"https://www.sennheiser.com/","Sennheiser")
+          item("headphones","openBack","Open-back class",219000,["stage","wired"],{stage:3,wired:3},{ko:"집 감상 공간감. 개방형 취향이면.",en:"Soundstage for home."},{"Type":"Open-back","ANC":"No","Mic":"No","Wired":"Yes","Best":"Home"},"https://www.sennheiser.com/","Sennheiser"),
+          item("headphones","studio","Studio wired class",149000,["wired","value"],{wired:3,value:3},{ko:"작업/모니터링 유선. 균형 위주.",en:"Wired monitoring/work."},{"Type":"Closed-back","ANC":"No","Mic":"Optional","Wired":"Yes","Best":"Studio"},"https://www.audio-technica.com/","Audio-Technica"),
+          item("headphones","hiFi","Hi-fi wireless class",599000,["stage","anc"],{stage:2,anc:2,wireless:3},{ko:"프리미엄 음감 지향. 고급 톤.",en:"Premium listening vibe."},{"Type":"Over-ear","ANC":"Good","Mic":"OK","Wired":"No","Best":"Sound"},"https://www.bowerswilkins.com/","Bowers & Wilkins"),
+          item("headphones","portable","Portable on-ear",99000,["value"],{value:3,wireless:2},{ko:"가볍게 들고 다니기. 심플.",en:"Light portable."},{"Type":"On-ear","ANC":"No","Mic":"OK","Wired":"Either","Best":"Portable"},"https://www.jbl.com/","JBL"),
+          item("headphones","work","Work BT ANC",329000,["mic","anc"],{mic:3,anc:2,wireless:3},{ko:"회의/통화 중심. 마이크 체감.",en:"Calls-first for work."},{"Type":"Over-ear","ANC":"Good","Mic":"Strong","Wired":"No","Best":"Work"},"https://www.jabra.com/","Jabra")
         ]
       },
 
@@ -1511,6 +1536,27 @@
             {ko:"저소음 스위치 기반 실속형. 사무실/야간용 최적.",en:"Value silent-switch mechanical. Best for office/night."},
             {"Layout":"75%/TKL","Switch":"Silent","Noise":"Low","Best":"Quiet typing"},
             "https://www.leopold.co.kr/","Leopold"
+          ),
+          item("keyboard","lowpro","Low-profile mech wireless",169000,
+            ["mech","wireless","low"],
+            {mech:2,wireless:3,low:3,latency:1,layout_tkl:2,feel_bal:2,value:1,multi:2},
+            {ko:"로우프로파일 기계식 + 무선. 휴대/손목 각도에 유리.",en:"Low-profile mech with wireless convenience."},
+            {"Layout":"TKL/75%","Switch":"Low-profile","Connection":"BT/Receiver","Noise":"Mid","Best":"Portable"},
+            "https://www.logitech.com/","Logitech"
+          ),
+          item("keyboard","ergo","Ergo split (comfort)",189000,
+            ["ergo","wireless"],
+            {ergo:3,wireless:2,feel_bal:2,silent:1},
+            {ko:"손목 부담 줄이기용 인체공학 분리형.",en:"Split ergo comfort-first."},
+            {"Layout":"Split","Switch":"Varies","Connection":"BT","Best":"Ergo"},
+            "https://www.logitech.com/","Logitech"
+          ),
+          item("keyboard","budget65","Budget 65% hot-swap",89000,
+            ["hotswap","value","mech"],
+            {hotswap:3,value:3,mech:2,layout_65:3,feel_bal:1},
+            {ko:"65% 핫스왑 입문. 가볍게 커스텀 시작.",en:"Affordable 65% hot-swap entry."},
+            {"Layout":"65%","Hot-swap":"Yes","Keycaps":"ABS","Best":"Budget custom"},
+            "https://www.keychron.com/","Keychron"
           ),
         ]
       }
@@ -1672,18 +1718,14 @@
       const selected = new Set(filtered);
       function addToggle(id,label){
         const b=document.createElement("div");
-        const isActive = (id==="__all") ? (selected.size===0) : selected.has(id);
-        b.className="toggle"+(isActive?" active":"");
+        b.className="toggle"+(selected.has(id)?" active":"");
         const meta=getBrandMeta(id);
         const linkHtml = meta.url ? ` <a class="brandLink" href="${meta.url}" target="_blank" rel="noopener">공식</a>` : "";
         const logoHtml = meta.svg ? meta.svg : "";
         b.innerHTML = `${logoHtml} <span class="brandDot" style="--brand:${meta.color}"></span> ${label}${linkHtml}`;
         b.onclick=()=>{
-          if(id==="__all"){ selected.clear(); }
-          else{
-            if(selected.has(id)) selected.delete(id);
-            else selected.add(id);
-          }
+          if(selected.has(id)) selected.delete(id);
+          else selected.add(id);
           state.brandFilters[state.cat]=Array.from(selected);
           saveJSON(LS_STATE,state);
           buildBrandToggles();
@@ -1695,7 +1737,6 @@
         }
         el.appendChild(b);
       }
-      addToggle("__all", lang==="ko"?"전체":"All");
       for(const b of brands) addToggle(b, b);
     }
 
@@ -2037,6 +2078,7 @@
         div.className="item floaty";
         div.style.setProperty("--mx","30%");
         div.style.setProperty("--my","15%");
+        const used = Number.isFinite(it.used) ? it.used : (Number.isFinite(it.price) ? Math.round(it.price*0.65) : NaN);
         div.innerHTML = `
           <div class="heroImg">
             <img loading="lazy" src="${imgSrc}" alt="${it.name}">
@@ -2044,7 +2086,7 @@
 
           <div class="heroBody">
             <h3 class="heroTitle">${it.name}</h3>
-            <div class="heroPrice">${t().labels.price}: <b>${money(lang, it.price)}</b></div>
+            <div class="heroPrice">${t().labels.priceNew}: <b>${money(lang, it.price)}</b> · ${t().labels.priceUsed}: <b>${money(lang, used)}</b></div>
             <p class="heroDesc">${it.desc[lang]}</p>
             <div class="brandPill" style="--brand:${brandMeta.color}">
               ${brandMeta.svg || ""}
