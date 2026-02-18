@@ -1189,31 +1189,34 @@
     // ===========================
     const imgVar = loadJSON(LS_IMGVAR, {}); // per itemKey => integer variation (unused)
     const imgCache = new Map(); // key => dataURL (memory cache) (unused)
-    const BRAND_SVG = `<svg class="brandLogo" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="2"/></svg>`;
+    function makeBrandSvg(label, bg){
+      return `<svg class="brandLogo" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4" width="19" height="16" rx="5" fill="${bg}" stroke="rgba(255,255,255,.25)" stroke-width="1.2"/><text x="12" y="15" text-anchor="middle" fill="#f8fbff" font-size="8.2" font-weight="900" font-family="Arial, sans-serif">${label}</text></svg>`;
+    }
+    const BRAND_SVG_DEFAULT = makeBrandSvg("BR", "#2a3552");
     const BRAND_META = {
-      Apple:{order:1,color:"#c6d0ff",url:"https://www.apple.com",svg:BRAND_SVG},
-      Samsung:{order:2,color:"#9bd0ff",url:"https://www.samsung.com",svg:BRAND_SVG},
-      Google:{order:3,color:"#a7f3d0",url:"https://store.google.com",svg:BRAND_SVG},
-      LG:{order:4,color:"#ff9aa8",url:"https://www.lg.com",svg:BRAND_SVG},
-      Lenovo:{order:5,color:"#ffb86b",url:"https://www.lenovo.com",svg:BRAND_SVG},
-      ASUS:{order:6,color:"#bba3ff",url:"https://www.asus.com",svg:BRAND_SVG},
-      Dell:{order:7,color:"#8bd0ff",url:"https://www.dell.com",svg:BRAND_SVG},
-      Microsoft:{order:8,color:"#9fe0c3",url:"https://www.microsoft.com",svg:BRAND_SVG},
-      Sony:{order:9,color:"#cbd5ff",url:"https://www.sony.com",svg:BRAND_SVG},
-      Bose:{order:10,color:"#f6ad55",url:"https://www.bose.com",svg:BRAND_SVG},
-      Logitech:{order:11,color:"#8dd0ff",url:"https://www.logitech.com",svg:BRAND_SVG},
-      Keychron:{order:12,color:"#b6f1d2",url:"https://www.keychron.com",svg:BRAND_SVG},
-      Acer:{order:13,color:"#b7f7a5",url:"https://www.acer.com",svg:BRAND_SVG},
-      Razer:{order:14,color:"#b6ff6b",url:"https://www.razer.com",svg:BRAND_SVG},
-      Xiaomi:{order:15,color:"#ffb86b",url:"https://www.mi.com",svg:BRAND_SVG},
-      Roborock:{order:16,color:"#9bd0ff",url:"https://global.roborock.com",svg:BRAND_SVG},
-      Ecovacs:{order:17,color:"#a7f3d0",url:"https://www.ecovacs.com",svg:BRAND_SVG},
-      Dreame:{order:18,color:"#b0c4ff",url:"https://www.dreametech.com",svg:BRAND_SVG},
-      Anker:{order:19,color:"#ffd39b",url:"https://www.anker.com",svg:BRAND_SVG},
-      Sennheiser:{order:20,color:"#9db4ff",url:"https://www.sennheiser.com",svg:BRAND_SVG},
-      Leopold:{order:21,color:"#c2f0d6",url:"https://www.leopold.co.kr",svg:BRAND_SVG},
-      Realforce:{order:22,color:"#f0cfa0",url:"https://realforce.co.jp",svg:BRAND_SVG},
-      Other:{order:99,color:"#7aa2ff",url:"https://www.google.com",svg:BRAND_SVG}
+      Apple:{order:1,color:"#c6d0ff",url:"https://www.apple.com",svg:makeBrandSvg("AP", "#5b638f")},
+      Samsung:{order:2,color:"#9bd0ff",url:"https://www.samsung.com",svg:makeBrandSvg("SA", "#305d9e")},
+      Google:{order:3,color:"#a7f3d0",url:"https://store.google.com",svg:makeBrandSvg("GO", "#29795a")},
+      LG:{order:4,color:"#ff9aa8",url:"https://www.lg.com",svg:makeBrandSvg("LG", "#8d3a4a")},
+      Lenovo:{order:5,color:"#ffb86b",url:"https://www.lenovo.com",svg:makeBrandSvg("LE", "#935d22")},
+      ASUS:{order:6,color:"#bba3ff",url:"https://www.asus.com",svg:makeBrandSvg("AS", "#5f46a8")},
+      Dell:{order:7,color:"#8bd0ff",url:"https://www.dell.com",svg:makeBrandSvg("DE", "#2c6f99")},
+      Microsoft:{order:8,color:"#9fe0c3",url:"https://www.microsoft.com",svg:makeBrandSvg("MS", "#2f7a5e")},
+      Sony:{order:9,color:"#cbd5ff",url:"https://www.sony.com",svg:makeBrandSvg("SY", "#5f6d99")},
+      Bose:{order:10,color:"#f6ad55",url:"https://www.bose.com",svg:makeBrandSvg("BO", "#8c5a20")},
+      Logitech:{order:11,color:"#8dd0ff",url:"https://www.logitech.com",svg:makeBrandSvg("LO", "#2b6a94")},
+      Keychron:{order:12,color:"#b6f1d2",url:"https://www.keychron.com",svg:makeBrandSvg("KC", "#2f6f56")},
+      Acer:{order:13,color:"#b7f7a5",url:"https://www.acer.com",svg:makeBrandSvg("AC", "#4c7d2e")},
+      Razer:{order:14,color:"#b6ff6b",url:"https://www.razer.com",svg:makeBrandSvg("RZ", "#3f7a16")},
+      Xiaomi:{order:15,color:"#ffb86b",url:"https://www.mi.com",svg:makeBrandSvg("XM", "#995917")},
+      Roborock:{order:16,color:"#9bd0ff",url:"https://global.roborock.com",svg:makeBrandSvg("RR", "#2f6f95")},
+      Ecovacs:{order:17,color:"#a7f3d0",url:"https://www.ecovacs.com",svg:makeBrandSvg("EC", "#2d6c54")},
+      Dreame:{order:18,color:"#b0c4ff",url:"https://www.dreametech.com",svg:makeBrandSvg("DR", "#4f6399")},
+      Anker:{order:19,color:"#ffd39b",url:"https://www.anker.com",svg:makeBrandSvg("AN", "#8e6126")},
+      Sennheiser:{order:20,color:"#9db4ff",url:"https://www.sennheiser.com",svg:makeBrandSvg("SE", "#42598f")},
+      Leopold:{order:21,color:"#c2f0d6",url:"https://www.leopold.co.kr",svg:makeBrandSvg("LP", "#3e715c")},
+      Realforce:{order:22,color:"#f0cfa0",url:"https://realforce.co.jp",svg:makeBrandSvg("RF", "#866036")},
+      Other:{order:99,color:"#7aa2ff",url:"https://www.google.com",svg:BRAND_SVG_DEFAULT}
     };
 
     function roundRect(ctx,x,y,w,h,r){
