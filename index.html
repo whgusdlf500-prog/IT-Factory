@@ -269,7 +269,7 @@
     .kpi .k{color:var(--muted);font-size:12px}
     .kpi .v{font-size:14px;font-weight:1000;margin-top:4px;letter-spacing:-.01em}
 
-    .results{display:flex;flex-direction:column;gap:10px}
+    .results{display:flex;flex-direction:column;gap:12px}
 
     /* Product card: premium 3D tilt + glass highlight */
     .item{
@@ -279,7 +279,7 @@
       background:
         radial-gradient(900px 180px at 10% 0%, rgba(122,162,255,.14), transparent 60%),
         linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      display:flex;gap:12px;
+      display:flex;gap:12px;flex-direction:column;
       position:relative;overflow:hidden;
       transform-style: preserve-3d;
       transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
@@ -311,43 +311,48 @@
       box-shadow: 0 28px 100px rgba(0,0,0,.56);
     }
 
-    .thumb{
-      width:96px;height:96px;border-radius:22px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
+    .heroImg{
+      width:100%;
+      aspect-ratio:16/10;
+      border-radius:18px;
       overflow:hidden;
-      box-shadow: 0 18px 60px rgba(0,0,0,.35);
-      position:relative;
-      flex:0 0 auto;
-      transform: translateZ(22px);
+      margin-bottom:12px;
+      background:#111;
+      transform: translateZ(18px);
     }
-    .thumb img{
-      width:100%;height:100%;object-fit:cover;display:block;
-      filter: saturate(1.06) contrast(1.04);
-      transform: scale(1.06);
-      transition: transform .18s ease, filter .18s ease;
+    .heroImg img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition:transform .25s ease;
     }
-    .item:hover .thumb img{transform: scale(1.12); filter:saturate(1.12) contrast(1.06)}
-    .thumb:after{
-      content:""; position:absolute; inset:-1px;
-      background:
-        radial-gradient(120px 90px at 25% 10%, rgba(255,255,255,.24), transparent 60%),
-        radial-gradient(160px 90px at 70% 35%, rgba(122,162,255,.18), transparent 60%);
-      pointer-events:none;
-      mix-blend-mode: screen;
+    .item:hover .heroImg img{
+      transform:scale(1.06);
     }
-    .thumbBtn{
-      cursor:pointer; border:0; padding:0; background:transparent;
-      display:block; width:100%; height:100%;
+    .heroTitle{
+      margin:0 0 6px;
+      font-size:17px;
+      font-weight:900;
     }
-    .skel{
-      position:absolute; inset:0;
-      background: linear-gradient(90deg, rgba(255,255,255,.04), rgba(255,255,255,.10), rgba(255,255,255,.04));
-      animation: shimmer 1.15s ease-in-out infinite;
+    .heroDesc{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
     }
-    @keyframes shimmer{
-      0%{transform:translateX(-32%)}
-      100%{transform:translateX(32%)}
+    .heroBody{transform: translateZ(10px)}
+    .brandPill{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.03);
+      font-size:12px;font-weight:950;
+      color: var(--text);
+      margin:8px 0 6px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .brandDot{
+      width:10px;height:10px;border-radius:999px;background: var(--brand,#7aa2ff);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand,#7aa2ff) 30%, transparent);
     }
 
     .meta{min-width:0;flex:1;transform: translateZ(10px)}
@@ -899,6 +904,11 @@
       if(link) return link;
       return `https://www.google.com/search?q=${encodeURIComponent(`${it.brand||""} ${it.name}`.trim())}`;
     }
+    function getBrandMeta(brand){
+      const key = brand || "Other";
+      const meta = BRAND_META[key] || BRAND_META.Other;
+      return meta || {order:999,color:"#7aa2ff",logo:"◎"};
+    }
 
     function icon(cat){
       const m={
@@ -937,6 +947,21 @@
     // ===========================
     const imgVar = loadJSON(LS_IMGVAR, {}); // per itemKey => integer variation
     const imgCache = new Map(); // key => dataURL (memory cache)
+    const BRAND_META = {
+      Apple:{order:1,color:"#c6d0ff",logo:""},
+      Samsung:{order:2,color:"#9bd0ff",logo:"S"},
+      Google:{order:3,color:"#a7f3d0",logo:"G"},
+      LG:{order:4,color:"#ff9aa8",logo:"LG"},
+      Lenovo:{order:5,color:"#ffb86b",logo:"L"},
+      ASUS:{order:6,color:"#bba3ff",logo:"ASUS"},
+      Dell:{order:7,color:"#8bd0ff",logo:"DELL"},
+      Microsoft:{order:8,color:"#9fe0c3",logo:"MS"},
+      Sony:{order:9,color:"#cbd5ff",logo:"SONY"},
+      Bose:{order:10,color:"#f6ad55",logo:"BOSE"},
+      Logitech:{order:11,color:"#8dd0ff",logo:"LOGI"},
+      Keychron:{order:12,color:"#b6f1d2",logo:"K"},
+      Other:{order:99,color:"#7aa2ff",logo:"◎"}
+    };
 
     function roundRect(ctx,x,y,w,h,r){
       const rr = Math.min(r, w/2, h/2);
@@ -986,7 +1011,7 @@
       ctx.restore();
     }
 
-    function genAIStyleDataURL(cat, id, name, variation=0){
+    function genAppleStyleDataURL(cat, id, name, variation=0){
       const key = `${cat}:${id}:${variation}`;
       if(imgCache.has(key)) return imgCache.get(key);
 
@@ -998,29 +1023,26 @@
       c.height = 640;
       const ctx = c.getContext("2d");
 
-      // background: premium soft gradients (Apple-ish)
-      const hue = 200 + Math.floor(rnd()*80);
-      const bg1 = `hsl(${hue}, 18%, ${88 + rnd()*6}%)`;
-      const bg2 = `hsl(${(hue+20)%360}, 16%, ${80 + rnd()*6}%)`;
-      const bg3 = `hsl(${(hue+290)%360}, 18%, ${90 + rnd()*6}%)`;
+      const angle = rnd()*20 - 10;
+      const lightX = rnd()*800;
+      const hueShift = rnd()*40;
 
-      const g = ctx.createLinearGradient(0,0,0,c.height);
-      g.addColorStop(0, bg3);
-      g.addColorStop(0.55, bg1);
-      g.addColorStop(1, bg2);
-      ctx.fillStyle = g;
+      ctx.translate(c.width*0.5, c.height*0.5);
+      ctx.rotate(angle * Math.PI/180);
+
+      // background gradient variation
+      const bg = ctx.createLinearGradient(0,0,c.width,c.height);
+      bg.addColorStop(0, `hsl(${200+hueShift},30%,95%)`);
+      bg.addColorStop(1, `hsl(${220+hueShift},35%,88%)`);
+      ctx.fillStyle = bg;
+      ctx.fillRect(-400,-300,800,600);
+
+      ctx.resetTransform();
+      const aura = ctx.createRadialGradient(lightX, 120, 40, lightX, 120, 420);
+      aura.addColorStop(0, "rgba(255,255,255,0.35)");
+      aura.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = aura;
       ctx.fillRect(0,0,c.width,c.height);
-
-      // subtle colored aura
-      const a1 = ctx.createRadialGradient(c.width*0.25, c.height*0.20, 40, c.width*0.25, c.height*0.20, 520);
-      a1.addColorStop(0, `hsla(${hue}, 70%, 70%, 0.20)`);
-      a1.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = a1; ctx.fillRect(0,0,c.width,c.height);
-
-      const a2 = ctx.createRadialGradient(c.width*0.78, c.height*0.28, 40, c.width*0.78, c.height*0.28, 560);
-      a2.addColorStop(0, `hsla(${(hue+60)%360}, 70%, 72%, 0.16)`);
-      a2.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = a2; ctx.fillRect(0,0,c.width,c.height);
 
       // stage shadow
       ctx.fillStyle = "rgba(0,0,0,0.14)";
@@ -1603,12 +1625,17 @@
       const el=$("brandToggles");
       el.innerHTML="";
       const items=DATA[state.cat].items;
-      const brands = Array.from(new Set(items.map(it=>it.brand||"Other"))).sort();
+      const brands = Array.from(new Set(items.map(it=>it.brand||"Other"))).sort((a,b)=>{
+        const ma=getBrandMeta(a), mb=getBrandMeta(b);
+        if(ma.order!==mb.order) return ma.order-mb.order;
+        return a.localeCompare(b);
+      });
       const selected = new Set(state.brandFilters[state.cat]||[]);
       function addToggle(id,label){
         const b=document.createElement("div");
         b.className="toggle"+(selected.has(id)?" active":"");
-        b.textContent=label;
+        const meta=getBrandMeta(id);
+        b.innerHTML = `<span class="brandDot" style="--brand:${meta.color}"></span> ${label}`;
         b.onclick=()=>{
           if(id==="__all"){ selected.clear(); }
           else{
@@ -1939,67 +1966,47 @@
         const pct = (max===min) ? 80 : clamp(((it._score-min)/(max-min))*100, 4, 100);
 
         const v = imgVar[key] || 0;
-        const imgSrc = genAIStyleDataURL(it.cat, it.id, it.name, v);
+        const imgSrc = genAppleStyleDataURL(it.cat, it.id, it.name, v);
 
         const reasons = topReasons(state.cat, it);
 
+        const brandMeta = getBrandMeta(it.brand);
         const div=document.createElement("div");
         div.className="item floaty";
         div.style.setProperty("--mx","30%");
         div.style.setProperty("--my","15%");
         div.innerHTML = `
-          <div class="thumb">
-            <button class="thumbBtn" type="button" aria-label="preview">
-              <div class="skel"></div>
-              <img loading="lazy" alt="${it.name}" src="${imgSrc}" />
-            </button>
+          <div class="heroImg">
+            <img loading="lazy" src="${imgSrc}" alt="${it.name}">
           </div>
 
-          <div class="meta">
-            <p class="name">${it.name}</p>
-            <p class="line">${it.desc[lang] || ""}</p>
-
-            <p class="line" style="margin-top:8px; opacity:.95">
-              <span style="color:rgba(234,255,246,.92); font-weight:950">${t().labels.why}</span>
-              <span style="color:rgba(255,255,255,.78)">${reasons.join(" · ")}</span>
-            </p>
-
-            <div class="badgerow">
-              <span class="chip good">${t().labels.fit} ${Math.round(pct)}/100</span>
-              <span class="chip">${t().labels.price}: ${money(lang, it.price)}</span>
-              ${(it.features||[]).slice(0,3).map(f=>{
-                const def = DATA[it.cat].features.find(x=>x.id===f);
-                return `<span class="chip">${def?def[lang]:f}</span>`;
-              }).join("")}
+          <div class="heroBody">
+            <h3 class="heroTitle">${it.name}</h3>
+            <p class="heroDesc">${it.desc[lang]}</p>
+            <div class="brandPill" style="--brand:${brandMeta.color}">
+              <span class="brandDot"></span>
+              <span>${brandMeta.logo} ${it.brand || "Other"}</span>
             </div>
 
-            <div class="scorebar"><div style="width:${pct}%;"></div></div>
+            <div class="scorebar"><div style="width:${pct}%"></div></div>
 
             <div class="itemActions">
-              <a class="miniBtn" href="${link}" target="_blank" rel="noopener">${t().labels.open}</a>
-              <button class="miniBtn ai" data-action="ai">${t().labels.ai}</button>
-              <button class="miniBtn star ${isFav?"active":""}" data-action="fav">${t().labels.favorite}</button>
-              <button class="miniBtn cmp ${isCmp?"active":""}" data-action="cmp">${t().labels.compare}</button>
+              <a class="miniBtn" href="${link}" target="_blank" rel="noopener">제품 보기</a>
+              <button class="miniBtn star ${isFav?"active":""}" data-action="fav">⭐ 즐겨찾기</button>
+              <button class="miniBtn cmp ${isCmp?"active":""}" data-action="cmp">비교</button>
             </div>
           </div>
-
-          <div class="badge">${t().labels.ref}</div>
         `;
 
         attachTilt(div);
 
-        const imgEl = div.querySelector(".thumb img");
-        const skelEl = div.querySelector(".thumb .skel");
-        imgEl.addEventListener("load", ()=>{ if(skelEl) skelEl.remove(); }, {once:true});
+        const imgEl = div.querySelector(".heroImg img");
         imgEl.addEventListener("error", ()=>{
-          // regenerate once on error
           bumpVariation(key);
-          imgEl.src = genAIStyleDataURL(it.cat, it.id, it.name, (imgVar[key]||0));
-          if(skelEl) skelEl.remove();
+          imgEl.src = genAppleStyleDataURL(it.cat, it.id, it.name, (imgVar[key]||0));
         }, {once:true});
 
-        // lightbox
-        div.querySelector(".thumbBtn").onclick = ()=>{
+        div.querySelector(".heroImg").onclick = ()=>{
           const cap = (it.desc && it.desc[lang]) ? it.desc[lang] : "";
           openLightbox(it.name, imgEl.src, cap);
         };
@@ -2018,16 +2025,7 @@
           toggleCompare(key);
         };
 
-        // AI variation (keeps users clicking = dwell time)
-        div.querySelector('[data-action="ai"]').onclick=(e)=>{
-          e.stopPropagation();
-          bumpVariation(key);
-          // update just this card's image quickly
-          const nv = imgVar[key]||0;
-          const next = genAIStyleDataURL(it.cat, it.id, it.name, nv);
-          imgEl.src = next;
-          showToast(t().toast.regen);
-        };
+        // AI variation button removed in simplified card
 
         area.appendChild(div);
       }
