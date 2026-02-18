@@ -454,6 +454,25 @@
       border-radius: 16px;
       padding:12px;margin-top:10px;
     }
+    .formBox{margin-top:10px}
+    .formGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+    @media (max-width: 640px){.formGrid{grid-template-columns:1fr}}
+    .formField{display:flex;flex-direction:column;gap:6px}
+    .formField label{font-size:12px;color:var(--muted);font-weight:900}
+    .formField input, .formField textarea{
+      width:100%;
+      padding:10px 10px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(10,17,33,.55);
+      color: var(--text);
+      outline:none;
+      font-weight:850;
+      resize:vertical;
+      min-height:40px;
+    }
+    .formActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+    .formHint{font-size:11.5px;color:var(--muted);line-height:1.5}
     .split{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
     .right{display:flex;gap:8px;flex-wrap:wrap}
     footer{
@@ -738,6 +757,41 @@
             <div class="muted" id="policyText" style="font-size:12px;line-height:1.6;margin-top:6px"></div>
           </div>
 
+          <div class="mini formBox" id="affiliateBox">
+            <div style="font-weight:1100" id="affTitle">제휴 문의</div>
+            <div class="muted" id="affSub" style="font-size:12px;line-height:1.6;margin-top:6px">
+              제휴/광고/콘텐츠 협업 문의를 남겨주세요.
+            </div>
+            <form action="https://formspree.io/f/xaqdjwzq" method="POST">
+              <div class="formGrid">
+                <div class="formField">
+                  <label for="affName" id="affNameLabel">이름</label>
+                  <input id="affName" name="name" type="text" placeholder="홍길동" required />
+                </div>
+                <div class="formField">
+                  <label for="affEmail" id="affEmailLabel">이메일</label>
+                  <input id="affEmail" name="email" type="email" placeholder="name@example.com" required />
+                </div>
+                <div class="formField">
+                  <label for="affCompany" id="affCompanyLabel">회사/브랜드</label>
+                  <input id="affCompany" name="company" type="text" placeholder="회사명" />
+                </div>
+                <div class="formField">
+                  <label for="affCategory" id="affCategoryLabel">관심 카테고리</label>
+                  <input id="affCategory" name="category" type="text" placeholder="노트북, 로봇청소기 등" />
+                </div>
+              </div>
+              <div class="formField" style="margin-top:10px">
+                <label for="affMessage" id="affMessageLabel">문의 내용</label>
+                <textarea id="affMessage" name="message" rows="4" placeholder="협업 목적, 예산, 일정 등을 알려주세요." required></textarea>
+              </div>
+              <div class="formActions">
+                <button class="btn primary" type="submit" id="affSubmit">문의 보내기</button>
+                <span class="formHint" id="affHint">제출 시 Formspree를 통해 전송됩니다. 연락처는 문의 용도로만 사용됩니다.</span>
+              </div>
+            </form>
+          </div>
+
           <footer id="footerNote">
             <b id="footerB">팁</b><br/>
             <span id="footerT">비교(표)를 열고 싶으면 카드에서 ‘비교’를 2~3개 담아주세요.</span>
@@ -820,6 +874,15 @@
         refFoot:"✔️ 설명 문구는 직접 요약이며, 표/이미지 스크래핑은 하지 않습니다.<br/>✔️ 제품명은 설명 목적의 표기이며 상표는 각 소유자에게 있습니다.",
         policyTitle:"이용/정책",
         policyText:"• 중고가는 인터넷 공개 시세를 확인해 평균값을 사용했습니다(확인 가능한 항목만 ‘실측’ 표기).<br/>• ‘추정(65%)’ 표시는 중고 시세 확인이 어려운 제품에 한해 새 가격의 65%로 계산한 값입니다.<br/>• 개인정보: 브라우저 로컬 저장만 사용하며 서버 전송 없음.<br/>• 이 페이지는 정보 제공용이며 구매 판단은 판매처/제조사 기준으로 하세요.",
+        affTitle:"제휴 문의",
+        affSub:"제휴/광고/콘텐츠 협업 문의를 남겨주세요.",
+        affNameLabel:"이름",
+        affEmailLabel:"이메일",
+        affCompanyLabel:"회사/브랜드",
+        affCategoryLabel:"관심 카테고리",
+        affMessageLabel:"문의 내용",
+        affSubmit:"문의 보내기",
+        affHint:"제출 시 Formspree를 통해 전송됩니다. 연락처는 문의 용도로만 사용됩니다.",
         footerB:"팁",
         footerT:"비교(표)를 열고 싶으면 카드에서 ‘비교’를 2~3개 담아주세요.",
         cmpTitle:"비교(최대 3개) · 표 형태",
@@ -874,6 +937,15 @@
         refFoot:"✔️ Copy-free summaries (no spec-table/image scraping).<br/>✔️ Product names are descriptive; trademarks belong to owners.",
         policyTitle:"Use/Policy",
         policyText:"• Used prices are averaged from publicly available listings when verified (marked “Verified”).<br/>• “Estimated (65%)” indicates used price is set to 65% of new price when verification is difficult.<br/>• Privacy: local storage only, no server upload.<br/>• This page is informational; final decisions should be based on seller/manufacturer info.",
+        affTitle:"Affiliate Inquiry",
+        affSub:"Leave partnership/ads/content collaboration inquiries below.",
+        affNameLabel:"Name",
+        affEmailLabel:"Email",
+        affCompanyLabel:"Company/Brand",
+        affCategoryLabel:"Category",
+        affMessageLabel:"Message",
+        affSubmit:"Send inquiry",
+        affHint:"Submission is sent via Formspree. Contact details are used only for this inquiry.",
         footerB:"Tip",
         footerT:"To open the compare table, add 2–3 items via “Compare”.",
         cmpTitle:"Compare (up to 3) · Table view",
@@ -1730,6 +1802,15 @@
       $("refFoot").innerHTML=T.refFoot;
       $("policyTitle").textContent=T.policyTitle;
       $("policyText").innerHTML=T.policyText;
+      $("affTitle").textContent=T.affTitle;
+      $("affSub").textContent=T.affSub;
+      $("affNameLabel").textContent=T.affNameLabel;
+      $("affEmailLabel").textContent=T.affEmailLabel;
+      $("affCompanyLabel").textContent=T.affCompanyLabel;
+      $("affCategoryLabel").textContent=T.affCategoryLabel;
+      $("affMessageLabel").textContent=T.affMessageLabel;
+      $("affSubmit").textContent=T.affSubmit;
+      $("affHint").textContent=T.affHint;
       $("footerB").textContent=T.footerB;
       $("footerT").textContent=T.footerT;
       $("cmpTitle").textContent=T.cmpTitle;
