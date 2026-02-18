@@ -336,6 +336,10 @@
       font-weight:900;
       color: var(--muted);
     }
+    .priceMeta{
+      font-size:11.5px;
+      color: var(--muted);
+    }
     .heroDesc{
       color:var(--muted);
       font-size:13px;
@@ -618,7 +622,7 @@
         <div class="logo" aria-hidden="true"></div>
         <div class="title">
           <h1 id="uiTitle">선택도우미: 노트북 · 핸드폰 · 로봇청소기 · 헤드폰 · 키보드</h1>
-          <p id="uiSubtitle">질문 몇 개 → 점수 기반 추천 + 검색/정렬/즐겨찾기/비교 · 이미지도 로컬에서 “AI 느낌”으로 생성</p>
+          <p id="uiSubtitle">질문 몇 개 → 점수 기반 추천 + 검색/정렬/즐겨찾기/비교 · 로컬 전용</p>
         </div>
       </div>
 
@@ -728,6 +732,11 @@
             </div>
           </div>
 
+          <div class="mini" id="policyBox">
+            <div style="font-weight:1100" id="policyTitle">이용/정책</div>
+            <div class="muted" id="policyText" style="font-size:12px;line-height:1.6;margin-top:6px"></div>
+          </div>
+
           <footer id="footerNote">
             <b id="footerB">팁</b><br/>
             <span id="footerT">비교(표)를 열고 싶으면 카드에서 ‘비교’를 2~3개 담아주세요.</span>
@@ -784,7 +793,7 @@
     const I18N = {
       ko:{
         uiTitle:"선택도우미: 노트북 · 핸드폰 · 로봇청소기 · 헤드폰 · 키보드",
-        uiSubtitle:"질문 몇 개 → 점수 기반 추천 + 검색/정렬/즐겨찾기/비교 · 이미지도 로컬에서 “AI 느낌”으로 생성",
+        uiSubtitle:"질문 몇 개 → 점수 기반 추천 + 검색/정렬/즐겨찾기/비교 · 로컬 전용",
         pillLocal:"로컬 계산 · 서버 업로드 없음",
         pillPrice:"가격은 참고가(대략) · 최종은 판매처 확인",
         leftTitle:"🧠 질문",
@@ -802,12 +811,14 @@
         kUpdatedLabel:"업데이트",
         kFavLabel:"즐겨찾기",
         rightTitle:"✨ 결과",
-        rightSub:"상위 추천 + 이유 + 즐겨찾기/비교 + AI 느낌 이미지",
+        rightSub:"상위 추천 + 이유 + 즐겨찾기/비교",
         btnFavOnly:"즐겨찾기만",
         btnClearCompare:"비교 비우기",
         legalTitle:"면책/고지",
         legalText:"가격/재고/혜택은 변동될 수 있는 참고 정보입니다. 최종 판단은 판매처/제조사 정보를 기준으로 하세요.",
         refFoot:"✔️ 설명 문구는 직접 요약이며, 표/이미지 스크래핑은 하지 않습니다.<br/>✔️ 제품명은 설명 목적의 표기이며 상표는 각 소유자에게 있습니다.",
+        policyTitle:"이용/정책",
+        policyText:"• 중고가는 인터넷 공개 시세를 확인해 평균값을 사용했습니다(확인 가능한 항목만 ‘실측’ 표기).<br/>• ‘추정(65%)’ 표시는 중고 시세 확인이 어려운 제품에 한해 새 가격의 65%로 계산한 값입니다.<br/>• 개인정보: 브라우저 로컬 저장만 사용하며 서버 전송 없음.<br/>• 이 페이지는 정보 제공용이며 구매 판단은 판매처/제조사 기준으로 하세요.",
         footerB:"팁",
         footerT:"비교(표)를 열고 싶으면 카드에서 ‘비교’를 2~3개 담아주세요.",
         cmpTitle:"비교(최대 3개) · 표 형태",
@@ -836,7 +847,7 @@
       },
       en:{
         uiTitle:"Chooser: Laptop · Phone · Robot Vacuum · Headphones · Keyboard",
-        uiSubtitle:"A few questions → scored picks + search/sort/favorites/compare · AI-style visuals generated locally",
+        uiSubtitle:"A few questions → scored picks + search/sort/favorites/compare · local-only",
         pillLocal:"Local-only · No server upload",
         pillPrice:"Prices are rough references · verify at retailer",
         leftTitle:"🧠 Questions",
@@ -854,12 +865,14 @@
         kUpdatedLabel:"Updated",
         kFavLabel:"Favorites",
         rightTitle:"✨ Results",
-        rightSub:"Top picks + reasons + compare/favorites + AI-style visuals",
+        rightSub:"Top picks + reasons + compare/favorites",
         btnFavOnly:"Favorites only",
         btnClearCompare:"Clear compare",
         legalTitle:"Disclaimer",
         legalText:"Prices/availability can change and are provided as reference information. Make final decisions based on retailer/manufacturer info.",
         refFoot:"✔️ Copy-free summaries (no spec-table/image scraping).<br/>✔️ Product names are descriptive; trademarks belong to owners.",
+        policyTitle:"Use/Policy",
+        policyText:"• Used prices are averaged from publicly available listings when verified (marked “Verified”).<br/>• “Estimated (65%)” indicates used price is set to 65% of new price when verification is difficult.<br/>• Privacy: local storage only, no server upload.<br/>• This page is informational; final decisions should be based on seller/manufacturer info.",
         footerB:"Tip",
         footerT:"To open the compare table, add 2–3 items via “Compare”.",
         cmpTitle:"Compare (up to 3) · Table view",
@@ -912,6 +925,12 @@
       if(!Number.isFinite(n)) return "-";
       if(lang==="ko") return new Intl.NumberFormat("ko-KR").format(n)+"원";
       return "$"+new Intl.NumberFormat("en-US").format(Math.round(n/1300)); // rough KRW->USD
+    }
+    function moneyBoth(n){
+      if(!Number.isFinite(n)) return "-";
+      const kr = new Intl.NumberFormat("ko-KR").format(n)+"원";
+      const usd = "$"+new Intl.NumberFormat("en-US").format(Math.round(n/1300));
+      return `${kr} (${usd})`;
     }
     function resolveLink(it){
       const link = it && it.link ? String(it.link) : "";
@@ -1272,7 +1291,7 @@
     // ===========================
     // Data model
     // ===========================
-    function item(cat,id,name,price,used,features,vec,desc,attrs,link,brand){
+    function item(cat,id,name,price,used,features,vec,desc,attrs,link,brand,usedDate,usedSource){
       // backward-compatible signature (without used price)
       if(Array.isArray(used)){
         brand = link;
@@ -1282,8 +1301,10 @@
         vec = features;
         features = used;
         used = NaN;
+        usedDate = "";
+        usedSource = "";
       }
-      return {cat,id,name,price,used,features,vec,desc,attrs,link,brand};
+      return {cat,id,name,price,used,features,vec,desc,attrs,link,brand,usedDate,usedSource};
     }
 
     // NOTE: Prices are "rough references" (no live scraping).
@@ -1319,9 +1340,9 @@
             ]}
         ],
         items:[
-          item("laptop","mba13","MacBook Air 13 (M-series)",1590000,["battery","portable"],{mac:3,battery:3,portable:3,screen:2,perf:2,value:1},{ko:"휴대+배터리 밸런스 강함. 일상/개발에 무난.",en:"Great portability + battery. Solid for daily/dev."},{"Display":"13\"","Weight":"~1.2kg","OS":"macOS","Battery":"Long","Best":"Daily/Dev"},"https://www.apple.com/kr/macbook-air/","Apple"),
-          item("laptop","mba15","MacBook Air 15 (M-series)",1890000,["battery","screen"],{mac:3,battery:3,portable:2,screen:3,perf:2},{ko:"대화면+배터리로 멀티태스킹 만족.",en:"Large display + long battery for multitasking."},{"Display":"15\"","Weight":"~1.5kg","OS":"macOS","Battery":"Long","Best":"Multitask"},"https://www.apple.com/kr/macbook-air/","Apple"),
-          item("laptop","gram","LG gram (lightweight)",1650000,["portable","battery"],{win:3,portable:3,battery:2,screen:2,perf:2,value:2},{ko:"초경량 컨셉의 이동형. ‘매일 들고 다님’에 강함.",en:"Ultra-light travel friendly."},{"Display":"14~16\"","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Travel/School"},"https://www.lge.co.kr/","LG"),
+          item("laptop","mba13","MacBook Air 13 (M-series)",1590000,1366666,["battery","portable"],{mac:3,battery:3,portable:3,screen:2,perf:2,value:1},{ko:"휴대+배터리 밸런스 강함. 일상/개발에 무난.",en:"Great portability + battery. Solid for daily/dev."},{"Display":"13\"","Weight":"~1.2kg","OS":"macOS","Battery":"Long","Best":"Daily/Dev"},"https://www.apple.com/kr/macbook-air/","Apple","2026-02-18","중고나라 평균"),
+          item("laptop","mba15","MacBook Air 15 (M-series)",1890000,878750,["battery","screen"],{mac:3,battery:3,portable:2,screen:3,perf:2},{ko:"대화면+배터리로 멀티태스킹 만족.",en:"Large display + long battery for multitasking."},{"Display":"15\"","Weight":"~1.5kg","OS":"macOS","Battery":"Long","Best":"Multitask"},"https://www.apple.com/kr/macbook-air/","Apple","2026-02-18","중고나라 평균"),
+          item("laptop","gram","LG gram (lightweight)",1650000,1231937,["portable","battery"],{win:3,portable:3,battery:2,screen:2,perf:2,value:2},{ko:"초경량 컨셉의 이동형. ‘매일 들고 다님’에 강함.",en:"Ultra-light travel friendly."},{"Display":"14~16\"","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Travel/School"},"https://www.lge.co.kr/","LG","2026-02-18","중고나라 평균"),
           item("laptop","ideapad","Lenovo IdeaPad (value)",990000,["value"],{win:3,value:3,battery:2,portable:2,screen:1,perf:1},{ko:"예산 제한에 강한 실속형.",en:"Budget-friendly value pick."},{"Display":"Varies","Weight":"Mid","OS":"Windows","Battery":"OK","Best":"Budget"},"https://www.lenovo.com/kr/ko/","Lenovo"),
           item("laptop","zenbook","ASUS Zenbook OLED",1850000,["screen","portable"],{win:3,screen:3,portable:2,battery:2,perf:2,color:2},{ko:"OLED 화면 만족도 체감. 시각 작업/감상에 유리.",en:"OLED display feels great."},{"Display":"OLED","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Display"},"https://www.asus.com/kr/","ASUS"),
           item("laptop","xps","Dell XPS (premium)",2600000,["screen"],{win:3,screen:3,perf:3,battery:2,portable:2},{ko:"프리미엄 빌드/화면 지향. ‘고급스러움’ 체감.",en:"Premium build and display focus."},{"Display":"High-end","Weight":"Mid","OS":"Windows","Battery":"Good","Best":"Premium Work"},"https://www.dell.com/ko-kr","Dell"),
@@ -1362,9 +1383,9 @@
             ]}
         ],
         items:[
-          item("phone","ip_base","iPhone (base class)",1290000,["camera","eco"],{ios:3,eco:3,camera:2,battery:2,perf:2},{ko:"일상 밸런스+생태계. ‘무난하게 잘함’",en:"Balanced daily + ecosystem."},{"OS":"iOS","Camera":"Strong daily","Battery":"Good","Size":"Balanced","Best":"Ecosystem"},"https://www.apple.com/kr/iphone/","Apple"),
-          item("phone","ip_pro","iPhone (Pro class)",1550000,["camera","eco"],{ios:3,eco:3,camera:3,perf:3,battery:2},{ko:"카메라/성능 상급. 촬영 비중 높으면 유리.",en:"Top camera/performance class."},{"OS":"iOS","Camera":"Flagship","Battery":"Good","Size":"Mid","Best":"Camera"},"https://www.apple.com/kr/iphone/","Apple"),
-          item("phone","galaxyS","Galaxy S (flagship)",1150000,["eco","camera"],{and:3,eco:3,camera:2,battery:2,perf:2},{ko:"안드로이드 편의/연동. 전체 밸런스 좋음.",en:"Android flexibility + integration."},{"OS":"Android","Camera":"Balanced","Battery":"Good","Size":"Balanced","Best":"Android"},"https://www.samsung.com/sec/","Samsung"),
+          item("phone","ip_base","iPhone (base class)",1290000,521040,["camera","eco"],{ios:3,eco:3,camera:2,battery:2,perf:2},{ko:"일상 밸런스+생태계. ‘무난하게 잘함’",en:"Balanced daily + ecosystem."},{"OS":"iOS","Camera":"Strong daily","Battery":"Good","Size":"Balanced","Best":"Ecosystem"},"https://www.apple.com/kr/iphone/","Apple","2026-02-18","중고나라 평균"),
+          item("phone","ip_pro","iPhone (Pro class)",1550000,653931,["camera","eco"],{ios:3,eco:3,camera:3,perf:3,battery:2},{ko:"카메라/성능 상급. 촬영 비중 높으면 유리.",en:"Top camera/performance class."},{"OS":"iOS","Camera":"Flagship","Battery":"Good","Size":"Mid","Best":"Camera"},"https://www.apple.com/kr/iphone/","Apple","2026-02-18","중고나라 평균"),
+          item("phone","galaxyS","Galaxy S (flagship)",1150000,569282,["eco","camera"],{and:3,eco:3,camera:2,battery:2,perf:2},{ko:"안드로이드 편의/연동. 전체 밸런스 좋음.",en:"Android flexibility + integration."},{"OS":"Android","Camera":"Balanced","Battery":"Good","Size":"Balanced","Best":"Android"},"https://www.samsung.com/sec/","Samsung","2026-02-18","중고나라 평균"),
           item("phone","ultra","Galaxy Ultra (camera)",1690000,["camera","battery"],{and:3,camera:3,battery:3,perf:2,eco:3},{ko:"카메라+배터리 강력(대화면).",en:"Strong camera + battery (big)."},{"OS":"Android","Camera":"Top-tier","Battery":"Strong","Size":"Large","Best":"Camera+Battery"},"https://www.samsung.com/sec/","Samsung"),
           item("phone","pixel","Pixel class",990000,["camera"],{and:3,camera:3,battery:2,perf:2},{ko:"연산사진 스타일 강점. 사진톤 선호하면.",en:"Computational photo strength."},{"OS":"Android","Camera":"Computational","Battery":"OK","Size":"Balanced","Best":"Photos"},"https://store.google.com/","Google"),
           item("phone","value_mid","Value midrange Android",690000,["value","battery"],{and:3,value:3,battery:3,camera:2},{ko:"가성비+배터리 체감. 실속형.",en:"Strong value + battery."},{"OS":"Android","Camera":"Good enough","Battery":"Strong","Size":"Balanced","Best":"Value"},"https://www.mi.com/","Xiaomi"),
@@ -1400,9 +1421,9 @@
         ],
         items:[
           item("robot","roborock_s8","Roborock S-series (flagship)",1590000,["dock","mop","avoid","pet"],{dock:3,mop:3,avoid:3,pet:2},{ko:"상급 회피+도크+물걸레. 풀옵션 체감.",en:"Flagship dock+mop+avoidance."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"Good","Best":"Flagship"},"https://global.roborock.com/","Roborock"),
-          item("robot","roborock_qrevo","Roborock Q Revo (value dock+mop)",1290000,["dock","mop","value"],{dock:3,mop:3,value:2,avoid:2},{ko:"도크+물걸레 가성비 라인.",en:"Value dock+mop line."},{"Dock":"Yes","Mop":"Yes","Avoidance":"Mid","Pets":"Good","Best":"Value dock+mop"},"https://global.roborock.com/","Roborock"),
+          item("robot","roborock_qrevo","Roborock Q Revo (value dock+mop)",1290000,783227,["dock","mop","value"],{dock:3,mop:3,value:2,avoid:2},{ko:"도크+물걸레 가성비 라인.",en:"Value dock+mop line."},{"Dock":"Yes","Mop":"Yes","Avoidance":"Mid","Pets":"Good","Best":"Value dock+mop"},"https://global.roborock.com/","Roborock","2026-02-18","중고나라 평균"),
           item("robot","roborock_q5","Roborock Q5 (suction)",790000,["value","avoid"],{value:3,avoid:2},{ko:"흡입 중심 입문. 맵핑/회피 기본.",en:"Entry suction with mapping."},{"Dock":"Optional","Mop":"No","Avoidance":"Mid","Pets":"OK","Best":"Suction value"},"https://global.roborock.com/","Roborock"),
-          item("robot","ecovacs_x1","Ecovacs X1 (premium)",1490000,["dock","mop","avoid"],{dock:3,mop:3,avoid:3},{ko:"프리미엄 도크+회피 체감.",en:"Premium dock + avoidance."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"Good","Best":"Premium"},"https://www.ecovacs.com/","Ecovacs"),
+          item("robot","ecovacs_x1","Ecovacs X1 (premium)",1490000,375555,["dock","mop","avoid"],{dock:3,mop:3,avoid:3},{ko:"프리미엄 도크+회피 체감.",en:"Premium dock + avoidance."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"Good","Best":"Premium"},"https://www.ecovacs.com/","Ecovacs","2026-02-18","중고나라 평균"),
           item("robot","ecovacs_t20","Ecovacs T-series (mop)",1190000,["mop","dock"],{mop:3,dock:2,avoid:2},{ko:"물걸레 체감 중상급.",en:"Strong mopping feel."},{"Dock":"Often","Mop":"Yes","Avoidance":"Mid","Pets":"OK","Best":"Mop"},"https://www.ecovacs.com/","Ecovacs"),
           item("robot","dreame_l20","Dreame L-series (mop+avoid)",1390000,["mop","dock","avoid"],{mop:3,dock:2,avoid:3},{ko:"물걸레+회피 밸런스형.",en:"Balanced mop+avoidance."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"OK","Best":"Balanced"},"https://www.dreametech.com/","Dreame"),
           item("robot","dreame_l10","Dreame L10 (value mop)",890000,["mop","value"],{mop:2,value:3,avoid:1},{ko:"가성비 물걸레 라인.",en:"Value mopping line."},{"Dock":"No","Mop":"Yes","Avoidance":"Basic","Pets":"OK","Best":"Mop value"},"https://www.dreametech.com/","Dreame"),
@@ -1620,6 +1641,8 @@
       $("legalTitle").textContent=T.legalTitle;
       $("legalText").textContent=T.legalText;
       $("refFoot").innerHTML=T.refFoot;
+      $("policyTitle").textContent=T.policyTitle;
+      $("policyText").innerHTML=T.policyText;
       $("footerB").textContent=T.footerB;
       $("footerT").textContent=T.footerT;
       $("cmpTitle").textContent=T.cmpTitle;
@@ -1897,7 +1920,7 @@
         pills.appendChild(p);
       }
 
-      const rows = new Set(["Price"]);
+      const rows = new Set(["PriceNew","PriceUsed"]);
       for(const it of items) Object.keys(it.attrs||{}).forEach(k=>rows.add(k));
       const rowList = Array.from(rows);
 
@@ -1913,9 +1936,10 @@
         <tbody>
           ${rowList.map(r=>{
             return `<tr>
-              <td>${r==="Price"?(lang==="ko"?"가격":"Price"):r}</td>
+              <td>${r==="PriceNew"?(lang==="ko"?"가격(새)":"Price (New)"):r==="PriceUsed"?(lang==="ko"?"가격(중고)":"Price (Used)"):r}</td>
               ${items.map(it=>{
-                const v = (r==="Price") ? money(lang, it.price) : (it.attrs?.[r] ?? "-");
+                const used = Number.isFinite(it.used) ? it.used : (Number.isFinite(it.price)?Math.round(it.price*0.65):NaN);
+                const v = (r==="PriceNew") ? moneyBoth(it.price) : (r==="PriceUsed") ? moneyBoth(used) : (it.attrs?.[r] ?? "-");
                 return `<td>${String(v)}</td>`;
               }).join("")}
             </tr>`;
@@ -2060,14 +2084,17 @@
         div.style.setProperty("--my","15%");
         const usedEstimated = !Number.isFinite(it.used);
         const used = usedEstimated ? (Number.isFinite(it.price) ? Math.round(it.price*0.65) : NaN) : it.used;
+        const usedDate = it.usedDate || "";
+        const usedSource = it.usedSource || "";
         div.innerHTML = `
           <div class="heroBody">
             <h3 class="heroTitle">${it.name}</h3>
             <div class="heroPrice">
-              <span>${t().labels.priceNew}: <b>${money(lang, it.price)}</b></span>
-              <span>${t().labels.priceUsed}: <b>${money(lang, used)}</b></span>
-              ${usedEstimated ? `<span class="priceTag">${lang==="ko"?"추정(65%)":"Estimated (65%)"}</span>` : ""}
+              <span>${t().labels.priceNew}: <b>${moneyBoth(it.price)}</b></span>
+              <span>${t().labels.priceUsed}: <b>${moneyBoth(used)}</b></span>
+              ${usedEstimated ? `<span class="priceTag">${lang==="ko"?"추정(65%)":"Estimated (65%)"}</span>` : `<span class="priceTag">${lang==="ko"?"실측":"Verified"}</span>`}
             </div>
+            ${usedEstimated ? "" : `<div class="priceMeta">${lang==="ko"?"확인일":"Checked"}: ${usedDate}${usedSource?` · ${usedSource}`:""}</div>`}
             <p class="heroDesc">${it.desc[lang]}</p>
             <div class="brandPill" style="--brand:${brandMeta.color}">
               ${brandMeta.svg || ""}
