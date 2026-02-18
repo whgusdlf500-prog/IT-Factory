@@ -883,6 +883,13 @@
       if(lang==="ko") return new Intl.NumberFormat("ko-KR").format(n)+"원";
       return "$"+new Intl.NumberFormat("en-US").format(Math.round(n/1300)); // rough KRW->USD
     }
+    function resolveLink(it){
+      const link = it && it.link ? String(it.link) : "";
+      if(link.startsWith("https://search.danawa.com/")){
+        return `https://search.danawa.com/dsearch.php?query=${encodeURIComponent(it.name)}`;
+      }
+      return link || "#";
+    }
 
     function icon(cat){
       const m={
@@ -1885,6 +1892,7 @@
         const key=itemKey(it);
         const isFav=favs.has(key);
         const isCmp=state.compare.includes(key);
+        const link = resolveLink(it);
 
         const pct = (max===min) ? 80 : clamp(((it._score-min)/(max-min))*100, 4, 100);
 
@@ -1926,7 +1934,7 @@
             <div class="scorebar"><div style="width:${pct}%;"></div></div>
 
             <div class="itemActions">
-              <a class="miniBtn" href="${it.link}" target="_blank" rel="noopener">${t().labels.open}</a>
+              <a class="miniBtn" href="${link}" target="_blank" rel="noopener">${t().labels.open}</a>
               <button class="miniBtn ai" data-action="ai">${t().labels.ai}</button>
               <button class="miniBtn star ${isFav?"active":""}" data-action="fav">${t().labels.favorite}</button>
               <button class="miniBtn cmp ${isCmp?"active":""}" data-action="cmp">${t().labels.compare}</button>
@@ -2077,7 +2085,7 @@
         return DATA[cat]?.items.find(x=>x.id===id);
       }).filter(Boolean);
       for(const it of items){
-        window.open(it.link, "_blank", "noopener");
+        window.open(resolveLink(it), "_blank", "noopener");
       }
       showToast(t().toast.opened);
     };
