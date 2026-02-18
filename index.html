@@ -313,11 +313,12 @@
 
     .heroImg{
       width:100%;
-      aspect-ratio:16/10;
+      aspect-ratio:4/3;
       border-radius:18px;
       overflow:hidden;
-      margin-bottom:12px;
+      margin-bottom:10px;
       background:#111;
+      max-height:180px;
       transform: translateZ(18px);
     }
     .heroImg img{
@@ -333,6 +334,12 @@
       margin:0 0 6px;
       font-size:17px;
       font-weight:900;
+    }
+    .heroPrice{
+      font-size:13px;
+      color: rgba(255,255,255,.9);
+      margin:0 0 6px;
+      font-weight:800;
     }
     .heroDesc{
       color:var(--muted);
@@ -2037,6 +2044,7 @@
 
           <div class="heroBody">
             <h3 class="heroTitle">${it.name}</h3>
+            <div class="heroPrice">${t().labels.price}: <b>${money(lang, it.price)}</b></div>
             <p class="heroDesc">${it.desc[lang]}</p>
             <div class="brandPill" style="--brand:${brandMeta.color}">
               ${brandMeta.svg || ""}
