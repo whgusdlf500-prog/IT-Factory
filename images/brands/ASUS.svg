@@ -1,1 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ASUS logo"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7f63d8"/><stop offset="1" stop-color="#5a46a6"/></linearGradient></defs><rect x="3" y="3" width="58" height="58" rx="14" fill="url(#g)"/><circle cx="18" cy="18" r="6" fill="rgba(255,255,255,.26)"/><path d="M14 46h36" stroke="rgba(255,255,255,.28)" stroke-width="3" stroke-linecap="round"/><text x="32" y="36" text-anchor="middle" fill="#f8fbff" font-family="Arial, sans-serif" font-size="15" font-weight="900" letter-spacing=".6">ASU</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ASUS logo">
+  <rect x="3" y="3" width="58" height="58" rx="14" fill="#324e97"/>
+  <path d="M19 41l9-18 9 18h-4l-1.7-3.7h-6.6L23 41h-4z" fill="#f8fbff"/>
+  <rect x="39" y="23" width="8" height="18" rx="2" fill="#f8fbff"/>
+  <path d="M47 23h5a4 4 0 0 1 0 8h-5z" fill="#f8fbff"/>
+  <path d="M47 33h5a4 4 0 0 1 0 8h-5z" fill="#f8fbff"/>
+</svg>

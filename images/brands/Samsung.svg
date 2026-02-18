@@ -1,1 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Samsung logo"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b79c9"/><stop offset="1" stop-color="#224f8f"/></linearGradient></defs><rect x="3" y="3" width="58" height="58" rx="14" fill="url(#g)"/><circle cx="18" cy="18" r="6" fill="rgba(255,255,255,.26)"/><path d="M14 46h36" stroke="rgba(255,255,255,.28)" stroke-width="3" stroke-linecap="round"/><text x="32" y="36" text-anchor="middle" fill="#f8fbff" font-family="Arial, sans-serif" font-size="15" font-weight="900" letter-spacing=".6">SAM</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Samsung logo">
+  <rect x="3" y="3" width="58" height="58" rx="14" fill="#1f4f96"/>
+  <ellipse cx="32" cy="32" rx="22" ry="13" fill="#2f6fcb"/>
+  <path d="M24 38c6-6 10-8 16-11" stroke="#f8fbff" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M25 24h15" stroke="#f8fbff" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M22 30h18" stroke="#f8fbff" stroke-width="2.8" stroke-linecap="round"/>
+</svg>
