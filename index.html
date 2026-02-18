@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Chooser | Laptop · Phone · Robot · Headphones · Keyboard</title>
-  <meta name="description" content="Local-only product chooser with AI-style generated visuals, scored recommendations, favorites and comparison." />
+  <meta name="description" content="Local-only product chooser with scored recommendations, favorites and comparison." />
   <meta name="theme-color" content="#0b1220" />
 
   <style>
@@ -677,7 +677,7 @@
 
           <div class="note" id="noteText">
             ✅ 추천/검색/정렬/비교는 전부 브라우저에서만 처리됩니다.<br/>
-            ✨ 제품 이미지는 “AI 렌더 느낌”으로 브라우저에서 즉석 생성됩니다(외부 파일/서버 없음).<br/>
+            ✨ 이미지 없이 텍스트 중심으로 빠르게 비교합니다.<br/>
             ⚠️ 가격은 “참고가(대략)”이며 판매처에서 최종 확인이 필요합니다.
           </div>
 
@@ -705,7 +705,7 @@
         <div class="hd">
           <div>
             <h2 id="rightTitle">✨ 결과</h2>
-            <div class="sub" id="rightSub">상위 추천 + 이유 + 즐겨찾기/비교 + AI 느낌 이미지</div>
+            <div class="sub" id="rightSub">상위 추천 + 이유 + 즐겨찾기/비교</div>
           </div>
           <div class="right">
             <button class="btn ghost" id="btnFavOnly">즐겨찾기만</button>
@@ -841,9 +841,9 @@
           compareFull:"비교는 최대 3개까지!",
           compareCleared:"비교 목록을 비웠어요",
           opened:"선택 링크를 열었어요",
-          regen:"AI 느낌 변형 생성!"
+          regen:"완료!"
         },
-        labels:{ref:"참고가", fit:"적합도", open:"열기", favorite:"즐겨찾기", compare:"비교", price:"가격", priceNew:"새", priceUsed:"중고", why:"추천 이유:", ai:"AI 변형", brand:"제조사"}
+        labels:{ref:"참고가", fit:"적합도", open:"열기", favorite:"즐겨찾기", compare:"비교", price:"가격", priceNew:"새제품", priceUsed:"중고가", why:"추천 이유:", brand:"제조사"}
       },
       en:{
         uiTitle:"Chooser: Laptop · Phone · Robot Vacuum · Headphones · Keyboard",
@@ -895,9 +895,9 @@
           compareFull:"Compare supports up to 3 items",
           compareCleared:"Compare cleared",
           opened:"Opened selected links",
-          regen:"AI-style variation generated!"
+          regen:"Done!"
         },
-        labels:{ref:"Reference", fit:"Fit", open:"Open", favorite:"Favorite", compare:"Compare", price:"Price", priceNew:"New", priceUsed:"Used", why:"Why:", ai:"AI Var", brand:"Manufacturer"}
+        labels:{ref:"Reference", fit:"Fit", open:"Open", favorite:"Favorite", compare:"Compare", price:"Price", priceNew:"New price", priceUsed:"Used price", why:"Why:", brand:"Manufacturer"}
       }
     };
 
@@ -977,8 +977,7 @@
     }
 
     // ===========================
-    // AI-style image renderer (Canvas -> WebP dataURL)
-    // - goal: "diffusion-ish render" vibe without real AI
+    // Image renderer (unused - images removed)
     // - consistent, premium, logo-free, local-only
     // ===========================
     const imgVar = loadJSON(LS_IMGVAR, {}); // per itemKey => integer variation (unused)
@@ -1340,7 +1339,7 @@
             ]}
         ],
         items:[
-          item("laptop","mba13","MacBook Air 13 (M-series)",1590000,1366666,["battery","portable"],{mac:3,battery:3,portable:3,screen:2,perf:2,value:1},{ko:"휴대+배터리 밸런스 강함. 일상/개발에 무난.",en:"Great portability + battery. Solid for daily/dev."},{"Display":"13\"","Weight":"~1.2kg","OS":"macOS","Battery":"Long","Best":"Daily/Dev"},"https://www.apple.com/kr/macbook-air/","Apple","2026-02-18","중고나라 평균"),
+          item("laptop","mba13","MacBook Air 13 M2 (base)",1590000,839580,["battery","portable"],{mac:3,battery:3,portable:3,screen:2,perf:2,value:1},{ko:"휴대+배터리 밸런스 강함. 일상/개발에 무난.",en:"Great portability + battery. Solid for daily/dev."},{"Display":"13\"","Weight":"~1.2kg","OS":"macOS","Battery":"Long","Best":"Daily/Dev"},"https://www.apple.com/kr/macbook-air/","Apple","2026-02-18","중고나라 검색 평균"),
           item("laptop","mba15","MacBook Air 15 (M-series)",1890000,878750,["battery","screen"],{mac:3,battery:3,portable:2,screen:3,perf:2},{ko:"대화면+배터리로 멀티태스킹 만족.",en:"Large display + long battery for multitasking."},{"Display":"15\"","Weight":"~1.5kg","OS":"macOS","Battery":"Long","Best":"Multitask"},"https://www.apple.com/kr/macbook-air/","Apple","2026-02-18","중고나라 평균"),
           item("laptop","gram","LG gram (lightweight)",1650000,1231937,["portable","battery"],{win:3,portable:3,battery:2,screen:2,perf:2,value:2},{ko:"초경량 컨셉의 이동형. ‘매일 들고 다님’에 강함.",en:"Ultra-light travel friendly."},{"Display":"14~16\"","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Travel/School"},"https://www.lge.co.kr/","LG","2026-02-18","중고나라 평균"),
           item("laptop","ideapad","Lenovo IdeaPad (value)",990000,["value"],{win:3,value:3,battery:2,portable:2,screen:1,perf:1},{ko:"예산 제한에 강한 실속형.",en:"Budget-friendly value pick."},{"Display":"Varies","Weight":"Mid","OS":"Windows","Battery":"OK","Best":"Budget"},"https://www.lenovo.com/kr/ko/","Lenovo"),
@@ -1383,8 +1382,8 @@
             ]}
         ],
         items:[
-          item("phone","ip_base","iPhone (base class)",1290000,521040,["camera","eco"],{ios:3,eco:3,camera:2,battery:2,perf:2},{ko:"일상 밸런스+생태계. ‘무난하게 잘함’",en:"Balanced daily + ecosystem."},{"OS":"iOS","Camera":"Strong daily","Battery":"Good","Size":"Balanced","Best":"Ecosystem"},"https://www.apple.com/kr/iphone/","Apple","2026-02-18","중고나라 평균"),
-          item("phone","ip_pro","iPhone (Pro class)",1550000,653931,["camera","eco"],{ios:3,eco:3,camera:3,perf:3,battery:2},{ko:"카메라/성능 상급. 촬영 비중 높으면 유리.",en:"Top camera/performance class."},{"OS":"iOS","Camera":"Flagship","Battery":"Good","Size":"Mid","Best":"Camera"},"https://www.apple.com/kr/iphone/","Apple","2026-02-18","중고나라 평균"),
+          item("phone","ip_base","iPhone 15 256GB",1290000,992400,["camera","eco"],{ios:3,eco:3,camera:2,battery:2,perf:2},{ko:"일상 밸런스+생태계. ‘무난하게 잘함’",en:"Balanced daily + ecosystem."},{"OS":"iOS","Camera":"Strong daily","Battery":"Good","Size":"Balanced","Best":"Ecosystem"},"https://www.apple.com/kr/iphone/","Apple","2026-02-18","중고나라 검색 평균"),
+          item("phone","ip_pro","iPhone 15 Pro 256GB",1550000,956000,["camera","eco"],{ios:3,eco:3,camera:3,perf:3,battery:2},{ko:"카메라/성능 상급. 촬영 비중 높으면 유리.",en:"Top camera/performance class."},{"OS":"iOS","Camera":"Flagship","Battery":"Good","Size":"Mid","Best":"Camera"},"https://www.apple.com/kr/iphone/","Apple","2026-02-18","중고나라 매물 5개 평균"),
           item("phone","galaxyS","Galaxy S (flagship)",1150000,569282,["eco","camera"],{and:3,eco:3,camera:2,battery:2,perf:2},{ko:"안드로이드 편의/연동. 전체 밸런스 좋음.",en:"Android flexibility + integration."},{"OS":"Android","Camera":"Balanced","Battery":"Good","Size":"Balanced","Best":"Android"},"https://www.samsung.com/sec/","Samsung","2026-02-18","중고나라 평균"),
           item("phone","ultra","Galaxy Ultra (camera)",1690000,["camera","battery"],{and:3,camera:3,battery:3,perf:2,eco:3},{ko:"카메라+배터리 강력(대화면).",en:"Strong camera + battery (big)."},{"OS":"Android","Camera":"Top-tier","Battery":"Strong","Size":"Large","Best":"Camera+Battery"},"https://www.samsung.com/sec/","Samsung"),
           item("phone","pixel","Pixel class",990000,["camera"],{and:3,camera:3,battery:2,perf:2},{ko:"연산사진 스타일 강점. 사진톤 선호하면.",en:"Computational photo strength."},{"OS":"Android","Camera":"Computational","Battery":"OK","Size":"Balanced","Best":"Photos"},"https://store.google.com/","Google"),
@@ -1459,8 +1458,8 @@
             ]}
         ],
         items:[
-          item("headphones","sonyWH","Sony WH-1000X class",499000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"출퇴근 ANC 체감 강함. 무난한 올인원.",en:"Strong commute ANC feel."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Commute"},"https://www.sony.co.kr/","Sony"),
-          item("headphones","boseQC","Bose QuietComfort class",459000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"착용감/ANC 안정. 오래 써도 편안함.",en:"Comfort + stable ANC."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Comfort"},"https://www.bose.co.kr/","Bose"),
+          item("headphones","sonyWH","Sony WH-1000XM5",519000,236000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"출퇴근 ANC 체감 강함. 무난한 올인원.",en:"Strong commute ANC feel."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Commute"},"https://www.sony.co.kr/","Sony","2026-02-18","중고나라 검색 평균(2개)"),
+          item("headphones","boseQC","Bose QC45",459000,202500,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"착용감/ANC 안정. 오래 써도 편안함.",en:"Comfort + stable ANC."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Comfort"},"https://www.bose.co.kr/","Bose","2026-02-18","중고나라 검색 평균"),
           item("headphones","valueANC","Value ANC class",199000,["value","anc"],{value:3,anc:2,wireless:3},{ko:"가성비 ANC 입문. ‘가격 대비 만족’",en:"Entry value ANC."},{"Type":"Over-ear","ANC":"Mid","Mic":"OK","Wired":"No","Best":"Value"},"https://www.anker.com/","Anker"),
           item("headphones","openBack","Open-back class",219000,["stage","wired"],{stage:3,wired:3},{ko:"집 감상 공간감. 개방형 취향이면.",en:"Soundstage for home."},{"Type":"Open-back","ANC":"No","Mic":"No","Wired":"Yes","Best":"Home"},"https://www.sennheiser.com/","Sennheiser"),
           item("headphones","studio","Studio wired class",149000,["wired","value"],{wired:3,value:3},{ko:"작업/모니터링 유선. 균형 위주.",en:"Wired monitoring/work."},{"Type":"Closed-back","ANC":"No","Mic":"Optional","Wired":"Yes","Best":"Studio"},"https://www.audio-technica.com/","Audio-Technica"),
@@ -1939,7 +1938,14 @@
               <td>${r==="PriceNew"?(lang==="ko"?"가격(새)":"Price (New)"):r==="PriceUsed"?(lang==="ko"?"가격(중고)":"Price (Used)"):r}</td>
               ${items.map(it=>{
                 const used = Number.isFinite(it.used) ? it.used : (Number.isFinite(it.price)?Math.round(it.price*0.65):NaN);
-                const v = (r==="PriceNew") ? moneyBoth(it.price) : (r==="PriceUsed") ? moneyBoth(used) : (it.attrs?.[r] ?? "-");
+                const usedPct = (Number.isFinite(used) && Number.isFinite(it.price) && it.price>0)
+                  ? Math.round((used/it.price)*100)
+                  : null;
+                const v = (r==="PriceNew")
+                  ? moneyBoth(it.price)
+                  : (r==="PriceUsed")
+                    ? `${moneyBoth(used)}${usedPct!==null?` (${usedPct}%)`:""}`
+                    : (it.attrs?.[r] ?? "-");
                 return `<td>${String(v)}</td>`;
               }).join("")}
             </tr>`;
@@ -2084,6 +2090,9 @@
         div.style.setProperty("--my","15%");
         const usedEstimated = !Number.isFinite(it.used);
         const used = usedEstimated ? (Number.isFinite(it.price) ? Math.round(it.price*0.65) : NaN) : it.used;
+        const usedPct = (Number.isFinite(used) && Number.isFinite(it.price) && it.price>0)
+          ? Math.round((used/it.price)*100)
+          : null;
         const usedDate = it.usedDate || "";
         const usedSource = it.usedSource || "";
         div.innerHTML = `
@@ -2091,7 +2100,7 @@
             <h3 class="heroTitle">${it.name}</h3>
             <div class="heroPrice">
               <span>${t().labels.priceNew}: <b>${moneyBoth(it.price)}</b></span>
-              <span>${t().labels.priceUsed}: <b>${moneyBoth(used)}</b></span>
+              <span>${t().labels.priceUsed}: <b>${moneyBoth(used)}</b>${usedPct!==null?` <span class="priceMeta">(${usedPct}%)</span>`:""}</span>
               ${usedEstimated ? `<span class="priceTag">${lang==="ko"?"추정(65%)":"Estimated (65%)"}</span>` : `<span class="priceTag">${lang==="ko"?"실측":"Verified"}</span>`}
             </div>
             ${usedEstimated ? "" : `<div class="priceMeta">${lang==="ko"?"확인일":"Checked"}: ${usedDate}${usedSource?` · ${usedSource}`:""}</div>`}
