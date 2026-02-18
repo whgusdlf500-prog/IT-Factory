@@ -165,6 +165,12 @@
     }
 
     .toggles{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .sectionLabel{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:900;
+      margin-top:12px;
+    }
     .toggle{
       cursor:pointer;
       border:1px solid var(--line);
@@ -635,6 +641,8 @@
           </div>
 
           <div class="toggles" id="featureToggles"></div>
+          <div class="sectionLabel" id="brandLabel">제조사</div>
+          <div class="toggles" id="brandToggles"></div>
 
           <div class="ctaRow">
             <button class="btn primary" id="btnRun">추천 만들기</button>
@@ -803,7 +811,7 @@
           opened:"선택 링크를 열었어요",
           regen:"AI 느낌 변형 생성!"
         },
-        labels:{ref:"참고가", fit:"적합도", open:"열기", favorite:"즐겨찾기", compare:"비교", price:"가격", why:"추천 이유:", ai:"AI 변형"}
+        labels:{ref:"참고가", fit:"적합도", open:"열기", favorite:"즐겨찾기", compare:"비교", price:"가격", why:"추천 이유:", ai:"AI 변형", brand:"제조사"}
       },
       en:{
         uiTitle:"Chooser: Laptop · Phone · Robot Vacuum · Headphones · Keyboard",
@@ -854,7 +862,7 @@
           opened:"Opened selected links",
           regen:"AI-style variation generated!"
         },
-        labels:{ref:"Reference", fit:"Fit", open:"Open", favorite:"Favorite", compare:"Compare", price:"Price", why:"Why:", ai:"AI Var"}
+        labels:{ref:"Reference", fit:"Fit", open:"Open", favorite:"Favorite", compare:"Compare", price:"Price", why:"Why:", ai:"AI Var", brand:"Manufacturer"}
       }
     };
 
@@ -886,9 +894,10 @@
     function resolveLink(it){
       const link = it && it.link ? String(it.link) : "";
       if(link.startsWith("https://search.danawa.com/")){
-        return `https://search.danawa.com/dsearch.php?query=${encodeURIComponent(it.name)}`;
+        return `https://www.google.com/search?q=${encodeURIComponent(`${it.brand||""} ${it.name}`.trim())}`;
       }
-      return link || "#";
+      if(link) return link;
+      return `https://www.google.com/search?q=${encodeURIComponent(`${it.brand||""} ${it.name}`.trim())}`;
     }
 
     function icon(cat){
@@ -1226,8 +1235,8 @@
     // ===========================
     // Data model
     // ===========================
-    function item(cat,id,name,price,features,vec,desc,attrs,link){
-      return {cat,id,name,price,features,vec,desc,attrs,link};
+    function item(cat,id,name,price,features,vec,desc,attrs,link,brand){
+      return {cat,id,name,price,features,vec,desc,attrs,link,brand};
     }
 
     // NOTE: Prices are "rough references" (no live scraping).
@@ -1263,15 +1272,15 @@
             ]}
         ],
         items:[
-          item("laptop","mba13","MacBook Air 13 (M-series)",1590000,["battery","portable"],{mac:3,battery:3,portable:3,screen:2,perf:2,value:1},{ko:"휴대+배터리 밸런스 강함. 일상/개발에 무난.",en:"Great portability + battery. Solid for daily/dev."},{"Display":"13\"","Weight":"~1.2kg","OS":"macOS","Battery":"Long","Best":"Daily/Dev"},"https://www.apple.com/kr/macbook-air/"),
-          item("laptop","mba15","MacBook Air 15 (M-series)",1890000,["battery","screen"],{mac:3,battery:3,portable:2,screen:3,perf:2},{ko:"대화면+배터리로 멀티태스킹 만족.",en:"Large display + long battery for multitasking."},{"Display":"15\"","Weight":"~1.5kg","OS":"macOS","Battery":"Long","Best":"Multitask"},"https://www.apple.com/kr/macbook-air/"),
-          item("laptop","gram","LG gram (lightweight)",1650000,["portable","battery"],{win:3,portable:3,battery:2,screen:2,perf:2,value:2},{ko:"초경량 컨셉의 이동형. ‘매일 들고 다님’에 강함.",en:"Ultra-light travel friendly."},{"Display":"14~16\"","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Travel/School"},"https://www.lge.co.kr/"),
-          item("laptop","ideapad","Lenovo IdeaPad (value)",990000,["value"],{win:3,value:3,battery:2,portable:2,screen:1,perf:1},{ko:"예산 제한에 강한 실속형.",en:"Budget-friendly value pick."},{"Display":"Varies","Weight":"Mid","OS":"Windows","Battery":"OK","Best":"Budget"},"https://www.lenovo.com/kr/ko/"),
-          item("laptop","zenbook","ASUS Zenbook OLED",1850000,["screen","portable"],{win:3,screen:3,portable:2,battery:2,perf:2,color:2},{ko:"OLED 화면 만족도 체감. 시각 작업/감상에 유리.",en:"OLED display feels great."},{"Display":"OLED","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Display"},"https://www.asus.com/kr/"),
-          item("laptop","xps","Dell XPS (premium)",2600000,["screen"],{win:3,screen:3,perf:3,battery:2,portable:2},{ko:"프리미엄 빌드/화면 지향. ‘고급스러움’ 체감.",en:"Premium build and display focus."},{"Display":"High-end","Weight":"Mid","OS":"Windows","Battery":"Good","Best":"Premium Work"},"https://www.dell.com/ko-kr"),
-          item("laptop","thinkpad","ThinkPad (business)",2300000,["screen"],{win:3,perf:2,screen:2,battery:2},{ko:"업무/타이핑 안정성. 키감 선호층에 인기.",en:"Work/typing reliability."},{"Display":"14\"","Weight":"Mid","OS":"Windows","Battery":"Good","Best":"Typing"},"https://www.lenovo.com/kr/ko/"),
-          item("laptop","surface","Surface Laptop class",2100000,["portable","screen"],{win:3,portable:3,screen:2,battery:2,perf:2},{ko:"휴대형 프리미엄 감성. 무난하게 예쁨.",en:"Portable premium vibe."},{"Display":"13~15\"","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Portable Work"},"https://www.microsoft.com/"),
-          item("laptop","gaming","Gaming Laptop (RTX class)",1790000,["gaming","screen"],{win:3,gpu:3,perf:3,screen:3,battery:1,portable:1},{ko:"게임/3D 성능 우선. 대신 무게/배터리 타협.",en:"Performance-first for gaming/3D."},{"Display":"High refresh","Weight":"Heavy","OS":"Windows","Battery":"Shorter","Best":"Gaming"},"https://search.danawa.com/")
+          item("laptop","mba13","MacBook Air 13 (M-series)",1590000,["battery","portable"],{mac:3,battery:3,portable:3,screen:2,perf:2,value:1},{ko:"휴대+배터리 밸런스 강함. 일상/개발에 무난.",en:"Great portability + battery. Solid for daily/dev."},{"Display":"13\"","Weight":"~1.2kg","OS":"macOS","Battery":"Long","Best":"Daily/Dev"},"https://www.apple.com/kr/macbook-air/","Apple"),
+          item("laptop","mba15","MacBook Air 15 (M-series)",1890000,["battery","screen"],{mac:3,battery:3,portable:2,screen:3,perf:2},{ko:"대화면+배터리로 멀티태스킹 만족.",en:"Large display + long battery for multitasking."},{"Display":"15\"","Weight":"~1.5kg","OS":"macOS","Battery":"Long","Best":"Multitask"},"https://www.apple.com/kr/macbook-air/","Apple"),
+          item("laptop","gram","LG gram (lightweight)",1650000,["portable","battery"],{win:3,portable:3,battery:2,screen:2,perf:2,value:2},{ko:"초경량 컨셉의 이동형. ‘매일 들고 다님’에 강함.",en:"Ultra-light travel friendly."},{"Display":"14~16\"","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Travel/School"},"https://www.lge.co.kr/","LG"),
+          item("laptop","ideapad","Lenovo IdeaPad (value)",990000,["value"],{win:3,value:3,battery:2,portable:2,screen:1,perf:1},{ko:"예산 제한에 강한 실속형.",en:"Budget-friendly value pick."},{"Display":"Varies","Weight":"Mid","OS":"Windows","Battery":"OK","Best":"Budget"},"https://www.lenovo.com/kr/ko/","Lenovo"),
+          item("laptop","zenbook","ASUS Zenbook OLED",1850000,["screen","portable"],{win:3,screen:3,portable:2,battery:2,perf:2,color:2},{ko:"OLED 화면 만족도 체감. 시각 작업/감상에 유리.",en:"OLED display feels great."},{"Display":"OLED","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Display"},"https://www.asus.com/kr/","ASUS"),
+          item("laptop","xps","Dell XPS (premium)",2600000,["screen"],{win:3,screen:3,perf:3,battery:2,portable:2},{ko:"프리미엄 빌드/화면 지향. ‘고급스러움’ 체감.",en:"Premium build and display focus."},{"Display":"High-end","Weight":"Mid","OS":"Windows","Battery":"Good","Best":"Premium Work"},"https://www.dell.com/ko-kr","Dell"),
+          item("laptop","thinkpad","ThinkPad (business)",2300000,["screen"],{win:3,perf:2,screen:2,battery:2},{ko:"업무/타이핑 안정성. 키감 선호층에 인기.",en:"Work/typing reliability."},{"Display":"14\"","Weight":"Mid","OS":"Windows","Battery":"Good","Best":"Typing"},"https://www.lenovo.com/kr/ko/","Lenovo"),
+          item("laptop","surface","Surface Laptop class",2100000,["portable","screen"],{win:3,portable:3,screen:2,battery:2,perf:2},{ko:"휴대형 프리미엄 감성. 무난하게 예쁨.",en:"Portable premium vibe."},{"Display":"13~15\"","Weight":"Light","OS":"Windows","Battery":"Good","Best":"Portable Work"},"https://www.microsoft.com/","Microsoft"),
+          item("laptop","gaming","Gaming Laptop (RTX class)",1790000,["gaming","screen"],{win:3,gpu:3,perf:3,screen:3,battery:1,portable:1},{ko:"게임/3D 성능 우선. 대신 무게/배터리 타협.",en:"Performance-first for gaming/3D."},{"Display":"High refresh","Weight":"Heavy","OS":"Windows","Battery":"Shorter","Best":"Gaming"},"https://www.google.com/search?q=gaming+laptop+RTX","Other")
         ]
       },
 
@@ -1306,12 +1315,12 @@
             ]}
         ],
         items:[
-          item("phone","ip_base","iPhone (base class)",1290000,["camera","eco"],{ios:3,eco:3,camera:2,battery:2,perf:2},{ko:"일상 밸런스+생태계. ‘무난하게 잘함’",en:"Balanced daily + ecosystem."},{"OS":"iOS","Camera":"Strong daily","Battery":"Good","Size":"Balanced","Best":"Ecosystem"},"https://www.apple.com/kr/iphone/"),
-          item("phone","ip_pro","iPhone (Pro class)",1550000,["camera","eco"],{ios:3,eco:3,camera:3,perf:3,battery:2},{ko:"카메라/성능 상급. 촬영 비중 높으면 유리.",en:"Top camera/performance class."},{"OS":"iOS","Camera":"Flagship","Battery":"Good","Size":"Mid","Best":"Camera"},"https://www.apple.com/kr/iphone/"),
-          item("phone","galaxyS","Galaxy S (flagship)",1150000,["eco","camera"],{and:3,eco:3,camera:2,battery:2,perf:2},{ko:"안드로이드 편의/연동. 전체 밸런스 좋음.",en:"Android flexibility + integration."},{"OS":"Android","Camera":"Balanced","Battery":"Good","Size":"Balanced","Best":"Android"},"https://www.samsung.com/sec/"),
-          item("phone","ultra","Galaxy Ultra (camera)",1690000,["camera","battery"],{and:3,camera:3,battery:3,perf:2,eco:3},{ko:"카메라+배터리 강력(대화면).",en:"Strong camera + battery (big)."},{"OS":"Android","Camera":"Top-tier","Battery":"Strong","Size":"Large","Best":"Camera+Battery"},"https://www.samsung.com/sec/"),
-          item("phone","pixel","Pixel class",990000,["camera"],{and:3,camera:3,battery:2,perf:2},{ko:"연산사진 스타일 강점. 사진톤 선호하면.",en:"Computational photo strength."},{"OS":"Android","Camera":"Computational","Battery":"OK","Size":"Balanced","Best":"Photos"},"https://store.google.com/"),
-          item("phone","value_mid","Value midrange Android",690000,["value","battery"],{and:3,value:3,battery:3,camera:2},{ko:"가성비+배터리 체감. 실속형.",en:"Strong value + battery."},{"OS":"Android","Camera":"Good enough","Battery":"Strong","Size":"Balanced","Best":"Value"},"https://search.danawa.com/")
+          item("phone","ip_base","iPhone (base class)",1290000,["camera","eco"],{ios:3,eco:3,camera:2,battery:2,perf:2},{ko:"일상 밸런스+생태계. ‘무난하게 잘함’",en:"Balanced daily + ecosystem."},{"OS":"iOS","Camera":"Strong daily","Battery":"Good","Size":"Balanced","Best":"Ecosystem"},"https://www.apple.com/kr/iphone/","Apple"),
+          item("phone","ip_pro","iPhone (Pro class)",1550000,["camera","eco"],{ios:3,eco:3,camera:3,perf:3,battery:2},{ko:"카메라/성능 상급. 촬영 비중 높으면 유리.",en:"Top camera/performance class."},{"OS":"iOS","Camera":"Flagship","Battery":"Good","Size":"Mid","Best":"Camera"},"https://www.apple.com/kr/iphone/","Apple"),
+          item("phone","galaxyS","Galaxy S (flagship)",1150000,["eco","camera"],{and:3,eco:3,camera:2,battery:2,perf:2},{ko:"안드로이드 편의/연동. 전체 밸런스 좋음.",en:"Android flexibility + integration."},{"OS":"Android","Camera":"Balanced","Battery":"Good","Size":"Balanced","Best":"Android"},"https://www.samsung.com/sec/","Samsung"),
+          item("phone","ultra","Galaxy Ultra (camera)",1690000,["camera","battery"],{and:3,camera:3,battery:3,perf:2,eco:3},{ko:"카메라+배터리 강력(대화면).",en:"Strong camera + battery (big)."},{"OS":"Android","Camera":"Top-tier","Battery":"Strong","Size":"Large","Best":"Camera+Battery"},"https://www.samsung.com/sec/","Samsung"),
+          item("phone","pixel","Pixel class",990000,["camera"],{and:3,camera:3,battery:2,perf:2},{ko:"연산사진 스타일 강점. 사진톤 선호하면.",en:"Computational photo strength."},{"OS":"Android","Camera":"Computational","Battery":"OK","Size":"Balanced","Best":"Photos"},"https://store.google.com/","Google"),
+          item("phone","value_mid","Value midrange Android",690000,["value","battery"],{and:3,value:3,battery:3,camera:2},{ko:"가성비+배터리 체감. 실속형.",en:"Strong value + battery."},{"OS":"Android","Camera":"Good enough","Battery":"Strong","Size":"Balanced","Best":"Value"},"https://www.google.com/search?q=midrange+android+phone","Other")
         ]
       },
 
@@ -1339,10 +1348,10 @@
             ]}
         ],
         items:[
-          item("robot","premiumDock","Premium dock+mop class",1550000,["dock","mop","avoid","pet"],{dock:3,mop:3,avoid:3,pet:2},{ko:"비움+물걸레 자동화 체감이 큼.",en:"Hands-free dock + mop feel."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"Good","Best":"Hands-free"},"https://search.danawa.com/"),
-          item("robot","midDock","Mid dock class",1090000,["dock","avoid"],{dock:3,avoid:2,pet:1},{ko:"도크로 비움 자동화. 유지관리 스트레스↓",en:"Auto-empty convenience."},{"Dock":"Yes","Mop":"Optional","Avoidance":"Mid","Pets":"Good","Best":"Dock"},"https://search.danawa.com/"),
-          item("robot","mopStrong","Mop-focused class",990000,["mop","dock"],{mop:3,dock:2,avoid:2},{ko:"물걸레 우선. 바닥 체감이 목표라면.",en:"Mopping-first."},{"Dock":"Often","Mop":"Strong","Avoidance":"Mid","Pets":"OK","Best":"Mop"},"https://search.danawa.com/"),
-          item("robot","valueBasic","Value suction class",590000,["value"],{value:3,mop:1,avoid:1},{ko:"입문/실속 흡입 중심.",en:"Entry value suction."},{"Dock":"No","Mop":"Light","Avoidance":"Basic","Pets":"OK","Best":"Budget"},"https://search.danawa.com/")
+          item("robot","premiumDock","Premium dock+mop class",1550000,["dock","mop","avoid","pet"],{dock:3,mop:3,avoid:3,pet:2},{ko:"비움+물걸레 자동화 체감이 큼.",en:"Hands-free dock + mop feel."},{"Dock":"Yes","Mop":"Yes","Avoidance":"High","Pets":"Good","Best":"Hands-free"},"https://www.google.com/search?q=premium+robot+vacuum+dock+mop","Other"),
+          item("robot","midDock","Mid dock class",1090000,["dock","avoid"],{dock:3,avoid:2,pet:1},{ko:"도크로 비움 자동화. 유지관리 스트레스↓",en:"Auto-empty convenience."},{"Dock":"Yes","Mop":"Optional","Avoidance":"Mid","Pets":"Good","Best":"Dock"},"https://www.google.com/search?q=robot+vacuum+auto-empty+dock","Other"),
+          item("robot","mopStrong","Mop-focused class",990000,["mop","dock"],{mop:3,dock:2,avoid:2},{ko:"물걸레 우선. 바닥 체감이 목표라면.",en:"Mopping-first."},{"Dock":"Often","Mop":"Strong","Avoidance":"Mid","Pets":"OK","Best":"Mop"},"https://www.google.com/search?q=robot+vacuum+mopping","Other"),
+          item("robot","valueBasic","Value suction class",590000,["value"],{value:3,mop:1,avoid:1},{ko:"입문/실속 흡입 중심.",en:"Entry value suction."},{"Dock":"No","Mop":"Light","Avoidance":"Basic","Pets":"OK","Best":"Budget"},"https://www.google.com/search?q=budget+robot+vacuum","Other")
         ]
       },
 
@@ -1371,10 +1380,10 @@
             ]}
         ],
         items:[
-          item("headphones","sonyWH","Sony WH-1000X class",499000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"출퇴근 ANC 체감 강함. 무난한 올인원.",en:"Strong commute ANC feel."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Commute"},"https://www.sony.co.kr/"),
-          item("headphones","boseQC","Bose QuietComfort class",459000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"착용감/ANC 안정. 오래 써도 편안함.",en:"Comfort + stable ANC."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Comfort"},"https://www.bose.co.kr/"),
-          item("headphones","valueANC","Value ANC class",199000,["value","anc"],{value:3,anc:2,wireless:3},{ko:"가성비 ANC 입문. ‘가격 대비 만족’",en:"Entry value ANC."},{"Type":"Over-ear","ANC":"Mid","Mic":"OK","Wired":"No","Best":"Value"},"https://search.danawa.com/"),
-          item("headphones","openBack","Open-back class",219000,["stage","wired"],{stage:3,wired:3},{ko:"집 감상 공간감. 개방형 취향이면.",en:"Soundstage for home."},{"Type":"Open-back","ANC":"No","Mic":"No","Wired":"Yes","Best":"Home"},"https://search.danawa.com/")
+          item("headphones","sonyWH","Sony WH-1000X class",499000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"출퇴근 ANC 체감 강함. 무난한 올인원.",en:"Strong commute ANC feel."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Commute"},"https://www.sony.co.kr/","Sony"),
+          item("headphones","boseQC","Bose QuietComfort class",459000,["anc","mic"],{anc:3,mic:2,wireless:3},{ko:"착용감/ANC 안정. 오래 써도 편안함.",en:"Comfort + stable ANC."},{"Type":"Over-ear","ANC":"Strong","Mic":"Good","Wired":"No","Best":"Comfort"},"https://www.bose.co.kr/","Bose"),
+          item("headphones","valueANC","Value ANC class",199000,["value","anc"],{value:3,anc:2,wireless:3},{ko:"가성비 ANC 입문. ‘가격 대비 만족’",en:"Entry value ANC."},{"Type":"Over-ear","ANC":"Mid","Mic":"OK","Wired":"No","Best":"Value"},"https://www.google.com/search?q=budget+anc+headphones","Other"),
+          item("headphones","openBack","Open-back class",219000,["stage","wired"],{stage:3,wired:3},{ko:"집 감상 공간감. 개방형 취향이면.",en:"Soundstage for home."},{"Type":"Open-back","ANC":"No","Mic":"No","Wired":"Yes","Best":"Home"},"https://www.google.com/search?q=open+back+headphones","Other")
         ]
       },
 
@@ -1426,28 +1435,28 @@
             {wireless:3,silent:3,low:3,value:2,latency:1,layout_full:2,noise:-2,multi:3},
             {ko:"사무/문서용 ‘조용한 무선’ 대표. 로우프로파일로 손목 부담↓",en:"Quiet wireless office staple. Low-profile comfort."},
             {"Layout":"Full-size","Switch":"Scissor","Connection":"BT/Receiver","Hot-swap":"No","Noise":"Low","Best":"Office/Docs"},
-            "https://www.logitech.com/ko-kr"
+            "https://www.logitech.com/ko-kr","Logitech"
           ),
           item("keyboard","k8pro","Keychron K8 Pro (Hot-swap)",149000,
             ["mech","hotswap","wireless","pbt"],
             {mech:3,hotswap:3,wireless:2,value:2,layout_tkl:3,feel_bal:2,stab:2,qmk:2,multi:2},
             {ko:"TKL + 핫스왑 + PBT로 커스텀 입문에 강력.",en:"TKL + hot-swap + PBT = great custom entry."},
             {"Layout":"TKL","Connection":"BT/Wired","Hot-swap":"Yes","Keycaps":"PBT","QMK/VIA":"Often","Noise":"Mid","Best":"Coding/All-round"},
-            "https://www.keychron.com/"
+            "https://www.keychron.com/","Keychron"
           ),
           item("keyboard","gaming24g","Gaming (2.4G low latency)",179000,
             ["mech","24g","wireless"],
             {mech:3,"24g":3,wireless:2,latency:3,layout_tkl:2,feel_crisp:2,noise:1,value:1},
             {ko:"2.4G 기반 지연 체감↓. 게임용 반응/안정에 초점.",en:"2.4G lowers perceived latency; gaming focused."},
             {"Layout":"TKL/75%","Connection":"2.4G/Wired","Latency":"Low","Noise":"Mid","Best":"Gaming"},
-            "https://search.danawa.com/"
+            "https://www.google.com/search?q=gaming+keyboard+2.4G","Other"
           ),
           item("keyboard","silentMech","Silent Mechanical (office)",119000,
             ["mech","silent","value"],
             {mech:2,silent:3,value:3,noise:-2,layout_tkl:2,layout_75:2,foam:1},
             {ko:"저소음 스위치 기반 실속형. 사무실/야간용 최적.",en:"Value silent-switch mechanical. Best for office/night."},
             {"Layout":"75%/TKL","Switch":"Silent","Noise":"Low","Best":"Quiet typing"},
-            "https://search.danawa.com/"
+            "https://www.google.com/search?q=silent+mechanical+keyboard","Other"
           ),
         ]
       }
@@ -1462,6 +1471,7 @@
       cat:"laptop",
       answers:{},
       featureFilters:{},
+      brandFilters:{},
       sort:"score_desc",
       search:"",
       favOnly:false,
@@ -1523,6 +1533,7 @@
       $("rightSub").textContent=T.rightSub;
       $("btnFavOnly").textContent=T.btnFavOnly;
       $("btnClearCompare").textContent=T.btnClearCompare;
+      $("brandLabel").textContent=T.labels.brand;
       $("legalTitle").textContent=T.legalTitle;
       $("legalText").textContent=T.legalText;
       $("refFoot").innerHTML=T.refFoot;
@@ -1586,6 +1597,33 @@
       }
       addToggle("__all", lang==="ko"?"전체":"All");
       for(const f of feats) addToggle(f.id, f[lang]);
+    }
+
+    function buildBrandToggles(){
+      const el=$("brandToggles");
+      el.innerHTML="";
+      const items=DATA[state.cat].items;
+      const brands = Array.from(new Set(items.map(it=>it.brand||"Other"))).sort();
+      const selected = new Set(state.brandFilters[state.cat]||[]);
+      function addToggle(id,label){
+        const b=document.createElement("div");
+        b.className="toggle"+(selected.has(id)?" active":"");
+        b.textContent=label;
+        b.onclick=()=>{
+          if(id==="__all"){ selected.clear(); }
+          else{
+            if(selected.has(id)) selected.delete(id);
+            else selected.add(id);
+          }
+          state.brandFilters[state.cat]=Array.from(selected);
+          saveJSON(LS_STATE,state);
+          buildBrandToggles();
+          renderResults();
+        };
+        el.appendChild(b);
+      }
+      addToggle("__all", lang==="ko"?"전체":"All");
+      for(const b of brands) addToggle(b, b);
     }
 
     function buildQuestions(){
@@ -1845,6 +1883,7 @@
       const list = DATA[state.cat].items.slice();
       const q = (state.search||"").trim().toLowerCase();
       const selected = new Set(state.featureFilters[state.cat]||[]);
+      const brandSelected = new Set(state.brandFilters[state.cat]||[]);
 
       let scored = list.map(it=>{
         const s = scoreItem(state.cat, it);
@@ -1856,6 +1895,9 @@
           for(const f of selected){ if(it.features.includes(f)) return true; }
           return false;
         });
+      }
+      if(brandSelected.size){
+        scored = scored.filter(it => brandSelected.has(it.brand||"Other"));
       }
       if(q){
         scored = scored.filter(it=>{
@@ -1998,6 +2040,7 @@
       applyI18N();
       buildTabs();
       buildFeatureToggles();
+      buildBrandToggles();
       buildQuestions();
       $("sortSel").value = state.sort || "score_desc";
       $("searchBox").value = state.search || "";
