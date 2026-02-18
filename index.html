@@ -1077,6 +1077,7 @@
       // product material palette
       const metalL = 55 + rnd()*18;     // lightness
       const metalS = 8 + rnd()*10;      // saturation
+      const hue = rnd()*360;
       const metalH = (hue + 210 + rnd()*40) % 360;
 
       const body = `hsl(${metalH}, ${metalS}%, ${metalL}%)`;
