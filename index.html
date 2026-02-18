@@ -7,6 +7,7 @@
   <title>Chooser | Laptop · Phone · Robot · Headphones · Keyboard</title>
   <meta name="description" content="Local-only product chooser with scored recommendations, favorites and comparison." />
   <meta name="theme-color" content="#0b1220" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
 
   <style>
     :root{
@@ -101,6 +102,32 @@
       color:var(--text);
       border-color: rgba(122,162,255,.45);
       background: linear-gradient(135deg, rgba(122,162,255,.18), rgba(176,140,255,.10));
+    }
+    .siteLinks{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      width:100%;
+      justify-content:flex-end;
+      position:relative;
+      z-index:1;
+      margin-top:6px;
+    }
+    .siteLinks a{
+      color:var(--muted);
+      font-size:12px;
+      font-weight:900;
+      text-decoration:none;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 10px;
+      background: rgba(255,255,255,.03);
+      transition:.12s border-color,.12s color,.12s transform;
+    }
+    .siteLinks a:hover{
+      color:var(--text);
+      border-color: rgba(255,255,255,.22);
+      transform:translateY(-1px);
     }
 
     .grid{display:grid;grid-template-columns: 1.06fr .94fr;gap:16px;margin-top:16px}
@@ -557,6 +584,21 @@
       font-size:12px;line-height:1.7;
       padding:14px 2px 0;
     }
+    .legalNav{
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .legalNav a{
+      color:var(--acc);
+      text-decoration:none;
+      font-weight:900;
+      font-size:12px;
+      border-bottom:1px dashed rgba(122,162,255,.55);
+    }
+    .legalNav a:hover{color:#b8d0ff}
 
     /* Compare drawer */
     .drawer{
@@ -731,6 +773,12 @@
         <div class="pill"><span class="dot"></span> <span id="pillLocal">로컬 계산 · 서버 업로드 없음</span></div>
         <div class="pill"><span id="pillPrice">가격은 참고가(대략) · 최종은 판매처 확인</span></div>
       </div>
+      <nav class="siteLinks" aria-label="Site policy navigation">
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </nav>
     </header>
 
     <div class="grid">
@@ -837,6 +885,13 @@
           <footer id="footerNote">
             <b id="footerB">팁</b><br/>
             <span id="footerT">비교(표)를 열고 싶으면 카드에서 ‘비교’를 2~3개 담아주세요.</span>
+            <div class="legalNav">
+              <a href="about.html">About</a>
+              <a href="privacy.html">Privacy Policy</a>
+              <a href="terms.html">Terms</a>
+              <a href="contact.html">Contact</a>
+              <span>© 2026 IT Factory</span>
+            </div>
           </footer>
         </div>
       </aside>
