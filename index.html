@@ -983,30 +983,31 @@
     // ===========================
     const imgVar = loadJSON(LS_IMGVAR, {}); // per itemKey => integer variation (unused)
     const imgCache = new Map(); // key => dataURL (memory cache) (unused)
+    const BRAND_SVG = `<svg class="brandLogo" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="2"/></svg>`;
     const BRAND_META = {
-      Apple:{order:1,color:"#c6d0ff",url:"https://www.apple.com"},
-      Samsung:{order:2,color:"#9bd0ff",url:"https://www.samsung.com"},
-      Google:{order:3,color:"#a7f3d0",url:"https://store.google.com"},
-      LG:{order:4,color:"#ff9aa8",url:"https://www.lg.com"},
-      Lenovo:{order:5,color:"#ffb86b",url:"https://www.lenovo.com"},
-      ASUS:{order:6,color:"#bba3ff",url:"https://www.asus.com"},
-      Dell:{order:7,color:"#8bd0ff",url:"https://www.dell.com"},
-      Microsoft:{order:8,color:"#9fe0c3",url:"https://www.microsoft.com"},
-      Sony:{order:9,color:"#cbd5ff",url:"https://www.sony.com"},
-      Bose:{order:10,color:"#f6ad55",url:"https://www.bose.com"},
-      Logitech:{order:11,color:"#8dd0ff",url:"https://www.logitech.com"},
-      Keychron:{order:12,color:"#b6f1d2",url:"https://www.keychron.com"},
-      Acer:{order:13,color:"#b7f7a5",url:"https://www.acer.com"},
-      Razer:{order:14,color:"#b6ff6b",url:"https://www.razer.com"},
-      Xiaomi:{order:15,color:"#ffb86b",url:"https://www.mi.com"},
-      Roborock:{order:16,color:"#9bd0ff",url:"https://global.roborock.com"},
-      Ecovacs:{order:17,color:"#a7f3d0",url:"https://www.ecovacs.com"},
-      Dreame:{order:18,color:"#b0c4ff",url:"https://www.dreametech.com"},
-      Anker:{order:19,color:"#ffd39b",url:"https://www.anker.com"},
-      Sennheiser:{order:20,color:"#9db4ff",url:"https://www.sennheiser.com"},
-      Leopold:{order:21,color:"#c2f0d6",url:"https://www.leopold.co.kr"},
-      Realforce:{order:22,color:"#f0cfa0",url:"https://realforce.co.jp"},
-      Other:{order:99,color:"#7aa2ff",url:"https://www.google.com"}
+      Apple:{order:1,color:"#c6d0ff",url:"https://www.apple.com",svg:BRAND_SVG},
+      Samsung:{order:2,color:"#9bd0ff",url:"https://www.samsung.com",svg:BRAND_SVG},
+      Google:{order:3,color:"#a7f3d0",url:"https://store.google.com",svg:BRAND_SVG},
+      LG:{order:4,color:"#ff9aa8",url:"https://www.lg.com",svg:BRAND_SVG},
+      Lenovo:{order:5,color:"#ffb86b",url:"https://www.lenovo.com",svg:BRAND_SVG},
+      ASUS:{order:6,color:"#bba3ff",url:"https://www.asus.com",svg:BRAND_SVG},
+      Dell:{order:7,color:"#8bd0ff",url:"https://www.dell.com",svg:BRAND_SVG},
+      Microsoft:{order:8,color:"#9fe0c3",url:"https://www.microsoft.com",svg:BRAND_SVG},
+      Sony:{order:9,color:"#cbd5ff",url:"https://www.sony.com",svg:BRAND_SVG},
+      Bose:{order:10,color:"#f6ad55",url:"https://www.bose.com",svg:BRAND_SVG},
+      Logitech:{order:11,color:"#8dd0ff",url:"https://www.logitech.com",svg:BRAND_SVG},
+      Keychron:{order:12,color:"#b6f1d2",url:"https://www.keychron.com",svg:BRAND_SVG},
+      Acer:{order:13,color:"#b7f7a5",url:"https://www.acer.com",svg:BRAND_SVG},
+      Razer:{order:14,color:"#b6ff6b",url:"https://www.razer.com",svg:BRAND_SVG},
+      Xiaomi:{order:15,color:"#ffb86b",url:"https://www.mi.com",svg:BRAND_SVG},
+      Roborock:{order:16,color:"#9bd0ff",url:"https://global.roborock.com",svg:BRAND_SVG},
+      Ecovacs:{order:17,color:"#a7f3d0",url:"https://www.ecovacs.com",svg:BRAND_SVG},
+      Dreame:{order:18,color:"#b0c4ff",url:"https://www.dreametech.com",svg:BRAND_SVG},
+      Anker:{order:19,color:"#ffd39b",url:"https://www.anker.com",svg:BRAND_SVG},
+      Sennheiser:{order:20,color:"#9db4ff",url:"https://www.sennheiser.com",svg:BRAND_SVG},
+      Leopold:{order:21,color:"#c2f0d6",url:"https://www.leopold.co.kr",svg:BRAND_SVG},
+      Realforce:{order:22,color:"#f0cfa0",url:"https://realforce.co.jp",svg:BRAND_SVG},
+      Other:{order:99,color:"#7aa2ff",url:"https://www.google.com",svg:BRAND_SVG}
     };
 
     function roundRect(ctx,x,y,w,h,r){
@@ -1813,7 +1814,8 @@
         b.className="toggle"+(selected.has(id)?" active":"");
         const meta=getBrandMeta(id);
         const linkHtml = meta.url ? ` <a class="brandLink" href="${meta.url}" target="_blank" rel="noopener">공식</a>` : "";
-        b.innerHTML = `<span class="brandDot" style="--brand:${meta.color}"></span> ${label}${linkHtml}`;
+        const logoHtml = meta.svg ? meta.svg : "";
+        b.innerHTML = `${logoHtml} <span class="brandDot" style="--brand:${meta.color}"></span> ${label}${linkHtml}`;
         b.onclick=()=>{
           if(selected.has(id)) selected.delete(id);
           else selected.add(id);
@@ -2194,6 +2196,7 @@
             ${usedEstimated ? "" : `<div class="priceMeta">${lang==="ko"?"확인일":"Checked"}: ${usedDate}${usedSource?` · ${usedSource}`:""}</div>`}
             <p class="heroDesc">${it.desc[lang]}</p>
             <div class="brandPill" style="--brand:${brandMeta.color}">
+              ${brandMeta.svg || ""}
               <span class="brandDot"></span>
               <span>${it.brand || "Other"}</span>
             </div>
