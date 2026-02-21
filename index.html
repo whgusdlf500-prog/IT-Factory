@@ -946,7 +946,7 @@
       <div class="brand">
         <div class="logo" aria-hidden="true"></div>
         <div class="title">
-          <h1 id="uiTitle">IT 셀렉트 스튜디오 · 노트북 · 핸드폰 · 로봇청소기 · 헤드폰 · 키보드 · 식기세척기</h1>
+          <h1 id="uiTitle">IT 셀렉트 스튜디오 · 노트북 · 핸드폰 · 로봇청소기 · 헤드폰 · 키보드 · 식기세척기 · 전기차</h1>
           <p id="uiSubtitle">질문 몇 개 → 점수 기반 추천 + 검색/정렬/즐겨찾기/비교 · 로컬 전용</p>
         </div>
       </div>
@@ -1238,7 +1238,7 @@
     // ===========================
     const I18N = {
       ko:{
-        uiTitle:"IT 셀렉트 스튜디오 · 노트북 · 핸드폰 · 로봇청소기 · 헤드폰 · 키보드 · 식기세척기",
+        uiTitle:"IT 셀렉트 스튜디오 · 노트북 · 핸드폰 · 로봇청소기 · 헤드폰 · 키보드 · 식기세척기 · 전기차",
         uiSubtitle:"질문 몇 개 → 점수 기반 추천 + 검색/정렬/즐겨찾기/비교 · 로컬 전용",
         pillLocal:"로컬 계산 · 서버 업로드 없음",
         pillPrice:"가격은 참고가(대략) · 최종은 판매처 확인",
@@ -1325,7 +1325,7 @@
         labels:{ref:"참고가", fit:"적합도", open:"열기", favorite:"즐겨찾기", compare:"비교", price:"가격", priceNew:"새제품", priceUsed:"중고가", why:"추천 이유:", brand:"제조사"}
       },
       en:{
-        uiTitle:"IT Select Studio · Laptop · Phone · Robot Vacuum · Headphones · Keyboard · Dishwasher",
+        uiTitle:"IT Select Studio · Laptop · Phone · Robot Vacuum · Headphones · Keyboard · Dishwasher · EV",
         uiSubtitle:"A few questions → scored picks + search/sort/favorites/compare · local-only",
         pillLocal:"Local-only · No server upload",
         pillPrice:"Prices are rough references · verify at retailer",
@@ -1501,7 +1501,8 @@
         keyboard:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3.8" y="7" width="16.4" height="10" rx="2.2" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M6.2 10h.01M8.4 10h.01M10.6 10h.01M12.8 10h.01M15 10h.01M17.2 10h.01" stroke="currentColor" stroke-width="2.4" opacity=".55" stroke-linecap="round"/><path d="M6.2 12.7h.01M8.4 12.7h.01M10.6 12.7h.01M12.8 12.7h.01M15 12.7h.01M17.2 12.7h.01" stroke="currentColor" stroke-width="2.4" opacity=".55" stroke-linecap="round"/><path d="M8 15h8" stroke="currentColor" stroke-width="1.8" opacity=".6" stroke-linecap="round"/></svg>`,
         mouse:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="8" y="4" width="8" height="16" rx="4" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M12 4v6" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/></svg>`,
         aircon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="6" width="17" height="9" rx="2.2" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M6 18c2-2 4-2 6 0" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/><path d="M12 18c2-2 4-2 6 0" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/></svg>`,
-        dishwasher:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2.2" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M7.5 8.2h9" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/><circle cx="9" cy="14.2" r="2.3" stroke="currentColor" stroke-width="1.5" opacity=".7"/><circle cx="15" cy="14.2" r="2.3" stroke="currentColor" stroke-width="1.5" opacity=".7"/></svg>`
+        dishwasher:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2.2" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M7.5 8.2h9" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/><circle cx="9" cy="14.2" r="2.3" stroke="currentColor" stroke-width="1.5" opacity=".7"/><circle cx="15" cy="14.2" r="2.3" stroke="currentColor" stroke-width="1.5" opacity=".7"/></svg>`,
+        ev:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 14l1.2-4.2A2.6 2.6 0 0 1 8.7 8h6.6a2.6 2.6 0 0 1 2.5 1.8L19 14" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M7 16.5a1.8 1.8 0 1 0 3.6 0M13.4 16.5a1.8 1.8 0 1 0 3.6 0" stroke="currentColor" stroke-width="1.7" opacity=".7" stroke-linecap="round"/><path d="M12.2 5.2 10.8 8h2.6l-1.4 2.8" stroke="currentColor" stroke-width="1.6" opacity=".7" stroke-linecap="round" stroke-linejoin="round"/></svg>`
       };
       return m[cat]||"";
     }
@@ -1540,6 +1541,8 @@
       Samsung:{order:2,color:"#9bd0ff",url:"https://www.samsung.com",svg:makeBrandSvg("SA", "#305d9e")},
       Google:{order:3,color:"#a7f3d0",url:"https://store.google.com",svg:makeBrandSvg("GO", "#29795a")},
       LG:{order:4,color:"#ff9aa8",url:"https://www.lg.com",svg:makeBrandSvg("LG", "#8d3a4a")},
+      Hyundai:{order:4.1,color:"#8bc5ff",url:"https://www.hyundai.com",svg:makeBrandSvg("HY", "#2f6f95")},
+      Kia:{order:4.2,color:"#ffc2a8",url:"https://www.kia.com",svg:makeBrandSvg("KI", "#8a4a2f")},
       "SK Magic":{order:4.3,color:"#ffd1a3",url:"https://www.skmagic.com",svg:makeBrandSvg("SK", "#8a5a2c")},
       Cuckoo:{order:4.4,color:"#ffb7c3",url:"https://www.cuckoo.co.kr",svg:makeBrandSvg("CU", "#8f3d4a")},
       Lenovo:{order:5,color:"#ffb86b",url:"https://www.lenovo.com",svg:makeBrandSvg("LE", "#935d22")},
@@ -2715,9 +2718,87 @@
           )
         ]
       }
+      ,
+      ev:{
+        label:{ko:"전기차",en:"EV"}, updated:"2026-02-21",
+        features:[
+          {id:"range",ko:"주행거리",en:"Range"},
+          {id:"charge",ko:"충전/속도",en:"Charging"},
+          {id:"space",ko:"공간/실내",en:"Space"},
+          {id:"performance",ko:"성능",en:"Performance"},
+          {id:"value",ko:"가성비",en:"Value"},
+          {id:"suv",ko:"SUV/패밀리",en:"SUV/Family"}
+        ],
+        questions:[
+          {id:"body", label:{ko:"차체/용도",en:"Body"}, sub:{ko:"도심/가족/여행",en:"City/family/travel"},
+            options:[
+              {v:"city",t:{ko:"도심/컴팩트",en:"City/Compact"},w:{value:2,range:1}},
+              {v:"family",t:{ko:"패밀리/SUV",en:"Family/SUV"},w:{space:3,suv:3}},
+              {v:"travel",t:{ko:"장거리",en:"Long range"},w:{range:3,charge:2}}
+            ]},
+          {id:"priority", label:{ko:"우선순위",en:"Priority"}, sub:{ko:"가장 중요한 기준",en:"What matters most"},
+            options:[
+              {v:"range",t:{ko:"주행거리",en:"Range"},w:{range:3}},
+              {v:"charge",t:{ko:"충전/속도",en:"Charging"},w:{charge:3}},
+              {v:"space",t:{ko:"실내/적재",en:"Space"},w:{space:3}},
+              {v:"value",t:{ko:"가성비",en:"Value"},w:{value:3}}
+            ]}
+        ],
+        items:[
+          item("ev","kia_ev3_lr","Kia EV3 Long Range",39950000,NaN,
+            ["range","value","space"],
+            {range:3,value:2,space:2,charge:2,performance:1,suv:1},
+            {ko:"소형 전기 SUV. 주행거리와 가격 균형형.",en:"Compact EV SUV with balanced range and price."},
+            {"Range":"501km","Battery":"81.4kWh","Battery Supplier":"HLIGP","Chemistry":"NCM","Best":"Value range"},
+            "https://www.kia.com/kr/vehicles/ev3/specs","Kia","2026-02-21","추정(65%)"
+          ),
+          item("ev","kia_ev6_lr","Kia EV6 Long Range 2WD",43600000,NaN,
+            ["range","performance","charge"],
+            {range:3,performance:2,charge:2,value:1,space:2,suv:1},
+            {ko:"E-GMP 기반 중형 크로스오버.",en:"Mid-size crossover on E-GMP platform."},
+            {"Range":"494km","Battery":"84.0kWh","Battery Supplier":"SK On","Chemistry":"NCM","Best":"Long range"},
+            "https://www.kia.com/kr/vehicles/ev6/price","Kia","2026-02-21","추정(65%)"
+          ),
+          item("ev","kia_ev9_lr","Kia EV9 Long Range 2WD",61970000,NaN,
+            ["range","space","suv"],
+            {range:3,space:3,suv:3,charge:2,value:1,performance:1},
+            {ko:"3열 대형 SUV 전기차.",en:"Large 3-row electric SUV."},
+            {"Range":"501km","Battery":"99.8kWh","Battery Supplier":"SK On","Chemistry":"NCM","Best":"Family SUV"},
+            "https://www.kia.com/kr/vehicles/ev9/price","Kia","2026-02-21","추정(65%)"
+          ),
+          item("ev","kia_niro_ev","Kia Niro EV",48550000,NaN,
+            ["value","space","range"],
+            {value:2,space:2,range:2,charge:1,performance:1,suv:1},
+            {ko:"실용성 중심의 소형 SUV.",en:"Practical compact SUV."},
+            {"Range":"401km","Battery":"64.8kWh","Battery Supplier":"CATL","Chemistry":"NCM","Best":"Practical"},
+            "https://www.kia.com/kr/vehicles/niro-ev/specs","Kia","2026-02-21","추정(65%)"
+          ),
+          item("ev","hy_ioniq5","Hyundai IONIQ 5",46000000,NaN,
+            ["range","space","charge"],
+            {range:2,space:2,charge:2,value:1,performance:1,suv:2},
+            {ko:"패밀리형 E-GMP 전기차.",en:"Family-oriented E-GMP EV."},
+            {"Range":"480km","Battery":"84.0kWh","Battery Supplier":"SK On","Chemistry":"미공개","Best":"Family"},
+            "https://carcarworld.tistory.com/317","Hyundai","2026-02-21","추정(65%)"
+          ),
+          item("ev","hy_ioniq6","Hyundai IONIQ 6",48560000,NaN,
+            ["range","performance","charge"],
+            {range:3,performance:2,charge:2,value:1,space:1,suv:0},
+            {ko:"공기역학 강조 롱레인지 세단.",en:"Aerodynamic long-range sedan."},
+            {"Range":"562km","Battery":"84.0kWh","Battery Supplier":"SK On","Chemistry":"미공개","Best":"Long range"},
+            "https://tony21c.tistory.com/entry/2025-%EB%8D%94-%EB%89%B4-%EC%95%84%EC%9D%B4%EC%98%A4%EB%8B%89-6-%EA%B0%80%EA%B2%A9-%EC%B4%9D%EC%A0%95%EB%A6%AC-%ED%8A%B8%EB%A6%BC-%EB%B9%84%EA%B5%90-%EA%B0%80%EC%9D%B4%EB%93%9C","Hyundai","2026-02-21","추정(65%)"
+          ),
+          item("ev","hy_kona_ev","Hyundai Kona Electric",41520000,NaN,
+            ["value","range","space"],
+            {value:2,range:2,space:2,charge:1,performance:1,suv:1},
+            {ko:"도심형 소형 전기 SUV.",en:"City-friendly compact electric SUV."},
+            {"Range":"417km","Battery":"64.8kWh","Battery Supplier":"미공개","Chemistry":"미공개","Best":"City"},
+            "https://seia-1004.tistory.com/entry/%E2%9C%85-2025-%ED%98%84%EB%8C%80-%EC%BD%94%EB%82%98-%EC%9D%BC%EB%A0%89%ED%8A%B8%EB%A6%AD-%EA%B0%80%EA%B2%A9%ED%91%9C%C2%B7%ED%8A%B8%EB%A6%BC%EB%B3%84-%EC%82%AC%EC%96%91-%EC%B4%9D%EC%A0%95%EB%A6%AC%EF%BD%9C%EC%A0%84%EA%B8%B0-SUV-%EC%B6%94%EC%B2%9C-%EC%9D%B4%EC%9C%A0-BEST-7","Hyundai","2026-02-21","추정(65%)"
+          )
+        ]
+      }
     };
 
-    const CAT_ORDER=["laptop","phone","robot","headphones","keyboard","mouse","aircon","dishwasher"];
+    const CAT_ORDER=["laptop","phone","robot","headphones","keyboard","mouse","aircon","dishwasher","ev"];
 
     // ===========================
     // App state
