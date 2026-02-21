@@ -1,0 +1,16 @@
+# IT Factory
+
+IT Factory는 IT 제품군의 브랜드별 모델과 신제품·중고 가격 정보를 비교하는 가격 탐색 사이트입니다.
+
+## 주요 카테고리
+- 노트북, 휴대폰, 로봇청소기, 헤드폰, 키보드, 마우스, 에어컨
+
+## 대표 페이지
+- https://it-factory.pages.dev/
+- https://it-factory.pages.dev/guides.html
+- https://it-factory.pages.dev/guide-laptop-budget-2026.html
+- https://it-factory.pages.dev/guide-phone-camera-2026.html
+- https://it-factory.pages.dev/guide-robot-vacuum-pet-home-2026.html
+
+## 업데이트
+- 가격 데이터와 제품 라인업은 주기적으로 업데이트됩니다.
