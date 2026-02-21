@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://whgusdlf500-prog.github.io/IT-Factory/sitemap.xml
+Sitemap: https://it-factory.pages.dev/sitemap.xml
