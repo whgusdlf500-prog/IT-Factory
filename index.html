@@ -1553,6 +1553,9 @@
       Kia:{order:4.2,color:"#ffc2a8",url:"https://www.kia.com",svg:makeBrandSvg("KI", "#8a4a2f")},
       Tesla:{order:4.5,color:"#d1b1ff",url:"https://www.tesla.com/ko_kr",svg:makeBrandSvg("TS", "#6a4aa3")},
       Polestar:{order:4.6,color:"#cfe0ff",url:"https://www.polestar.com/kr",svg:makeBrandSvg("PO", "#4a5f9a")},
+      BMW:{order:4.7,color:"#bcd8ff",url:"https://www.bmw.co.kr",svg:makeBrandSvg("BM", "#3f5f9a")},
+      Volvo:{order:4.8,color:"#d7d7d7",url:"https://www.volvocars.com/kr",svg:makeBrandSvg("VO", "#5b5b5b")},
+      BYD:{order:4.9,color:"#ffd6a0",url:"https://www.byd.com",svg:makeBrandSvg("BY", "#8c5b28")},
       "SK Magic":{order:4.3,color:"#ffd1a3",url:"https://www.skmagic.com",svg:makeBrandSvg("SK", "#8a5a2c")},
       Cuckoo:{order:4.4,color:"#ffb7c3",url:"https://www.cuckoo.co.kr",svg:makeBrandSvg("CU", "#8f3d4a")},
       Lenovo:{order:5,color:"#ffb86b",url:"https://www.lenovo.com",svg:makeBrandSvg("LE", "#935d22")},
@@ -2776,12 +2779,33 @@
             {"Range":"401km","Battery":"64.8kWh","Battery Supplier":"미공개","Chemistry":"미공개","Best":"Practical"},
             "https://www.kia.com/kr/vehicles/niro-ev/specification","Kia","2026-02-21","추정(65%)"
           ),
-          item("ev","hy_kona_ev","Hyundai Kona Electric",47520000,NaN,
+          item("ev","hy_kona_ev","Hyundai Kona Electric E-Value+",41420000,26923000,
             ["value","range","space"],
             {value:2,range:2,space:2,charge:1,performance:1,suv:1},
             {ko:"도심형 소형 전기 SUV.",en:"City-friendly compact electric SUV."},
-            {"Range":"406km","Battery":"미공개","Battery Supplier":"미공개","Chemistry":"미공개","Best":"City"},
-            "https://www.hyundai.com/kr/ko/e/vehicles/konaelectric/specifications","Hyundai","2026-02-21","추정(65%)"
+            {"Range":"311km","Battery":"48.6kWh","Battery Supplier":"CATL","Chemistry":"NCM","Best":"City"},
+            "https://www.hyundai.co.kr/news/CONT0000000000160184","Hyundai","2026-02-21","추정(65%)"
+          ),
+          item("ev","hy_ioniq5_evalue","Hyundai IONIQ 5 E-Value+",47000000,30550000,
+            ["value","range","space"],
+            {value:3,range:2,space:2,charge:1,performance:1,suv:1},
+            {ko:"실속형 E-Value+ 트림.",en:"Value-focused E-Value+ trim."},
+            {"Range":"368km","Battery":"미공개","Battery Supplier":"미공개","Chemistry":"미공개","Best":"Value"},
+            "https://www.hyundai.co.kr/news/CONT0000000000160184","Hyundai","2026-02-21","추정(65%)"
+          ),
+          item("ev","hy_ioniq6_evalue","Hyundai IONIQ 6 E-Value+",46950000,30517500,
+            ["value","range","performance"],
+            {value:3,range:2,performance:2,charge:1,space:1,suv:0},
+            {ko:"세단형 실속 트림.",en:"Sedan value trim."},
+            {"Range":"367km","Battery":"미공개","Battery Supplier":"미공개","Chemistry":"미공개","Best":"Value"},
+            "https://www.hyundai.co.kr/news/CONT0000000000160184","Hyundai","2026-02-21","추정(65%)"
+          ),
+          item("ev","hy_casper_ev","Hyundai Casper Electric (Inspiration)",NaN,NaN,
+            ["value","space"],
+            {value:3,space:1,range:1,charge:1,performance:0,suv:0},
+            {ko:"도심형 초소형 EV.",en:"Ultra-compact city EV."},
+            {"Range":"미공개","Battery":"49kWh","Battery Supplier":"HLIGP","Chemistry":"NCM","Best":"City"},
+            "https://casper.hyundai.com/vehicles/electric/spec","Hyundai","2026-02-21","공식 가격 미공개"
           ),
           item("ev","tesla_model3_lr","Tesla Model 3 Long Range RWD",NaN,NaN,
             ["range","performance","charge"],
@@ -2803,6 +2827,41 @@
             {ko:"프리미엄 패스트백 EV.",en:"Premium fastback EV."},
             {"Range":"449km","Battery":"78kWh","Battery Supplier":"LG Chem","Chemistry":"리튬 이온(미공개)","Best":"Premium"},
             "https://www.polestar.com/kr/polestar-2/specifications","Polestar","2026-02-21","추정(65%)"
+          ),
+          item("ev","bmw_i4_edrive40","BMW i4 eDrive40",78300000,50895000,
+            ["performance","range","charge"],
+            {performance:2,range:2,charge:2,value:1,space:1,suv:0},
+            {ko:"그란 쿠페형 프리미엄 EV.",en:"Gran coupe premium EV."},
+            {"Range":"420km","Battery":"84kWh","Battery Supplier":"미공개","Chemistry":"리튬 이온(구성 미공개)","Best":"Premium"},
+            "https://www.press.bmwgroup.com/korea/article/detail/T0449444KO/bmw-%EC%BD%94%EB%A6%AC%EC%95%84-%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84-%EC%88%9C%EC%88%98%EC%A0%84%EA%B8%B0-%EA%B7%B8%EB%9E%80-%EC%BF%A0%ED%8E%98-%EB%89%B4-i4-edrive40%E2%80%99-%EA%B3%B5%EC%8B%9D-%EC%B6%9C%EC%8B%9C?language=ko","BMW","2026-02-21","추정(65%)"
+          ),
+          item("ev","bmw_ix_xdrive40","BMW iX xDrive40",122600000,79690000,
+            ["suv","space","range"],
+            {suv:3,space:3,range:2,charge:2,performance:2,value:0},
+            {ko:"대형 프리미엄 SUV EV.",en:"Large premium SUV EV."},
+            {"Range":"313km","Battery":"76.6kWh","Battery Supplier":"미공개","Chemistry":"리튬 이온(구성 미공개)","Best":"Premium SUV"},
+            "https://www.press.bmwgroup.com/korea/article/detail/T0360874KO/bmw-%EC%BD%94%EB%A6%AC%EC%95%84-%EC%83%88%EB%A1%9C%EC%9A%B4-%EC%88%9C%EC%88%98%EC%A0%84%EA%B8%B0-%EB%AA%A8%EB%8D%B8-ix-%EB%B0%8F-ix3-%EA%B5%AD%EB%82%B4-%EA%B3%B5%EC%8B%9D-%EC%B6%9C%EC%8B%9C?language=ko","BMW","2026-02-21","추정(65%)"
+          ),
+          item("ev","bmw_ix3_msport","BMW iX3 M Sport",75900000,49335000,
+            ["suv","range","value"],
+            {suv:2,range:2,value:1,charge:1,space:2,performance:1},
+            {ko:"중형 SUV 전기차 단일 트림.",en:"Mid-size electric SUV."},
+            {"Range":"344km","Battery":"80kWh","Battery Supplier":"미공개","Chemistry":"리튬 이온(구성 미공개)","Best":"SUV"},
+            "https://www.press.bmwgroup.com/korea/article/detail/T0360874KO/bmw-%EC%BD%94%EB%A6%AC%EC%95%84-%EC%83%88%EB%A1%9C%EC%9A%B4-%EC%88%9C%EC%88%98%EC%A0%84%EA%B8%B0-%EB%AA%A8%EB%8D%B8-ix-%EB%B0%8F-ix3-%EA%B5%AD%EB%82%B4-%EA%B3%B5%EC%8B%9D-%EC%B6%9C%EC%8B%9C?language=ko","BMW","2026-02-21","추정(65%)"
+          ),
+          item("ev","volvo_ex30_core","Volvo EX30 Core",47550000,30907500,
+            ["value","suv","space"],
+            {value:2,suv:2,space:2,range:1,charge:1,performance:1},
+            {ko:"소형 프리미엄 전기 SUV.",en:"Compact premium electric SUV."},
+            {"Range":"351km","Battery":"66kWh","Battery Supplier":"미공개","Chemistry":"미공개","Best":"Compact SUV"},
+            "https://www.donga.com/news/article/all/20250205/130975979/2","Volvo","2026-02-21","추정(65%)"
+          ),
+          item("ev","byd_atto3","BYD ATTO 3",31500000,20475000,
+            ["value","suv","range"],
+            {value:3,suv:2,range:2,charge:1,space:1,performance:1},
+            {ko:"보급형 소형 전기 SUV.",en:"Value compact electric SUV."},
+            {"Range":"321km","Battery":"미공개","Battery Supplier":"BYD","Chemistry":"LFP(블레이드)","Best":"Value"},
+            "https://www.hankyung.com/article/202501160640i","BYD","2026-02-21","추정(65%)"
           )
         ]
       }
