@@ -1043,12 +1043,9 @@
                 <a href="guide-best-time-buy-it-2026.html">할인 타이밍</a>
               </div>
             </div>
-            <div class="leftExtraCard" id="osNote">
-              <div class="leftExtraTitle" id="osTitle">macOS vs Windows</div>
-              <ul class="leftExtraList" id="osList">
-                <li><b>macOS</b>: 안정적 생태계, 배터리 효율, 창작툴 강점 / 단점: 게임·특정 업무앱 제한</li>
-                <li><b>Windows</b>: 호환성, 게임·업무툴 다양 / 단점: 제조사별 품질 편차, 전력/소음 편차</li>
-              </ul>
+            <div class="leftExtraCard" id="catNote">
+              <div class="leftExtraTitle" id="catNoteTitle">정보</div>
+              <ul class="leftExtraList" id="catNoteList"></ul>
             </div>
           </div>
         </div>
@@ -1262,8 +1259,21 @@
         extraList:"<li>새제품과 중고가를 함께 비교해요.</li><li>중고가는 표본 기반 참고 시세예요.</li><li>표본이 부족하면 ‘표본 부족’ 배지 표시.</li>",
         extraLinkTitle:"바로가기",
         extraLinks:"<a href=\"guides.html\">구매 가이드</a><a href=\"guide-used-laptop-checklist-2026.html\">중고 체크리스트</a><a href=\"guide-headphones-anc-2026.html\">ANC 가이드</a><a href=\"guide-best-time-buy-it-2026.html\">할인 타이밍</a>",
-        osTitle:"macOS vs Windows",
-        osList:"<li><b>macOS</b>: 안정적 생태계, 배터리 효율, 창작툴 강점 / 단점: 게임·특정 업무앱 제한</li><li><b>macOS 추천</b>: 영상·디자인·개발 등 크리에이티브/생산성 중심, 아이폰·아이패드 연동 중시 사용자</li><li><b>Windows</b>: 호환성, 게임·업무툴 다양 / 단점: 제조사별 품질 편차, 전력/소음 편차</li><li><b>Windows 추천</b>: 게임/특정 업무 소프트웨어 필요, 커스터마이징·가성비 중시 사용자</li>",
+        catNoteTitle:"정보",
+        catNotes:{
+          laptop:{
+            title:"macOS vs Windows",
+            list:"<li><b>macOS</b>: 안정적 생태계, 배터리 효율, 창작툴 강점 / 단점: 게임·특정 업무앱 제한</li><li><b>macOS 추천</b>: 영상·디자인·개발 등 크리에이티브/생산성 중심, 아이폰·아이패드 연동 중시 사용자</li><li><b>Windows</b>: 호환성, 게임·업무툴 다양 / 단점: 제조사별 품질 편차, 전력/소음 편차</li><li><b>Windows 추천</b>: 게임/특정 업무 소프트웨어 필요, 커스터마이징·가성비 중시 사용자</li>"
+          },
+          headphones:{
+            title:"ANC란?",
+            list:"<li><b>ANC</b>는 Active Noise Cancelling의 약자로, 마이크로 주변 소음을 감지해 역위상 신호로 소음을 줄입니다.</li><li>이동/카페/사무실 환경에서 체감이 크고, 바람 소음·압박감은 개인차가 있습니다.</li>"
+          },
+          keyboard:{
+            title:"키보드 용어",
+            list:"<li><b>핫스왑</b>: 납땜 없이 스위치 교체 가능</li><li><b>로우프로파일</b>: 낮은 키 높이로 휴대/타건감 경량화</li><li><b>인체공학</b>: 손목 부담을 줄이도록 분리/각도 설계</li><li><b>QMK/VIA</b>: 키맵/매크로를 자유롭게 커스터마이징하는 펌웨어/툴</li><li><b>가스켓</b>: 하우징 사이 완충재로 타건 진동/소음 감소</li><li><b>PBT 키캡</b>: 내구성·번들거림에 강한 재질</li><li><b>2.4G</b>: 저지연 무선(동글) 연결</li>"
+          }
+        },
         note:"✅ 추천/검색/정렬/비교는 전부 브라우저에서만 처리됩니다.<br/>🧭 사용법: 1) 탭 선택 → 2) 질문 답변 → 3) ‘추천 만들기’ 클릭 (필터/검색은 선택).<br/>⚠️ 중고가에 <span style='font-weight:900'>추정</span> 표시가 붙은 제품은 새 가격의 65%로 계산한 값입니다.<br/>⚠️ 가격은 “참고가(대략)”이며 판매처에서 최종 확인이 필요합니다.",
         kCatLabel:"카테고리",
         kUpdatedLabel:"업데이트",
@@ -1336,8 +1346,21 @@
         extraList:"<li>Compare new and used prices together.</li><li>Used prices are sample-based references.</li><li>Low samples show a “Low sample” badge.</li>",
         extraLinkTitle:"Shortcuts",
         extraLinks:"<a href=\"guides.html\">Buying guides</a><a href=\"guide-used-laptop-checklist-2026.html\">Used checklist</a><a href=\"guide-headphones-anc-2026.html\">ANC guide</a><a href=\"guide-best-time-buy-it-2026.html\">Best time to buy</a>",
-        osTitle:"macOS vs Windows",
-        osList:"<li><b>macOS</b>: Stable ecosystem, great battery, strong creative apps / Cons: limited game and niche apps</li><li><b>macOS 추천</b>: Creative workflows, productivity-first users, and Apple ecosystem users</li><li><b>Windows</b>: Broad compatibility, huge game/app library / Cons: build quality and noise vary by OEM</li><li><b>Windows 추천</b>: Gaming, niche business apps, customization and value seekers</li>",
+        catNoteTitle:"Info",
+        catNotes:{
+          laptop:{
+            title:"macOS vs Windows",
+            list:"<li><b>macOS</b>: Stable ecosystem, great battery, strong creative apps / Cons: limited game and niche apps</li><li><b>macOS 추천</b>: Creative workflows, productivity-first users, and Apple ecosystem users</li><li><b>Windows</b>: Broad compatibility, huge game/app library / Cons: build quality and noise vary by OEM</li><li><b>Windows 추천</b>: Gaming, niche business apps, customization and value seekers</li>"
+          },
+          headphones:{
+            title:"What is ANC?",
+            list:"<li><b>ANC</b> (Active Noise Cancelling) uses microphones to detect noise and cancels it with inverse sound.</li><li>Great for travel/cafes/offices; pressure and wind noise can vary by user.</li>"
+          },
+          keyboard:{
+            title:"Keyboard terms",
+            list:"<li><b>Hot-swap</b>: Replace switches without soldering</li><li><b>Low-profile</b>: Shorter key travel for thinner boards</li><li><b>Ergonomic</b>: Split/angled design for wrist comfort</li><li><b>QMK/VIA</b>: Firmware/tools for custom keymaps/macros</li><li><b>Gasket</b>: Dampening mount that softens feel/sound</li><li><b>PBT keycaps</b>: Durable, less shine over time</li><li><b>2.4G</b>: Low‑latency wireless via dongle</li>"
+          }
+        },
         note:"✅ Everything runs in your browser.<br/>🧭 How to use: 1) Choose a tab → 2) Answer questions → 3) Click “Generate” (filters/search optional).<br/>⚠️ Used prices marked <span style='font-weight:900'>Estimated</span> are calculated as 65% of the new price.<br/>⚠️ Prices are rough references; verify at the source site.",
         kCatLabel:"Category",
         kUpdatedLabel:"Updated",
@@ -2768,8 +2791,14 @@
       $("extraList").innerHTML=T.extraList;
       $("extraLinkTitle").textContent=T.extraLinkTitle;
       $("extraLinks").innerHTML=T.extraLinks;
-      $("osTitle").textContent=T.osTitle;
-      $("osList").innerHTML=T.osList;
+      const note = T.catNotes && T.catNotes[state.cat];
+      if(note){
+        $("catNoteTitle").textContent = note.title || T.catNoteTitle;
+        $("catNoteList").innerHTML = note.list || "";
+        $("catNote").style.display = "";
+      }else{
+        $("catNote").style.display = "none";
+      }
       $("noteText").innerHTML=T.note;
       $("kCatLabel").textContent=T.kCatLabel;
       $("kUpdatedLabel").textContent=T.kUpdatedLabel;
