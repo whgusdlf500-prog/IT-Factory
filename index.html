@@ -227,7 +227,7 @@
     @media (max-width: 560px){.controls{grid-template-columns:1fr}}
     .control{
       border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
+      background: rgba(255,255,255,.75);
       border-radius: 16px;
       padding:10px 10px;
       display:flex;flex-direction:column;gap:6px;
@@ -237,8 +237,8 @@
       width:100%;
       padding:10px 10px;
       border-radius: 14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(10,17,33,.55);
+      border:1px solid rgba(9,18,38,.14);
+      background: #ffffff;
       color: var(--text);
       outline:none;
       font-weight:850;
@@ -297,10 +297,53 @@
       margin-top:12px;color: var(--muted);
       font-size:12.3px;line-height:1.65;
     }
+    .leftExtra{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    @media (max-width: 720px){.leftExtra{grid-template-columns:1fr}}
+    .leftExtraCard{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.85);
+      border-radius: 14px;
+      padding:12px 12px;
+    }
+    .leftExtraTitle{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:900;
+      letter-spacing:.02em;
+      margin-bottom:6px;
+    }
+    .leftExtraList{
+      margin:0;
+      padding-left:16px;
+      color:var(--text);
+      font-size:12.5px;
+      line-height:1.6;
+    }
+    .leftExtraLinks{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .leftExtraLinks a{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.65);
+      color:var(--text);
+      text-decoration:none;
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      transition:.12s ease;
+    }
+    .leftExtraLinks a:hover{transform:translateY(-1px);border-color:rgba(9,18,38,.22)}
 
     .q{
       padding:14px;border:1px solid var(--line);
-      background: rgba(10,17,33,.45);
+      background: rgba(255,255,255,.82);
       border-radius: 18px;
       margin-top:12px;
       position:relative;
@@ -982,6 +1025,25 @@
           </div>
 
           <div id="qArea"></div>
+          <div class="leftExtra">
+            <div class="leftExtraCard">
+              <div class="leftExtraTitle" id="extraTitle">가격 읽는 법</div>
+              <ul class="leftExtraList" id="extraList">
+                <li>새제품과 중고가를 함께 비교해요.</li>
+                <li>중고가는 표본 기반 참고 시세예요.</li>
+                <li>표본이 부족하면 ‘표본 부족’ 배지 표시.</li>
+              </ul>
+            </div>
+            <div class="leftExtraCard">
+              <div class="leftExtraTitle" id="extraLinkTitle">바로가기</div>
+              <div class="leftExtraLinks" id="extraLinks">
+                <a href="guides.html">구매 가이드</a>
+                <a href="guide-used-laptop-checklist-2026.html">중고 체크리스트</a>
+                <a href="guide-headphones-anc-2026.html">ANC 가이드</a>
+                <a href="guide-best-time-buy-it-2026.html">할인 타이밍</a>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="kpis">
@@ -1189,6 +1251,10 @@
         shareLabel:"SNS 공유",
         shareCopy:"링크 복사",
         shareNative:"기기 공유",
+        extraTitle:"가격 읽는 법",
+        extraList:"<li>새제품과 중고가를 함께 비교해요.</li><li>중고가는 표본 기반 참고 시세예요.</li><li>표본이 부족하면 ‘표본 부족’ 배지 표시.</li>",
+        extraLinkTitle:"바로가기",
+        extraLinks:"<a href=\"guides.html\">구매 가이드</a><a href=\"guide-used-laptop-checklist-2026.html\">중고 체크리스트</a><a href=\"guide-headphones-anc-2026.html\">ANC 가이드</a><a href=\"guide-best-time-buy-it-2026.html\">할인 타이밍</a>",
         note:"✅ 추천/검색/정렬/비교는 전부 브라우저에서만 처리됩니다.<br/>🧭 사용법: 1) 탭 선택 → 2) 질문 답변 → 3) ‘추천 만들기’ 클릭 (필터/검색은 선택).<br/>⚠️ 중고가에 <span style='font-weight:900'>추정</span> 표시가 붙은 제품은 새 가격의 65%로 계산한 값입니다.<br/>⚠️ 가격은 “참고가(대략)”이며 판매처에서 최종 확인이 필요합니다.",
         kCatLabel:"카테고리",
         kUpdatedLabel:"업데이트",
@@ -1257,6 +1323,10 @@
         shareLabel:"Share",
         shareCopy:"Copy link",
         shareNative:"Device share",
+        extraTitle:"How to read prices",
+        extraList:"<li>Compare new and used prices together.</li><li>Used prices are sample-based references.</li><li>Low samples show a “Low sample” badge.</li>",
+        extraLinkTitle:"Shortcuts",
+        extraLinks:"<a href=\"guides.html\">Buying guides</a><a href=\"guide-used-laptop-checklist-2026.html\">Used checklist</a><a href=\"guide-headphones-anc-2026.html\">ANC guide</a><a href=\"guide-best-time-buy-it-2026.html\">Best time to buy</a>",
         note:"✅ Everything runs in your browser.<br/>🧭 How to use: 1) Choose a tab → 2) Answer questions → 3) Click “Generate” (filters/search optional).<br/>⚠️ Used prices marked <span style='font-weight:900'>Estimated</span> are calculated as 65% of the new price.<br/>⚠️ Prices are rough references; verify at the source site.",
         kCatLabel:"Category",
         kUpdatedLabel:"Updated",
@@ -2683,6 +2753,10 @@
       $("shareLabel").textContent=T.shareLabel;
       $("shareCopy").textContent=T.shareCopy;
       $("shareNative").textContent=T.shareNative;
+      $("extraTitle").textContent=T.extraTitle;
+      $("extraList").innerHTML=T.extraList;
+      $("extraLinkTitle").textContent=T.extraLinkTitle;
+      $("extraLinks").innerHTML=T.extraLinks;
       $("noteText").innerHTML=T.note;
       $("kCatLabel").textContent=T.kCatLabel;
       $("kUpdatedLabel").textContent=T.kUpdatedLabel;
