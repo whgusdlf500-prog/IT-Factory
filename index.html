@@ -149,6 +149,36 @@
       border-color: rgba(255,255,255,.22);
       transform:translateY(-1px);
     }
+    .shareRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      width:100%;
+      justify-content:flex-end;
+      margin-top:10px;
+    }
+    .shareLabel{
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.14em;
+    }
+    .shareBtns{display:flex;gap:8px;flex-wrap:wrap}
+    .shareBtn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .shareBtn:hover{
+      transform:translateY(-1px);
+      border-color: rgba(255,255,255,.35);
+    }
 
     .grid{display:grid;grid-template-columns: 1.06fr .94fr;gap:16px;margin-top:16px}
     @media (max-width: 980px){.grid{grid-template-columns:1fr}}
@@ -891,6 +921,17 @@
         <a href="terms.html">Terms</a>
         <a href="contact.html">Contact</a>
       </nav>
+      <div class="shareRow" aria-label="SNS share">
+        <div class="shareLabel" id="shareLabel">SNS 공유</div>
+        <div class="shareBtns">
+          <button class="shareBtn" data-share="copy" id="shareCopy">링크 복사</button>
+          <button class="shareBtn" data-share="native" id="shareNative">기기 공유</button>
+          <button class="shareBtn" data-share="x" aria-label="Share on X">X</button>
+          <button class="shareBtn" data-share="facebook" aria-label="Share on Facebook">Facebook</button>
+          <button class="shareBtn" data-share="linkedin" aria-label="Share on LinkedIn">LinkedIn</button>
+          <button class="shareBtn" data-share="reddit" aria-label="Share on Reddit">Reddit</button>
+        </div>
+      </div>
     </header>
 
     <div class="grid">
@@ -1143,6 +1184,9 @@
         btnSample:"샘플 답안",
         btnShare:"이 상태 공유",
         btnReset:"초기화",
+        shareLabel:"SNS 공유",
+        shareCopy:"링크 복사",
+        shareNative:"기기 공유",
         note:"✅ 추천/검색/정렬/비교는 전부 브라우저에서만 처리됩니다.<br/>🧭 사용법: 1) 탭 선택 → 2) 질문 답변 → 3) ‘추천 만들기’ 클릭 (필터/검색은 선택).<br/>⚠️ 중고가에 <span style='font-weight:900'>추정</span> 표시가 붙은 제품은 새 가격의 65%로 계산한 값입니다.<br/>⚠️ 가격은 “참고가(대략)”이며 판매처에서 최종 확인이 필요합니다.",
         kCatLabel:"카테고리",
         kUpdatedLabel:"업데이트",
@@ -1208,6 +1252,9 @@
         btnSample:"Fill sample",
         btnShare:"Share this state",
         btnReset:"Reset",
+        shareLabel:"Share",
+        shareCopy:"Copy link",
+        shareNative:"Device share",
         note:"✅ Everything runs in your browser.<br/>🧭 How to use: 1) Choose a tab → 2) Answer questions → 3) Click “Generate” (filters/search optional).<br/>⚠️ Used prices marked <span style='font-weight:900'>Estimated</span> are calculated as 65% of the new price.<br/>⚠️ Prices are rough references; verify at the source site.",
         kCatLabel:"Category",
         kUpdatedLabel:"Updated",
@@ -2510,6 +2557,9 @@
       $("btnSample").textContent=T.btnSample;
       $("btnShare").textContent=T.btnShare;
       $("btnReset").textContent=T.btnReset;
+      $("shareLabel").textContent=T.shareLabel;
+      $("shareCopy").textContent=T.shareCopy;
+      $("shareNative").textContent=T.shareNative;
       $("noteText").innerHTML=T.note;
       $("kCatLabel").textContent=T.kCatLabel;
       $("kUpdatedLabel").textContent=T.kUpdatedLabel;
@@ -3075,6 +3125,64 @@
     // ===========================
     // events
     // ===========================
+    function buildShareUrl(){
+      const url = new URL(location.href);
+      url.searchParams.set("s", encodeState());
+      const share = url.toString();
+      history.replaceState({}, "", share);
+      return share;
+    }
+    function sharePayload(){
+      if(lang==="ko"){
+        return {
+          title:"IT Factory | IT 제품 가격 비교",
+          text:"노트북·휴대폰·로봇청소기 등 신제품/중고 가격 비교"
+        };
+      }
+      return {
+        title:"IT Factory | IT Price Finder",
+        text:"Compare new/used prices across IT categories"
+      };
+    }
+    async function shareAction(kind){
+      const share = buildShareUrl();
+      const {title, text} = sharePayload();
+      if(kind==="copy"){
+        try{
+          await navigator.clipboard.writeText(share);
+          showToast(t().toast.shared);
+        }catch{
+          showToast(t().toast.shareFail);
+        }
+        return;
+      }
+      if(kind==="native"){
+        if(navigator.share){
+          try{
+            await navigator.share({title, text, url: share});
+            showToast(t().toast.shared);
+          }catch{}
+          return;
+        }
+        try{
+          await navigator.clipboard.writeText(share);
+          showToast(t().toast.shared);
+        }catch{
+          showToast(t().toast.shareFail);
+        }
+        return;
+      }
+      const u = encodeURIComponent(share);
+      const t1 = encodeURIComponent(title);
+      const t2 = encodeURIComponent(text);
+      let target = "";
+      if(kind==="x") target = `https://x.com/intent/tweet?url=${u}&text=${t2}`;
+      if(kind==="facebook") target = `https://www.facebook.com/sharer/sharer.php?u=${u}`;
+      if(kind==="linkedin") target = `https://www.linkedin.com/sharing/share-offsite/?url=${u}`;
+      if(kind==="reddit") target = `https://www.reddit.com/submit?url=${u}&title=${t1}`;
+      if(target) window.open(target, "_blank", "noopener,noreferrer");
+    }
+
     $("lang_ko").onclick=()=>{ lang="ko"; saveJSON(LS_LANG,lang); renderAll(); };
     $("lang_en").onclick=()=>{ lang="en"; saveJSON(LS_LANG,lang); renderAll(); };
 
@@ -3091,18 +3199,10 @@
       showToast(t().toast.sample);
     };
 
-    $("btnShare").onclick=async()=>{
-      const url = new URL(location.href);
-      url.searchParams.set("s", encodeState());
-      const share = url.toString();
-      try{
-        await navigator.clipboard.writeText(share);
-        showToast(t().toast.shared);
-      }catch{
-        showToast(t().toast.shareFail);
-      }
-      history.replaceState({}, "", share);
-    };
+    $("btnShare").onclick=()=>shareAction("copy");
+    document.querySelectorAll("[data-share]").forEach((btn)=>{
+      btn.onclick=()=>shareAction(btn.getAttribute("data-share"));
+    });
 
     $("btnReset").onclick=()=>{
       state = JSON.parse(JSON.stringify(defaultState));
