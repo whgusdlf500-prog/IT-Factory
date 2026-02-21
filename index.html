@@ -21,10 +21,12 @@
   </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta name="google-adsense-account" content="ca-pub-4206942576045120">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4206942576045120" crossorigin="anonymous"></script>
-  <title>IT 제품 가격 비교 | 노트북·휴대폰·로봇청소기·헤드폰·키보드·마우스·에어컨</title>
+  <title>IT 제품 가격 비교 | 노트북·휴대폰·로봇청소기·헤드폰·키보드·마우스·에어컨·식기세척기</title>
   <meta name="description" content="브랜드별 모델과 신제품·중고 시세를 한곳에서 비교하는 IT Factory 가격 탐색 페이지." />
   <meta name="theme-color" content="#0b1220" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -48,7 +50,7 @@
     html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic", Arial, sans-serif;
+      font-family: "Pretendard Variable","Pretendard",ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic", Arial, sans-serif;
       color:var(--text);
       background:
         radial-gradient(1200px 700px at 12% 6%, rgba(49,100,244,.12), transparent 65%),
@@ -1170,7 +1172,7 @@
     // ===========================
     const I18N = {
       ko:{
-        uiTitle:"선택도우미: 노트북 · 핸드폰 · 로봇청소기 · 헤드폰 · 키보드",
+        uiTitle:"선택도우미: 노트북 · 핸드폰 · 로봇청소기 · 헤드폰 · 키보드 · 식기세척기",
         uiSubtitle:"질문 몇 개 → 점수 기반 추천 + 검색/정렬/즐겨찾기/비교 · 로컬 전용",
         pillLocal:"로컬 계산 · 서버 업로드 없음",
         pillPrice:"가격은 참고가(대략) · 최종은 판매처 확인",
@@ -1238,7 +1240,7 @@
         labels:{ref:"참고가", fit:"적합도", open:"열기", favorite:"즐겨찾기", compare:"비교", price:"가격", priceNew:"새제품", priceUsed:"중고가", why:"추천 이유:", brand:"제조사"}
       },
       en:{
-        uiTitle:"Chooser: Laptop · Phone · Robot Vacuum · Headphones · Keyboard",
+        uiTitle:"Chooser: Laptop · Phone · Robot Vacuum · Headphones · Keyboard · Dishwasher",
         uiSubtitle:"A few questions → scored picks + search/sort/favorites/compare · local-only",
         pillLocal:"Local-only · No server upload",
         pillPrice:"Prices are rough references · verify at retailer",
@@ -1394,7 +1396,8 @@
         headphones:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 13v5a2 2 0 0 0 2 2h1v-7H8a2 2 0 0 0-2 2Z" stroke="currentColor" stroke-width="1.7" opacity=".8"/><path d="M18 13v5a2 2 0 0 1-2 2h-1v-7h1a2 2 0 0 1 2 2Z" stroke="currentColor" stroke-width="1.7" opacity=".8"/><path d="M6.5 13V11a5.5 5.5 0 0 1 11 0v2" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/></svg>`,
         keyboard:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3.8" y="7" width="16.4" height="10" rx="2.2" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M6.2 10h.01M8.4 10h.01M10.6 10h.01M12.8 10h.01M15 10h.01M17.2 10h.01" stroke="currentColor" stroke-width="2.4" opacity=".55" stroke-linecap="round"/><path d="M6.2 12.7h.01M8.4 12.7h.01M10.6 12.7h.01M12.8 12.7h.01M15 12.7h.01M17.2 12.7h.01" stroke="currentColor" stroke-width="2.4" opacity=".55" stroke-linecap="round"/><path d="M8 15h8" stroke="currentColor" stroke-width="1.8" opacity=".6" stroke-linecap="round"/></svg>`,
         mouse:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="8" y="4" width="8" height="16" rx="4" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M12 4v6" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/></svg>`,
-        aircon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="6" width="17" height="9" rx="2.2" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M6 18c2-2 4-2 6 0" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/><path d="M12 18c2-2 4-2 6 0" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/></svg>`
+        aircon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="6" width="17" height="9" rx="2.2" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M6 18c2-2 4-2 6 0" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/><path d="M12 18c2-2 4-2 6 0" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/></svg>`,
+        dishwasher:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2.2" stroke="currentColor" stroke-width="1.7" opacity=".85"/><path d="M7.5 8.2h9" stroke="currentColor" stroke-width="1.7" opacity=".6" stroke-linecap="round"/><circle cx="9" cy="14.2" r="2.3" stroke="currentColor" stroke-width="1.5" opacity=".7"/><circle cx="15" cy="14.2" r="2.3" stroke="currentColor" stroke-width="1.5" opacity=".7"/></svg>`
       };
       return m[cat]||"";
     }
@@ -1433,6 +1436,8 @@
       Samsung:{order:2,color:"#9bd0ff",url:"https://www.samsung.com",svg:makeBrandSvg("SA", "#305d9e")},
       Google:{order:3,color:"#a7f3d0",url:"https://store.google.com",svg:makeBrandSvg("GO", "#29795a")},
       LG:{order:4,color:"#ff9aa8",url:"https://www.lg.com",svg:makeBrandSvg("LG", "#8d3a4a")},
+      "SK Magic":{order:4.3,color:"#ffd1a3",url:"https://www.skmagic.com",svg:makeBrandSvg("SK", "#8a5a2c")},
+      Cuckoo:{order:4.4,color:"#ffb7c3",url:"https://www.cuckoo.co.kr",svg:makeBrandSvg("CU", "#8f3d4a")},
       Lenovo:{order:5,color:"#ffb86b",url:"https://www.lenovo.com",svg:makeBrandSvg("LE", "#935d22")},
       ASUS:{order:6,color:"#bba3ff",url:"https://www.asus.com",svg:makeBrandSvg("AS", "#5f46a8")},
       Dell:{order:7,color:"#8bd0ff",url:"https://www.dell.com",svg:makeBrandSvg("DE", "#2c6f99")},
@@ -2488,9 +2493,127 @@
           )
         ]
       }
+      ,
+      dishwasher:{
+        label:{ko:"식기세척기",en:"Dishwasher"}, updated:"2026-02-21",
+        features:[
+          {id:"capacity",ko:"대용량",en:"Large capacity"},
+          {id:"compact",ko:"컴팩트",en:"Compact"},
+          {id:"install",ko:"빌트인",en:"Built-in"},
+          {id:"dry",ko:"건조",en:"Drying"},
+          {id:"steam",ko:"살균/스팀",en:"Steam"},
+          {id:"quiet",ko:"저소음",en:"Quiet"},
+          {id:"value",ko:"가성비",en:"Value"}
+        ],
+        questions:[
+          {id:"size", label:{ko:"용량",en:"Capacity"}, sub:{ko:"가정 규모에 따라 선택",en:"Pick by household size"},
+            options:[
+              {v:"compact",t:{ko:"6인용 이하",en:"Compact"},w:{compact:3,value:2}},
+              {v:"family",t:{ko:"12인용 이상",en:"Family size"},w:{capacity:3,install:1}}
+            ]},
+          {id:"install", label:{ko:"설치 형태",en:"Install"}, sub:{ko:"빌트인/카운터탑",en:"Built-in or countertop"},
+            options:[
+              {v:"built",t:{ko:"빌트인",en:"Built-in"},w:{install:3,quiet:1}},
+              {v:"counter",t:{ko:"카운터탑",en:"Countertop"},w:{compact:2,value:2}}
+            ]},
+          {id:"priority", label:{ko:"우선순위",en:"Priority"}, sub:{ko:"가장 중요한 기준",en:"What matters most"},
+            options:[
+              {v:"steam",t:{ko:"살균/스팀",en:"Steam"},w:{steam:3}},
+              {v:"dry",t:{ko:"건조 성능",en:"Drying"},w:{dry:3}},
+              {v:"quiet",t:{ko:"저소음",en:"Quiet"},w:{quiet:3}},
+              {v:"value",t:{ko:"가성비",en:"Value"},w:{value:3}}
+            ]}
+        ],
+        items:[
+          item("dishwasher","sam_dw60a8775lbs","Samsung DW60A8775LBS (빌트인 12인)",1060100,689000,
+            ["capacity","install","dry","quiet","steam"],
+            {capacity:3,install:3,dry:2,quiet:2,steam:2,value:1,compact:0},
+            {ko:"비스포크 빌트인 12인용 대표 라인.",en:"Bespoke built-in 12-place setting model."},
+            {"Type":"Built-in 12p","Dry":"Auto","Steam":"Yes","Noise":"Low","Best":"Family"},
+            "https://catalog.11st.co.kr/catalogs/9888771","Samsung","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","sam_dw80f71y1uew","Samsung DW80F71Y1UEW (빌트인 12인)",798000,519000,
+            ["capacity","install","dry","value"],
+            {capacity:3,install:3,dry:2,value:2,quiet:1,steam:1,compact:0},
+            {ko:"합리적인 가격대의 12인용 빌트인.",en:"Value-focused 12-place built-in model."},
+            {"Type":"Built-in 12p","Dry":"Auto","Steam":"Basic","Noise":"Mid","Best":"Value"},
+            "https://catalog.11st.co.kr/catalogs/7005062570","Samsung","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","sam_dw80f71y1sew","Samsung DW80F71Y1SEW (빌트인 12인)",1090000,709000,
+            ["capacity","install","steam","quiet"],
+            {capacity:3,install:3,steam:2,quiet:2,dry:2,value:1,compact:0},
+            {ko:"스팀/살균 중심 프리미엄 빌트인.",en:"Premium built-in with steam sanitizing."},
+            {"Type":"Built-in 12p","Dry":"Auto","Steam":"Yes","Noise":"Low","Best":"Steam"},
+            "https://www.coupang.com/vp/products/2873589252?itemId=14018465374","Samsung","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","sam_dw30a3030ce","Samsung DW30A3030CE (카운터탑 6인)",447960,291000,
+            ["compact","value"],
+            {compact:3,value:3,quiet:1,dry:1,steam:1,capacity:0,install:0},
+            {ko:"카운터탑 6인용 비스포크 라인.",en:"Bespoke countertop 6-place model."},
+            {"Type":"Countertop 6p","Dry":"Basic","Steam":"No","Noise":"Mid","Best":"Compact"},
+            "https://store.ohou.se/goods/940009","Samsung","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","lg_dios_12p_coupon","LG DIOS Built-in 12p",670000,436000,
+            ["capacity","install","value"],
+            {capacity:3,install:3,value:2,quiet:1,dry:1,steam:0,compact:0},
+            {ko:"보급형 12인용 빌트인.",en:"Entry 12-place built-in."},
+            {"Type":"Built-in 12p","Dry":"Basic","Steam":"No","Noise":"Mid","Best":"Value"},
+            "https://www.coupang.com/vp/products/8257091523?itemId=21118596073","LG","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","lg_due2bge","LG DIOS DUE2BGE (빌트인 12인)",667720,434000,
+            ["capacity","install","dry","quiet"],
+            {capacity:3,install:3,dry:2,quiet:2,value:1,steam:1,compact:0},
+            {ko:"디오스 12인용 빌트인 라인.",en:"DIOS 12-place built-in line."},
+            {"Type":"Built-in 12p","Dry":"Auto","Steam":"Basic","Noise":"Low","Best":"Family"},
+            "https://m.11st.co.kr/products/4779021138","LG","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","lg_dios_steam12","LG DIOS Steam 12p",1234500,802000,
+            ["capacity","install","steam","dry","quiet"],
+            {capacity:3,install:3,steam:2,dry:2,quiet:2,value:1,compact:0},
+            {ko:"스팀 살균 중심 12인용.",en:"Steam-sanitizing 12-place model."},
+            {"Type":"Built-in 12p","Dry":"Auto","Steam":"Yes","Noise":"Low","Best":"Steam"},
+            "https://catalog.11st.co.kr/catalogs/7082374654","LG","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","cuckoo_cdw_bd0620twe","Cuckoo CDW-BD0620TWE (6인용)",373500,243000,
+            ["compact","value"],
+            {compact:3,value:3,quiet:1,dry:1,steam:0,capacity:0,install:0},
+            {ko:"쿠쿠 6인용 스탠드형 모델.",en:"Cuckoo 6-place countertop model."},
+            {"Type":"Countertop 6p","Dry":"Basic","Steam":"No","Noise":"Mid","Best":"Compact"},
+            "https://catalog.11st.co.kr/catalogs/9489059","Cuckoo","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","cuckoo_6p_white","Cuckoo 6인용 (화이트)",274370,178000,
+            ["compact","value"],
+            {compact:3,value:3,quiet:1,dry:1,steam:0,capacity:0,install:0},
+            {ko:"가격 부담이 낮은 6인용.",en:"Affordable 6-place countertop."},
+            {"Type":"Countertop 6p","Dry":"Basic","Steam":"No","Noise":"Mid","Best":"Budget"},
+            "https://www.coupang.com/vp/products/325706662?itemId=1042010610","Cuckoo","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","cuckoo_6p_premium","Cuckoo 6인용 프리미엄",599000,389000,
+            ["compact","steam","dry"],
+            {compact:3,steam:2,dry:2,value:1,quiet:1,capacity:0,install:0},
+            {ko:"프리미엄 세척/건조 중심.",en:"Premium wash and dry focus."},
+            {"Type":"Countertop 6p","Dry":"Enhanced","Steam":"Yes","Noise":"Low","Best":"Premium compact"},
+            "https://www.coupang.com/vp/products/8257266261?itemId=21096749239","Cuckoo","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","skmagic_6p","SK Magic 6인용",429470,279000,
+            ["compact","value"],
+            {compact:3,value:3,quiet:1,dry:1,steam:0,capacity:0,install:0},
+            {ko:"SK매직 6인용 카운터탑 라인.",en:"SK Magic 6-place countertop line."},
+            {"Type":"Countertop 6p","Dry":"Basic","Steam":"No","Noise":"Mid","Best":"Compact"},
+            "https://www.coupang.com/vp/products/8499182368?itemId=24577850615","SK Magic","2026-02-21","추정(65%)"
+          ),
+          item("dishwasher","skmagic_12p","SK Magic 12인용",697910,454000,
+            ["capacity","install","dry","value"],
+            {capacity:3,install:3,dry:2,value:2,quiet:1,steam:1,compact:0},
+            {ko:"SK매직 12인용 빌트인 라인.",en:"SK Magic 12-place built-in line."},
+            {"Type":"Built-in 12p","Dry":"Auto","Steam":"Basic","Noise":"Mid","Best":"Value"},
+            "https://www.coupang.com/vp/products/8258279682?itemId=20818278049","SK Magic","2026-02-21","추정(65%)"
+          )
+        ]
+      }
     };
 
-    const CAT_ORDER=["laptop","phone","robot","headphones","keyboard","mouse","aircon"];
+    const CAT_ORDER=["laptop","phone","robot","headphones","keyboard","mouse","aircon","dishwasher"];
 
     // ===========================
     // App state
@@ -3136,12 +3259,12 @@
       if(lang==="ko"){
         return {
           title:"IT Factory | IT 제품 가격 비교",
-          text:"노트북·휴대폰·로봇청소기 등 신제품/중고 가격 비교"
+          text:"노트북·휴대폰·로봇청소기·식기세척기 등 신제품/중고 가격 비교"
         };
       }
       return {
         title:"IT Factory | IT Price Finder",
-        text:"Compare new/used prices across IT categories"
+        text:"Compare new/used prices across tech & appliance categories"
       };
     }
     async function shareAction(kind){
