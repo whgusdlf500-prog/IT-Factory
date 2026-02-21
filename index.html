@@ -2402,6 +2402,10 @@
 
     let lang = loadJSON(LS_LANG, "ko");
     let state = loadJSON(LS_STATE, defaultState);
+    // Backward-compat: ensure optional buckets exist
+    state.answers = state.answers || {};
+    state.featureFilters = state.featureFilters || {};
+    state.brandFilters = state.brandFilters || {};
     let favs = new Set(loadJSON(LS_FAV, []));
 
     // restore from URL share
